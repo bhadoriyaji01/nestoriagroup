@@ -1,0 +1,57 @@
+<svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad-div" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:0.03" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0.03" />
+    </linearGradient>
+    
+    <!-- Grid pattern for div-like structure -->
+    <pattern id="div-grid" width="200" height="200" patternUnits="userSpaceOnUse">
+      <!-- Div outline -->
+      <rect x="10" y="10" width="180" height="180" rx="5" ry="5" 
+            fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.07" />
+      
+      <!-- Div header bar -->
+      <rect x="10" y="10" width="180" height="30" rx="5" ry="5" 
+            fill="#3b82f6" opacity="0.05" />
+      
+      <!-- Content lines -->
+      <line x1="30" y1="60" x2="170" y2="60" stroke="#3b82f6" stroke-width="1" opacity="0.05" />
+      <line x1="30" y1="80" x2="170" y2="80" stroke="#3b82f6" stroke-width="1" opacity="0.05" />
+      <line x1="30" y1="100" x2="170" y2="100" stroke="#3b82f6" stroke-width="1" opacity="0.05" />
+      <line x1="30" y1="120" x2="120" y2="120" stroke="#3b82f6" stroke-width="1" opacity="0.05" />
+      
+      <!-- Button-like element -->
+      <rect x="30" y="150" width="80" height="20" rx="3" ry="3" 
+            fill="#3b82f6" opacity="0.07" />
+    </pattern>
+  </defs>
+  
+  <!-- Background gradient -->
+  <rect width="100%" height="100%" fill="url(#grad-div)" />
+  
+  <!-- Apply the div grid pattern -->
+  <rect width="100%" height="100%" fill="url(#div-grid)" />
+  
+  <!-- Add some floating divs at different positions and sizes -->
+  <g opacity="0.1" transform="rotate(-5)">
+    <rect x="300" y="200" width="240" height="200" rx="5" ry="5" 
+          fill="none" stroke="#3b82f6" stroke-width="1.5" />
+    <rect x="300" y="200" width="240" height="40" rx="5" ry="5" 
+          fill="#3b82f6" opacity="0.2" />
+  </g>
+  
+  <g opacity="0.08" transform="rotate(3)">
+    <rect x="1400" y="300" width="300" height="250" rx="5" ry="5" 
+          fill="none" stroke="#3b82f6" stroke-width="1.5" />
+    <rect x="1400" y="300" width="300" height="40" rx="5" ry="5" 
+          fill="#3b82f6" opacity="0.2" />
+  </g>
+  
+  <g opacity="0.06" transform="rotate(-8)">
+    <rect x="800" y="700" width="200" height="180" rx="5" ry="5" 
+          fill="none" stroke="#3b82f6" stroke-width="1.5" />
+    <rect x="800" y="700" width="200" height="35" rx="5" ry="5" 
+          fill="#3b82f6" opacity="0.2" />
+  </g>
+</svg>

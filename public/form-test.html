@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Testing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .form-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 10px;
+        }
+        .result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+        .error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+        button {
+            background-color: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        button:disabled {
+            background-color: #93c5fd;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Form Testing Page</h1>
+    
+    <div class="form-section">
+        <h2>Contact Form Test</h2>
+        <button id="testContact">Test Contact Form</button>
+        <div id="contactResult"></div>
+    </div>
+    
+    <div class="form-section">
+        <h2>Land Deal Inquiry Test</h2>
+        <button id="testLandDeal">Test Land Deal Form</button>
+        <div id="landDealResult"></div>
+    </div>
+    
+    <div class="form-section">
+        <h2>About Dholera Request Test</h2>
+        <button id="testAboutDholera">Test About Dholera Form</button>
+        <div id="aboutDholeraResult"></div>
+    </div>
+    
+    <div class="form-section">
+        <h2>Testimonial Submission Test</h2>
+        <button id="testTestimonial">Test Testimonial Form</button>
+        <div id="testimonialResult"></div>
+    </div>
+    
+    <div class="form-section">
+        <h2>Newsletter Subscription Test</h2>
+        <button id="testNewsletter">Test Newsletter Form</button>
+        <div id="newsletterResult"></div>
+    </div>
+
+    <script>
+        // Test data for each form type
+        const testData = {
+            contact: {
+                name: "John Doe",
+                email: "john.doe@example.com",
+                phone: "+919876543210",
+                subject: "Test Contact Form",
+                message: "This is a test message from the contact form.",
+                formType: "contact"
+            },
+            landDeal: {
+                name: "Jane Smith",
+                email: "jane.smith@example.com",
+                phone: "+919876543211",
+                propertyType: "residential",
+                budget: "50-1cr",
+                message: "Interested in residential plots.",
+                formType: "land-deal"
+            },
+            aboutDholera: {
+                name: "Robert Johnson",
+                email: "robert.j@example.com",
+                mobile: "+919876543212",
+                propertyType: "1",
+                message: "Requesting information about Dholera SIR.",
+                formType: "about-dholera"
+            },
+            testimonial: {
+                name: "Emily Davis",
+                email: "emily.d@example.com",
+                phone: "+919876543213",
+                propertyType: "residential",
+                message: "Great experience with Nestoria Group. Highly recommended!",
+                formType: "testimonial"
+            },
+            newsletter: {
+                name: "Newsletter Subscriber",
+                email: "subscriber@example.com",
+                phone: "",
+                subject: "Newsletter Subscription",
+                message: "Please subscribe subscriber@example.com to the newsletter.",
+                formType: "contact"
+            }
+        };
+
+        // Function to test a form
+        async function testForm(formData, resultElement) {
+            resultElement.innerHTML = '<div class="result">Testing...</div>';
+            
+            try {
+                const response = await fetch('/send-email.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultElement.innerHTML = `<div class="result success">✅ Success: ${data.message}</div>`;
+                } else {
+                    resultElement.innerHTML = `<div class="result error">❌ Error: ${data.message}</div>`;
+                }
+            } catch (error) {
+                resultElement.innerHTML = `<div class="result error">❌ Network Error: ${error.message}</div>`;
+            }
+        }
+
+        // Add event listeners
+        document.getElementById('testContact').addEventListener('click', () => {
+            testForm(testData.contact, document.getElementById('contactResult'));
+        });
+        
+        document.getElementById('testLandDeal').addEventListener('click', () => {
+            testForm(testData.landDeal, document.getElementById('landDealResult'));
+        });
+        
+        document.getElementById('testAboutDholera').addEventListener('click', () => {
+            testForm(testData.aboutDholera, document.getElementById('aboutDholeraResult'));
+        });
+        
+        document.getElementById('testTestimonial').addEventListener('click', () => {
+            testForm(testData.testimonial, document.getElementById('testimonialResult'));
+        });
+        
+        document.getElementById('testNewsletter').addEventListener('click', () => {
+            testForm(testData.newsletter, document.getElementById('newsletterResult'));
+        });
+    </script>
+</body>
+</html>

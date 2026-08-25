@@ -1,0 +1,117 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build outputs
+dist
+dist-ssr
+*.local
+build
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Large media files
+src/assets/videos/*.mp4
+*.mp4
+
+# Testing
+coverage
+
+# Temporary files
+.temp
+.tmp
+
+# Cache
+.cache
+.parcel-cache
+
+# Vercel
+.vercel
+.now
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE files
+.vs/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Certificate files
+*.pem
+*.crt
+*.key
+
+# Log files
+*.log.*
+
+# Package files
+*.zip
+*.tar.gz
+
+# Runtime data
+.pid
+*.pid.lock
+
+# Debug files
+*.debug
+
+# Config files
+config.json
+
+# Database files
+*.db
+*.sqlite
+
+# ESLint
+.eslintcache
+
+# TypeScript
+*.tsbuildinfo
+
+# Output files
+*.exe
+*.out
+*.app
+
+# Node version
+.nvmrc
+
+# Testing
+.nyc_output
+
+# Documentation
+*.md~
+

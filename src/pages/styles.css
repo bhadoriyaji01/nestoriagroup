@@ -1,0 +1,105 @@
+.mySwiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.swiper-pagination {
+  bottom: 0 !important;
+}
+
+.swiper-pagination-bullet {
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50% !important;
+  background: #673a37 !important;
+  opacity: 0.4 !important;
+  transition: all 0.3s ease !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #673a37 !important;
+  opacity: 1 !important;
+  transform: scale(1.2) !important;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: contain;
+  width: 350px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Responsive styles */
+@media (min-width: 768px) {
+  .swiper-slide {
+    width: 450px;
+    height: 600px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .swiper-slide {
+    width: 600px;
+    height: 750px;
+  }
+}
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Modal Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Cookie Banner Slide Up Animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.4s ease-out;
+}

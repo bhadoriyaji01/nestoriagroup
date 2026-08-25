@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail Service Test</title>
+</head>
+<body>
+    <h1>Mail Service Test</h1>
+    <button id="testButton">Test Mail Service</button>
+    <div id="result"></div>
+
+    <script type="module">
+        import MailService from './src/services/MailService.js';
+
+        document.getElementById('testButton').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Testing...</p>';
+            
+            try {
+                const testData = {
+                    name: 'Test User',
+                    email: 'test@example.com',
+                    message: 'This is a test message from the MailService',
+                    formType: 'test'
+                };
+                
+                const response = await MailService.sendEmail(testData);
+                resultDiv.innerHTML = `<p style="color: green;">Success! ${JSON.stringify(response)}</p>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

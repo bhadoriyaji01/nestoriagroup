@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f0f4f8" />
+  
+  <!-- Commercial Building -->
+  <g transform="translate(150, 100)">
+    <!-- Main Building Structure -->
+    <rect x="0" y="0" width="500" height="350" fill="#e0e0e0" stroke="#616161" stroke-width="4" />
+    
+    <!-- Glass Facade -->
+    <g>
+      <!-- First row of windows -->
+      <rect x="50" y="50" width="80" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+      <rect x="150" y="50" width="80" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+      <rect x="250" y="50" width="80" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+      <rect x="350" y="50" width="80" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+      
+      <!-- Second row of windows -->
+      <rect x="50" y="130" width="80" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+      <rect x="150" y="130" width="80" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+      <rect x="250" y="130" width="80" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+      <rect x="350" y="130" width="80" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+      
+      <!-- Third row of windows -->
+      <rect x="50" y="210" width="80" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+      <rect x="150" y="210" width="80" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+      <rect x="250" y="210" width="80" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+      <rect x="350" y="210" width="80" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+    </g>
+    
+    <!-- Entrance -->
+    <rect x="200" y="270" width="100" height="80" fill="#424242" />
+    <rect x="220" y="270" width="60" height="80" fill="#90caf9" stroke="#1976d2" stroke-width="2" />
+    
+    <!-- Company Sign -->
+    <rect x="150" y="10" width="200" height="30" fill="#2196f3" />
+    <text x="250" y="30" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="white">COMMERCIAL SPACE</text>
+  </g>
+  
+  <!-- Surrounding Area -->
+  <g transform="translate(0, 450)">
+    <!-- Road -->
+    <rect x="0" y="0" width="800" height="50" fill="#9e9e9e" />
+    <line x1="0" y1="25" x2="800" y2="25" stroke="#fafafa" stroke-width="4" stroke-dasharray="30,20" />
+    
+    <!-- Sidewalk -->
+    <rect x="0" y="-20" width="800" height="20" fill="#bdbdbd" />
+    
+    <!-- Parking Lot -->
+    <g transform="translate(150, -100)">
+      <rect x="0" y="0" width="200" height="80" fill="#9e9e9e" stroke="#616161" stroke-width="1" />
+      <line x1="50" y1="0" x2="50" y2="80" stroke="white" stroke-width="1" />
+      <line x1="100" y1="0" x2="100" y2="80" stroke="white" stroke-width="1" />
+      <line x1="150" y1="0" x2="150" y2="80" stroke="white" stroke-width="1" />
+    </g>
+  </g>
+  
+  <!-- Text -->
+  <text x="400" y="50" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#333333">Commercial Property</text>
+  <text x="400" y="80" font-family="Arial" font-size="16" text-anchor="middle" fill="#555555">Prime Location in Dholera SIR Business District</text>
+</svg>

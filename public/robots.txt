@@ -1,0 +1,25 @@
+User-agent: *
+Allow: /
+
+# Disallow non-essential pages
+Disallow: /admin/
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /private/
+
+# Crawl-delay: 10
+
+# Allow important pages
+Allow: /$
+Allow: /about$
+Allow: /aboutDholera$
+Allow: /services$
+Allow: /projects$
+Allow: /land-deals$
+Allow: /contact$
+
+# Host directive
+Host: nestoriagroup.com
+
+# Sitemap location
+Sitemap: https://nestoriagroup.com/sitemap.xml

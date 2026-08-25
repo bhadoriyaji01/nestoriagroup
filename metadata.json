@@ -1,0 +1,6 @@
+{
+  "name": "Nestoria Group",
+  "description": "Real estate developer in Dholera SIR offering premium residential, commercial, and industrial land parcels.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

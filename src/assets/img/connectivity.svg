@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200" fill="none">
+  <rect width="300" height="200" rx="10" fill="#E6F0FF"/>
+  
+  <!-- Central Hub -->
+  <circle cx="150" cy="100" r="30" fill="#1E40AF"/>
+  <circle cx="150" cy="100" r="25" fill="#FFFFFF"/>
+  <circle cx="150" cy="100" r="20" fill="#1E40AF"/>
+  <circle cx="150" cy="100" r="15" fill="#FFFFFF"/>
+  <circle cx="150" cy="100" r="10" fill="#1E40AF"/>
+  <circle cx="150" cy="100" r="5" fill="#FFFFFF"/>
+  
+  <!-- Connection Lines -->
+  <!-- Road -->
+  <path d="M150 100L50 150" stroke="#1E40AF" stroke-width="4"/>
+  <rect x="40" y="140" width="20" height="20" rx="2" fill="#1E40AF"/>
+  <rect x="45" y="145" width="10" height="10" rx="1" fill="#FFFFFF"/>
+  <path d="M45 150H55M50 145V155" stroke="#1E40AF" stroke-width="1"/>
+  
+  <!-- Airport -->
+  <path d="M150 100L250 150" stroke="#1E40AF" stroke-width="4"/>
+  <rect x="240" y="140" width="20" height="20" rx="2" fill="#1E40AF"/>
+  <path d="M245 150H255M250 145L250 155" stroke="#FFFFFF" stroke-width="1"/>
+  <path d="M245 145L255 155M245 155L255 145" stroke="#FFFFFF" stroke-width="1"/>
+  
+  <!-- Rail -->
+  <path d="M150 100L50 50" stroke="#1E40AF" stroke-width="4"/>
+  <rect x="40" y="40" width="20" height="20" rx="2" fill="#1E40AF"/>
+  <path d="M45 45H55M45 50H55M45 55H55" stroke="#FFFFFF" stroke-width="1"/>
+  
+  <!-- Port -->
+  <path d="M150 100L250 50" stroke="#1E40AF" stroke-width="4"/>
+  <rect x="240" y="40" width="20" height="20" rx="2" fill="#1E40AF"/>
+  <path d="M245 45H255M245 55H255" stroke="#FFFFFF" stroke-width="1"/>
+  <path d="M250 45V55" stroke="#FFFFFF" stroke-width="1"/>
+  <path d="M245 50H255" stroke="#FFFFFF" stroke-width="1"/>
+  
+  <!-- Connection Nodes -->
+  <circle cx="100" cy="75" r="5" fill="#FFB800"/>
+  <circle cx="200" cy="75" r="5" fill="#FFB800"/>
+  <circle cx="100" cy="125" r="5" fill="#FFB800"/>
+  <circle cx="200" cy="125" r="5" fill="#FFB800"/>
+  
+  <!-- Labels -->
+  <text x="30" y="35" font-family="Arial" font-size="10" fill="#1E40AF">Rail</text>
+  <text x="250" y="35" font-family="Arial" font-size="10" fill="#1E40AF">Port</text>
+  <text x="30" y="170" font-family="Arial" font-size="10" fill="#1E40AF">Road</text>
+  <text x="240" y="170" font-family="Arial" font-size="10" fill="#1E40AF">Airport</text>
+  <text x="135" y="105" font-family="Arial" font-size="10" fill="#FFFFFF">Dholera</text>
+</svg>
