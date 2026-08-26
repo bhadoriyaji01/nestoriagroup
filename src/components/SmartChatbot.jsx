@@ -192,7 +192,7 @@ export default function SmartChatbot() {
               <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-600"></span>
             </span>
             <span className="text-xs font-semibold text-slate-800">
-              Instant AI Assistant & Free Site Visit Booking
+              
             </span>
           </div>
         )}
