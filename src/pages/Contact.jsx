@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import Seo from "../components/Seo";
 import {
   MapPin, Phone, Mail, Clock, Headphones, Share2, Send, Loader2,
   CheckCircle2, XCircle, Sparkles, ChevronDown, ArrowRight, MessageCircle
 } from "lucide-react";
 import ContactService from "../services/ContactService";
 import ParallaxSection from "../components/ParallaxSection";
-import { getLocalBusinessSchema } from "../utils/SchemaMarkup";
+import { getLocalBusinessSchema, getBreadcrumbSchema } from "../utils/SchemaMarkup";
 import contactbannerimg from "/src/assets/img/contact.webp";
 
 const Contact = () => {
@@ -77,12 +77,16 @@ const Contact = () => {
 
   return (
     <div className="overflow-hidden bg-white text-slate-900">
-      <Helmet>
-        <title>Contact Nestoria Group | Real Estate Developer in Dholera SIR</title>
-        <meta name="description" content="Contact Nestoria Group for premium real estate investment opportunities in Dholera SIR." />
-        <link rel="canonical" href="https://nestoriagroup.com/contact" />
-        <script type="application/ld+json">{JSON.stringify(businessSchema)}</script>
-      </Helmet>
+      <Seo
+        title="Contact Nestoria Group | Book Free Guided Site Visit to Dholera SIR"
+        description="Contact Nestoria Group corporate office in Ahmedabad. Speak with senior property consultants or schedule a free chauffeur-driven site visit to Dholera SIR."
+        keywords="contact Nestoria Group, Nestoria Group Ahmedabad office, Dholera site visit booking, Dholera real estate agent phone number, Dholera SIR office address"
+        canonicalUrl="/contact"
+        schemaMarkup={[
+          businessSchema,
+          getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'Contact Us', url: '/contact' }])
+        ]}
+      />
 
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-slate-950">

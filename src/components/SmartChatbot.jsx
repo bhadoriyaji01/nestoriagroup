@@ -34,7 +34,7 @@ export default function SmartChatbot() {
     pickupLocation: 'Ahmedabad Corporate Office (Satellite Road)',
     project: 'Dholera Bhoomi',
     visitorsCount: '2',
-    budget: '15-25 Lakhs'
+    requirement: 'Residential Plot'
   });
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [bookingRef, setBookingRef] = useState('');
@@ -173,17 +173,17 @@ export default function SmartChatbot() {
   };
 
   const handleWhatsAppRedirect = (customText) => {
-    const text = customText || `Hello Nestoria Group, I am interested in Dholera SIR properties. Please share project details and pricing.`;
+    const text = customText || `Hello Nestoria Group, I am interested in Dholera SIR properties. Please share project details and brochure.`;
     window.open(`https://wa.me/919213005611?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   const quickPrompts = [
     { label: "📍 Book Free Site Visit", action: () => handleSendMessage("I want to book a free site visit to Dholera SIR") },
-    { label: "🏡 Explore Projects & Rates", action: () => handleSendMessage("What are your available residential and villa projects and starting prices?") },
+    { label: "🏡 Explore Townships", action: () => handleSendMessage("What are your available residential and villa projects in Dholera SIR?") },
     { label: "🚀 Tata Semiconductor Hub", action: () => handleSendMessage("Tell me about the Tata Semiconductor plant in Dholera SIR") },
     { label: "📑 Download Brochure", action: () => handleSendMessage("How can I download the complete project brochure?") },
     { label: "⚖️ Legal & Clear Title Status", action: () => handleSendMessage("Are all Nestoria projects 100% NA Title Clear and AUDA approved?") },
-    { label: "💰 Calculate EMI & ROI", action: () => handleSendMessage("I want to calculate EMI and expected returns on investment") },
+    { label: "🗺️ Dholera Master Plan", action: () => handleSendMessage("Tell me about the Dholera SIR master plan, expressway, and airport development") },
   ];
 
   return (
@@ -435,7 +435,7 @@ export default function SmartChatbot() {
                     >
                       {allProjects.map((proj) => (
                         <option key={proj.id} value={proj.title}>
-                          {proj.title} ({proj.price})
+                          {proj.title} ({proj.category})
                         </option>
                       ))}
                     </select>

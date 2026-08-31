@@ -1,6 +1,7 @@
 // src/pages/Blog.jsx
 import React, { useState, useEffect, useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
+import Seo from '../components/Seo';
+import { getArticleSchema, getBreadcrumbSchema } from '../utils/SchemaMarkup';
 import { 
   Calendar, Clock, User, ExternalLink, Search, Sparkles, 
   ArrowRight, BookOpen, Share2, X, CheckCircle2, ShieldCheck,
@@ -57,13 +58,33 @@ const Blog = () => {
 
   return (
     <div className="blog-page bg-white min-h-screen">
-      <Helmet>
-        <title>Blog & Market Insights | Nestoria Group Dholera SIR</title>
-        <meta 
-          name="description" 
-          content="Explore expert articles on 3D printed housing in Dholera, Tata Semiconductor Fab investment impact, land due diligence, and infrastructure progress." 
-        />
-      </Helmet>
+      <Seo
+        title={readingPost ? `${readingPost.title} | Nestoria Group Blog` : "Dholera Real Estate Blog | Smart City Investment Insights & Guides"}
+        description={readingPost ? readingPost.excerpt : "Read expert insights on Dholera SIR real estate investments, 3D printed villas, Tata semiconductor plant impact, airport connectivity, and NRI land buying guides."}
+        keywords={readingPost ? `${readingPost.title}, Dholera SIR, Nestoria Group blog` : "Dholera real estate blog, Dholera SIR investment guide, 3D printed homes Dholera, Tata fab property impact, Dholera expressway updates"}
+        canonicalUrl={readingPost ? `/blog#${readingPost.slug}` : "/blog"}
+        imageUrl={readingPost ? readingPost.image : blogbanner}
+        schemaMarkup={readingPost ? [
+          getArticleSchema({
+            title: readingPost.title,
+            image: readingPost.image,
+            excerpt: readingPost.excerpt,
+            author: readingPost.author,
+            datePublished: readingPost.date,
+            url: `/blog#${readingPost.slug}`
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Blog', url: '/blog' },
+            { name: readingPost.title, url: `/blog#${readingPost.slug}` }
+          ])
+        ] : [
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Blog', url: '/blog' }
+          ])
+        ]}
+      />
 
       {/* Hero Header */}
       <ParallaxSection

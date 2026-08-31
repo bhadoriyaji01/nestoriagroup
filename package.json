@@ -18,7 +18,6 @@
     "analyze": "ANALYZE=true vite build"
   },
   "dependencies": {
-    "@vercel/speed-insights": "^1.2.0",
     "animate.css": "^4.1.1",
     "autoprefixer": "^10.4.16",
     "canvas-confetti": "^1.9.4",

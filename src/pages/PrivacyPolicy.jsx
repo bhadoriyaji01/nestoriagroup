@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getLocalBusinessSchema } from "../utils/SchemaMarkup";
+import Seo from "../components/Seo";
+import { getLocalBusinessSchema, getBreadcrumbSchema } from "../utils/SchemaMarkup";
 import {
   Sparkles, Shield, Info, Database, Settings, Share2,
   Cookie, ShieldCheck, ExternalLink, Mail, MapPin, Phone,
@@ -80,7 +81,16 @@ const PrivacyPolicy = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="hidden"><script type="application/ld+json">{JSON.stringify(businessSchema)}</script></div>
+      <Seo
+        title="Privacy Policy | Nestoria Group Dholera SIR"
+        description="Learn how Nestoria Group collects, uses, and safeguards your personal data when consulting on Dholera SIR property investments."
+        keywords="privacy policy Nestoria Group, data protection Dholera real estate"
+        canonicalUrl="/privacy-policy"
+        schemaMarkup={[
+          businessSchema,
+          getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'Privacy Policy', url: '/privacy-policy' }])
+        ]}
+      />
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-slate-950 py-16 sm:py-20 md:py-28 text-white">

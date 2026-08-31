@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Seo from '../components/Seo';
+import { getBreadcrumbSchema } from '../utils/SchemaMarkup';
 import {
   Sparkles, Grid, Newspaper, Megaphone, Video, Camera, Play,
   ExternalLink, Maximize2, Search, RefreshCw, X, Mail, Phone,
@@ -114,6 +116,13 @@ function Media() {
 
   return (
     <div className="overflow-hidden bg-slate-50 text-slate-900">
+      <Seo
+        title="Media Coverage & Press Releases | Nestoria Group Dholera SIR"
+        description="Explore national media coverage, TV interviews, press releases, and news reports on Nestoria Group's developments and investments in Dholera SIR."
+        keywords="Nestoria Group media, Dholera SIR press release, Dholera news coverage, ANI news Dholera, Economic Times Dholera"
+        canonicalUrl="/media"
+        schemaMarkup={getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'Media', url: '/media' }])}
+      />
       {/* Dialog */}
       {dialogOpen && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">

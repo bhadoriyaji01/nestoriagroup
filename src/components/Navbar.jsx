@@ -129,7 +129,7 @@ export default function Navbar() {
                 NESTORIA <span className="text-blue-600">GROUP</span>
               </span>
               <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block mt-0.5">
-                Dholera SIR Smart City
+                Dedicated To Dholera 
               </span>
             </div>
           </Link>
@@ -195,8 +195,8 @@ export default function Navbar() {
                           <div className="font-bold text-xs group-hover:text-blue-600 truncate">{proj.title}</div>
                           <div className="text-[11px] text-slate-500 truncate">{proj.location} • {proj.zone}</div>
                         </div>
-                        <span className="text-[10px] font-extrabold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md flex-shrink-0">
-                          {proj.price}
+                        <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md flex-shrink-0">
+                          {proj.category}
                         </span>
                       </Link>
                     ))}

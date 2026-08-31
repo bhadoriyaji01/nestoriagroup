@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import Seo from '../components/Seo';
+import { getBreadcrumbSchema } from '../utils/SchemaMarkup';
 import {
   ShieldCheck, MapPin, ArrowRight, Car, Sparkles,
   Building2, CheckCircle2, Award, Users, Eye, Target,
@@ -20,10 +21,13 @@ function AboutUs() {
 
   return (
     <div className="overflow-hidden bg-white text-slate-900">
-      <Helmet>
-        <title>About Us - Nestoria Group | Most Trusted Real Estate Developer in Dholera SIR</title>
-        <meta name="description" content="Nestoria Group is one of the fastest-growing real estate companies with prime focus on Dholera Special Investment Region. Learn about our journey, vision and achievements." />
-      </Helmet>
+      <Seo
+        title="About Nestoria Group | Trusted Real Estate Developer in Dholera SIR"
+        description="Nestoria Group is Dholera's award-winning real estate developer. Specializing in AUDA-approved NA clear title residential & commercial plots with 100% legal verification."
+        keywords="about Nestoria Group, best builder in Dholera, Dholera SIR real estate company, clear title plots developer, trusted Dholera developers, Nestoria Buildcon"
+        canonicalUrl="/about"
+        schemaMarkup={getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'About Us', url: '/about' }])}
+      />
 
       {/* Page Hero Header */}
       <section className="relative min-h-[55vh] flex items-center justify-center overflow-hidden bg-slate-950">

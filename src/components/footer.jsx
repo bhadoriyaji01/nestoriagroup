@@ -35,7 +35,7 @@ export default function Footer() {
               Explore All Projects
             </Link>
             <a
-              href="https://wa.me/919213005611?text=Hello%20Nestoria%20Group,%20please%20send%20brochure%20and%20price%20list"
+              href="https://wa.me/919213005611?text=Hello%20Nestoria%20Group,%20please%20send%20brochure%20and%20project%20details"
               target="_blank"
               rel="noopener noreferrer"
               className="py-3 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg transition-all"

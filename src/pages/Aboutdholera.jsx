@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Seo from '../components/Seo';
+import { getBreadcrumbSchema } from '../utils/SchemaMarkup';
 import {
   Sparkles, MapPin, Phone, Mail, Search, ArrowRight, CheckCircle2,
   Train, Sun, Droplets, Wifi, Factory, Leaf, TrendingUp, Building2,
@@ -61,6 +63,13 @@ function Aboutdholera() {
 
   return (
     <div className="overflow-hidden bg-white text-slate-900">
+      <Seo
+        title="About Dholera SIR | India's First Greenfield Smart Industrial City"
+        description="Comprehensive guide to Dholera Special Investment Region (SIR), master plan, DSIRDA zoning, Tata Semiconductor plant, international airport, and high-ROI plotting."
+        keywords="about Dholera SIR, Dholera Smart City master plan, DSIRDA Gujarat, Dholera industrial hub, Dholera greenfield city, Dholera TP1 TP2 zones, DMIC corridor"
+        canonicalUrl="/about-dholera"
+        schemaMarkup={getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'About Dholera SIR', url: '/about-dholera' }])}
+      />
       {/* Hero Section */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-slate-950">
         <div className="absolute inset-0 z-0">

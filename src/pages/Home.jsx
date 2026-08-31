@@ -209,7 +209,7 @@ function Home() {
       )}
 
       {/* Unified Hero Section with Image Background */}
-      <section className="relative min-h-[90vh] lg:min-h-[95vh] flex items-center justify-center overflow-hidden bg-slate-950">
+      <section className="relative min-h-[90vh] lg:min-h-[95vh] flex flex-col justify-between overflow-hidden bg-slate-950">
         {/* Background Image with Layered High-Contrast Gradients */}
         <div className="absolute inset-0 z-0">
           <img
@@ -224,7 +224,7 @@ function Home() {
         </div>
 
         {/* Hero Content Container */}
-        <div className="relative z-10 max-w-6xl mx-auto px-4 py-20 sm:py-24 md:py-32 text-center flex flex-col items-center">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 pt-20 sm:pt-24 md:pt-28 pb-10 sm:pb-12 text-center flex flex-col items-center flex-1 justify-center my-auto">
           
           {/* Top Pill / Badge */}
           <div className="inline-flex items-center gap-2 bg-blue-600/30 border border-blue-400/40 backdrop-blur-md text-blue-200 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide mb-6 shadow-lg shadow-blue-500/10 animate-fade-in">
@@ -291,24 +291,35 @@ function Home() {
           </div>
         </div>
 
-        {/* Bottom Fast Stats Strip */}
-        <div className="absolute bottom-0 inset-x-0 bg-slate-950/80 border-t border-slate-800/80 backdrop-blur-md py-4 hidden md:block">
-          <div className="max-w-6xl mx-auto px-4 grid grid-cols-4 gap-6 text-center text-white">
-            <div>
-              <div className="text-lg font-extrabold text-blue-400">15+ Years</div>
-              <div className="text-[11px] text-slate-400 uppercase tracking-wider">Industry Leadership</div>
-            </div>
-            <div>
-              <div className="text-lg font-extrabold text-white">7,000+</div>
-              <div className="text-[11px] text-slate-400 uppercase tracking-wider">Satisfied Plot Buyers</div>
-            </div>
-            <div>
-              <div className="text-lg font-extrabold text-emerald-400">100% Clear Title</div>
-              <div className="text-[11px] text-slate-400 uppercase tracking-wider">Sub-Registrar Registry</div>
-            </div>
-            <div>
-              <div className="text-lg font-extrabold text-cyan-300">₹91,000 Cr</div>
-              <div className="text-[11px] text-slate-400 uppercase tracking-wider">Tata Fab Corridor</div>
+        {/* Bottom Hero Key Milestones Strip */}
+        <div className="relative z-20 w-full bg-slate-950/85 border-t border-slate-800/80 backdrop-blur-md py-4 sm:py-5 shadow-2xl">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
+              {[
+                { number: "50,000+", label: "Investors & Visitors", icon: Users, color: "text-blue-400", bg: "bg-blue-500/15" },
+                { number: "5,000+", label: "Happy Customers", icon: Heart, color: "text-rose-400", bg: "bg-rose-500/15" },
+                { number: "50+", label: "Projects Delivered", icon: Building2, color: "text-emerald-400", bg: "bg-emerald-500/15" },
+                { number: "15+", label: "Years Experience", icon: Calendar, color: "text-amber-400", bg: "bg-amber-500/15" },
+                { number: "50+", label: "Cities In India", icon: Map, color: "text-cyan-400", bg: "bg-cyan-500/15" },
+                { number: "9+", label: "Global Nations", icon: Globe, color: "text-indigo-400", bg: "bg-indigo-500/15" },
+              ].map((stat, i) => (
+                <div 
+                  key={i} 
+                  className="flex items-center gap-3 justify-center sm:justify-start lg:justify-center p-2 rounded-xl bg-white/[0.03] sm:bg-transparent border border-white/5 sm:border-0 hover:bg-white/[0.06] transition-all duration-300 group"
+                >
+                  <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center shrink-0 border border-white/10 group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
+                    <stat.icon className={`w-5 h-5 ${stat.color}`} />
+                  </div>
+                  <div className="text-left min-w-0">
+                    <div className="text-base sm:text-lg md:text-xl font-extrabold text-white tracking-tight leading-none group-hover:text-blue-300 transition-colors">
+                      {stat.number}
+                    </div>
+                    <div className="text-[11px] text-slate-400 uppercase tracking-wider font-medium mt-1 leading-tight line-clamp-1">
+                      {stat.label}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -699,8 +710,8 @@ function Home() {
                       <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">
                         {project.category}
                       </span>
-                      <span className="text-xs text-slate-500 font-medium">
-                        {project.pricePerSqYd}
+                      <span className="text-xs text-emerald-600 font-semibold">
+                        AUDA & SIRDA Approved
                       </span>
                     </div>
 
@@ -727,8 +738,8 @@ function Home() {
                       <strong className="text-slate-800 font-semibold truncate block">{project.plotSizes}</strong>
                     </div>
                     <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                      <span className="text-[10px] text-slate-400 block">Starting From</span>
-                      <strong className="text-blue-700 font-bold block">{project.price}</strong>
+                      <span className="text-[10px] text-slate-400 block">Title Status</span>
+                      <strong className="text-emerald-700 font-bold block truncate">100% Clear Title</strong>
                     </div>
                   </div>
 
@@ -742,7 +753,7 @@ function Home() {
                       <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform duration-300" />
                     </Link>
                     <a
-                      href="https://wa.me/919213005611?text=Hello%20Nestoria%20Group,%20please%20send%20brochure%20and%20pricing%20details"
+                      href="https://wa.me/919213005611?text=Hello%20Nestoria%20Group,%20please%20send%20brochure%20and%20project%20details"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="py-2.5 px-3 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-slate-700 hover:text-emerald-700 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1"
@@ -821,49 +832,6 @@ function Home() {
               />
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 md:py-20 bg-gradient-to-r from-slate-950 via-blue-950 to-slate-900 text-white relative overflow-hidden border-y border-blue-900/40">
-        <div className="absolute inset-0 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/15 border border-blue-400/30 text-blue-300 text-xs font-bold uppercase tracking-wider mb-3">
-              <Sparkles className="w-3.5 h-3.5" />
-              Proven Track Record
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-2">Our Key Milestones</h2>
-            <div className="h-1 w-16 bg-blue-500 mx-auto rounded-full"></div>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
-            {[
-              { number: "50,000+", label: "Investors & Visitors", icon: Users, color: "text-blue-400" },
-              { number: "5,000+", label: "Happy Customers", icon: Heart, color: "text-rose-400" },
-              { number: "50+", label: "Projects Delivered", icon: Building2, color: "text-emerald-400" },
-              { number: "15+", label: "Years Experience", icon: Calendar, color: "text-amber-400" },
-              { number: "50+", label: "Cities In India", icon: Map, color: "text-cyan-400" },
-              { number: "9+", label: "Global Nations", icon: Globe, color: "text-indigo-400" },
-            ].map((stat, i) => (
-              <div 
-                key={i} 
-                className="group text-center p-5 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 hover:border-blue-400/60 hover:bg-white/15 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-500/20"
-              >
-                <div className="mb-3 flex justify-center">
-                  <div className="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center group-hover:scale-125 group-hover:bg-white/20 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-500/30">
-                    <stat.icon className={`w-5 h-5 ${stat.color}`} />
-                  </div>
-                </div>
-                <div className="text-2xl sm:text-3xl font-extrabold mb-1 text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-blue-200">
-                  {stat.number}
-                </div>
-                <p className="text-slate-400 font-medium text-xs uppercase tracking-wider">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-
         </div>
       </section>
 

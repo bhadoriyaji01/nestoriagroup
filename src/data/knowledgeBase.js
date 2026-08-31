@@ -58,7 +58,7 @@ export const websiteKnowledgeBase = {
   qaPairs: [
     {
       keywords: ["price", "cost", "rate", "sq yd", "budget", "starting price", "how much"],
-      answer: "Nestoria Group offers plots starting from ₹ 11.5 Lakhs (Sunshine Residency) up to ₹ 28.0 Lakhs for luxury estate villas (Orchid Luxury), and commercial parcels from ₹ 35 Lakhs. Rates vary from ₹ 3,900 to ₹ 6,500 per sq. yard depending on Town Planning zone, road width, and proximity to the Expressway. Would you like to see our price list or calculate your EMI?"
+      answer: "Nestoria Group offers a range of residential, luxury villa, and commercial plotting options across prime Town Planning zones in Dholera SIR. Plot availability and payment plans vary by location, road width, and zone. For the complete official brochure, layout plans, and project details, please request a callback or connect with our property advisors on WhatsApp."
     },
     {
       keywords: ["site visit", "visit", "see project", "tour", "pickup", "book visit", "dholera visit", "inspect"],
@@ -82,15 +82,15 @@ export const websiteKnowledgeBase = {
     },
     {
       keywords: ["dholera bhoomi", "bhoomi", "bhoomi phase 1", "bhoomi 2", "bhoomi 3"],
-      answer: "Dholera Bhoomi (Phases I, II, and III) is our flagship gated residential plotting township in TP2 Activation Zone. Plot sizes range from 150 sq.yd to 1,200 sq.yd starting from ₹ 14.5 Lakhs with 12m-18m internal roads, 24/7 security, underground power/water, and immediate registry."
+      answer: "Dholera Bhoomi (Phases I, II, and III) is our flagship gated residential plotting township in TP2 Activation Zone. Plot sizes range from 150 sq.yd to 1,200 sq.yd with 12m-18m internal roads, 24/7 security, underground power/water, and immediate registry."
     },
     {
       keywords: ["orchid river view", "river view", "waterfront"],
-      answer: "Orchid River View is our scenic waterfront residential project situated along the scenic riverfront corridor in TP2, Dholera SIR. Plot sizes range from 200 to 800 sq.yd starting from ₹ 19.5 Lakhs, featuring riverside walkways, sunset gazebos, and serene green buffers."
+      answer: "Orchid River View is our scenic waterfront residential project situated along the scenic riverfront corridor in TP2, Dholera SIR. Plot sizes range from 200 to 800 sq.yd, featuring riverside walkways, sunset gazebos, and serene green buffers."
     },
     {
       keywords: ["orchid villa gold", "villa gold", "gold"],
-      answer: "Orchid Villa Gold is our golden-standard luxury estate plotting enclave located in TP1 directly adjacent to the expressway junction. Plots range from 250 to 1,000 sq.yd starting from ₹ 21.0 Lakhs with resort swimming pool, tennis court, and underground utility trenches."
+      answer: "Orchid Villa Gold is our golden-standard luxury estate plotting enclave located in TP1 directly adjacent to the expressway junction. Plots range from 250 to 1,000 sq.yd with resort swimming pool, tennis court, and underground utility trenches."
     },
     {
       keywords: ["contact", "phone", "number", "email", "office", "address", "location"],
@@ -130,12 +130,12 @@ export const queryKnowledgeEngine = (userQuery, projects = []) => {
   const query = userQuery.toLowerCase().trim();
   
   if (!query) {
-    return "Hello! I am Nestoria AI, your dedicated smart property consultant for Dholera SIR. How may I assist you today? You can ask about our projects, pricing, site visits, or legal approvals.";
+    return "Hello! I am Nestoria AI, your dedicated smart property consultant for Dholera SIR. How may I assist you today? You can ask about our projects, site visits, plot layouts, or legal approvals.";
   }
 
   // Exact greetings
   if (query.match(/^(hi|hello|hey|namaste|good morning|good afternoon|good evening|ola)/i)) {
-    return "Hello! Welcome to Nestoria Group. I am your 24/7 AI Property Assistant for Dholera SIR. I can help you with:\n\n• 📍 Booking a FREE VIP Site Visit\n• 🏡 Exploring residential, commercial & villa projects\n• 💰 Checking pricing, plot sizes & EMI plans\n• 📑 Downloading brochures & legal approval docs\n• 🚀 Understanding Dholera SIR smart city & Tata Fab updates\n\nWhat would you like to explore today?";
+    return "Hello! Welcome to Nestoria Group. I am your 24/7 AI Property Assistant for Dholera SIR. I can help you with:\n\n• 📍 Booking a FREE VIP Site Visit\n• 🏡 Exploring residential, commercial & villa projects\n• 🗺️ Checking plot sizes, layout plans & master zoning\n• 📑 Downloading brochures & legal approval docs\n• 🚀 Understanding Dholera SIR smart city & Tata Fab updates\n\nWhat would you like to explore today?";
   }
 
   // Search the complete structured project catalogue before generic FAQs.
@@ -147,7 +147,6 @@ export const queryKnowledgeEngine = (userQuery, projects = []) => {
 
   if (projectMatch) {
     return `${projectMatch.title} is a ${projectMatch.category.toLowerCase()} project in ${projectMatch.location}.\n\n` +
-      `Starting price: ${projectMatch.price}\n` +
       `Plot sizes: ${projectMatch.plotSizes}\n` +
       `Status: ${projectMatch.status}\n\n` +
       `${projectMatch.description}\n\n` +
@@ -187,9 +186,9 @@ export const queryKnowledgeEngine = (userQuery, projects = []) => {
   // Keep the fallback useful for website-related questions.
   if (isWebsiteQuestion(query)) {
     return `Nestoria Group offers verified residential, commercial, and industrial property opportunities in Dholera SIR.\n\n` +
-      `You can ask me about project prices, plot sizes, locations, legal documents, site visits, payment plans, Dholera infrastructure, or our company and services.`;
+      `You can ask me about plot sizes, project locations, legal documents, site visits, payment plans, Dholera infrastructure, or our company and services.`;
   }
 
   // The chatbot caller uses this marker to open the contact form for unrelated topics.
-  return `Thank you for asking about "${userQuery}".\n\nNestoria Group is Dholera SIR's premier real estate developer offering 100% Clear Title, AUDA/Dholera SIRDA approved NA residential and commercial plots starting from ₹11.5 Lakhs.\n\nKey highlights:\n• Proximity to 6-lane Expressway & International Airport\n• Next to Tata Electronics ₹91,000 Cr Semiconductor Fab\n• Immediate Sub-Registrar registry & 7/12 mutation\n\nWould you like to:\n1. 📍 Book a Free Guided Site Visit?\n2. 📑 Download our complete Project Brochure?\n3. 📞 Request an instant callback from our Senior Consultant?`;
+  return `Thank you for asking about "${userQuery}".\n\nNestoria Group is Dholera SIR's premier real estate developer offering 100% Clear Title, AUDA/Dholera SIRDA approved NA residential and commercial plots with immediate registry.\n\nKey highlights:\n• Proximity to 6-lane Expressway & International Airport\n• Next to Tata Electronics ₹91,000 Cr Semiconductor Fab\n• Immediate Sub-Registrar registry & 7/12 mutation\n\nWould you like to:\n1. 📍 Book a Free Guided Site Visit?\n2. 📑 Download our complete Project Brochure?\n3. 📞 Request an instant callback from our Senior Consultant?`;
 };

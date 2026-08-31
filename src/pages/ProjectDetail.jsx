@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { allProjects, getProjectBySlug } from '../data/projectsData';
 import Seo from '../components/Seo';
+import { getRealEstateListingSchema, getBreadcrumbSchema } from '../utils/SchemaMarkup';
 import confetti from 'canvas-confetti';
 
 export default function ProjectDetail() {
@@ -19,13 +20,6 @@ export default function ProjectDetail() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
   const [isBrochureModalOpen, setIsBrochureModalOpen] = useState(false);
-
-  // EMI Calculator State
-  const [plotAreaSqYd, setPlotAreaSqYd] = useState(200);
-  const [ratePerSqYd, setRatePerSqYd] = useState(4800);
-  const [downPaymentPercent, setDownPaymentPercent] = useState(20);
-  const [loanTenureYears, setLoanTenureYears] = useState(10);
-  const interestRate = 8.5;
 
   // Lead Form
   const [leadForm, setLeadForm] = useState({
@@ -42,8 +36,6 @@ export default function ProjectDetail() {
     window.scrollTo(0, 0);
     if (project) {
       setSelectedImage(project.logo || project.image);
-      const parsedRate = parseInt(project.pricePerSqYd.replace(/\D/g, '')) || 4800;
-      setRatePerSqYd(parsedRate);
     }
   }, [slug, project]);
 
@@ -64,17 +56,6 @@ export default function ProjectDetail() {
       </div>
     );
   }
-
-  // EMI Calculations
-  const totalPrice = plotAreaSqYd * ratePerSqYd;
-  const downPaymentAmount = (totalPrice * downPaymentPercent) / 100;
-  const loanAmount = totalPrice - downPaymentAmount;
-  const monthlyRate = interestRate / (12 * 100);
-  const totalMonths = loanTenureYears * 12;
-  const emi = loanAmount > 0 
-    ? Math.round((loanAmount * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1))
-    : 0;
-  const estimated5YrAppreciation = Math.round(totalPrice * 2.85); // conservative 2.85x projected growth
 
   const handleBookingSubmit = (e) => {
     e.preventDefault();
@@ -102,42 +83,21 @@ export default function ProjectDetail() {
   };
 
   const handleWhatsAppInquiry = () => {
-    const text = `Hello Nestoria Group, I am interested in ${project.title} (${project.location}). Please send the pricing sheet, layout plan, and book a free site visit for me.`;
+    const text = `Hello Nestoria Group, I am interested in ${project.title} (${project.location}). Please send the brochure, layout plan, and book a free site visit for me.`;
     window.open(`https://wa.me/919213005611?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   // Structured Schema Markup for Project Page
-  const projectSchema = {
-    "@context": "https://schema.org",
-    "@type": "SingleFamilyResidence",
-    "name": `${project.title} - Dholera SIR`,
-    "description": project.description,
-    "image": project.image,
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Dholera SIR",
-      "addressRegion": "Gujarat",
-      "addressCountry": "IN"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "22.2530",
-      "longitude": "72.1977"
-    },
-    "offers": {
-      "@type": "Offer",
-      "priceCurrency": "INR",
-      "price": totalPrice,
-      "priceValidUntil": "2027-12-31",
-      "availability": "https://schema.org/InStock",
-      "seller": {
-        "@type": "RealEstateAgent",
-        "name": "Nestoria Group",
-        "telephone": "+919213005611",
-        "url": "https://nestoriagroup.com"
-      }
-    }
-  };
+  const listingSchema = getRealEstateListingSchema({
+    ...project,
+    name: `${project.title} - Dholera SIR`,
+    url: `https://nestoriagroup.com/project/${project.slug}`
+  });
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Projects', url: '/projects' },
+    { name: project.title, url: `/project/${project.slug}` }
+  ]);
 
   const relatedProjects = allProjects
     .filter(p => p.id !== project.id && p.type === project.type)
@@ -146,12 +106,12 @@ export default function ProjectDetail() {
   return (
     <div className="bg-slate-50 min-h-screen">
       <Seo
-        title={`${project.title} Dholera SIR | Price, Layout & Free Site Visit | Nestoria Group`}
-        description={`${project.title} in ${project.location}. 100% Clear Title NA Plots starting from ${project.price}. Legally verified and approved with immediate registry.`}
-        keywords={`${project.title}, ${project.title} Dholera, Dholera SIR plots, Dholera property, Nestoria Group projects, ${project.zone}`}
+        title={`${project.title} Dholera SIR | Layout, NA Plots & Site Visit | Nestoria Group`}
+        description={`${project.title} in ${project.location}. AUDA-approved NA clear title plots near Tata Semiconductor Fab & Ahmedabad-Dholera Expressway. Free chauffeur site visits.`}
+        keywords={`${project.title}, ${project.title} Dholera, Dholera SIR plots, buy plots in Dholera, Dholera property investment, Nestoria Group projects, ${project.zone}, NA clear title plots`}
         canonicalUrl={`/project/${project.slug}`}
         imageUrl={project.image}
-        schemaMarkup={projectSchema}
+        schemaMarkup={[listingSchema, breadcrumbSchema]}
       />
 
       {/* Top Breadcrumb Navigation */}
@@ -234,16 +194,16 @@ export default function ProjectDetail() {
                 </p>
               </div>
 
-              {/* Quick Pricing & Plot Metrics */}
+              {/* Quick Project Status & Title Details */}
               <div className="bg-gradient-to-br from-blue-50/70 to-slate-50 border border-blue-100 rounded-3xl p-5 shadow-sm space-y-4">
                 <div className="flex items-baseline justify-between border-b border-blue-100 pb-3">
                   <div>
-                    <span className="text-xs font-semibold text-slate-500 uppercase block">Starting Investment</span>
-                    <span className="text-2xl sm:text-3xl font-extrabold text-blue-700">{project.price}</span>
+                    <span className="text-xs font-semibold text-slate-500 uppercase block">Project Status</span>
+                    <span className="text-xl sm:text-2xl font-extrabold text-blue-700">{project.status}</span>
                   </div>
                   <div className="text-right">
-                    <span className="text-xs font-semibold text-slate-500 uppercase block">Benchmark Rate</span>
-                    <span className="text-sm sm:text-base font-bold text-slate-800">{project.pricePerSqYd}</span>
+                    <span className="text-xs font-semibold text-slate-500 uppercase block">Title Guarantee</span>
+                    <span className="text-sm sm:text-base font-bold text-emerald-700">100% Clear Title</span>
                   </div>
                 </div>
 
@@ -328,7 +288,6 @@ export default function ProjectDetail() {
               { id: 'videos', label: 'Videos & Virtual Tour' },
               { id: 'amenities', label: 'World-Class Amenities' },
               { id: 'connectivity', label: 'Strategic Connectivity' },
-              { id: 'calculator', label: 'EMI & ROI Calculator' },
               { id: 'booking', label: 'Book Site Visit' }
             ].map((tab) => (
               <button
@@ -699,108 +658,6 @@ export default function ProjectDetail() {
             </div>
           )}
 
-          {/* TAB 4: CALCULATOR */}
-          {activeTab === 'calculator' && (
-            <div className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200 shadow-sm animate-fade-in">
-              <div className="max-w-2xl mb-8">
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">Smart EMI & Capital Growth Calculator</h2>
-                <p className="text-slate-600 text-sm sm:text-base">
-                  Customize your plot size, down payment, and loan tenure to view projected monthly outlays and 5-year capital appreciation.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                {/* Inputs */}
-                <div className="lg:col-span-7 space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                  <div>
-                    <div className="flex justify-between text-sm font-bold text-slate-800 mb-2">
-                      <span>Plot Size (Sq. Yards)</span>
-                      <span className="text-blue-600">{plotAreaSqYd} Sq. Yd ({plotAreaSqYd * 9} Sq. Ft)</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="150"
-                      max="1200"
-                      step="25"
-                      value={plotAreaSqYd}
-                      onChange={(e) => setPlotAreaSqYd(Number(e.target.value))}
-                      className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
-                    />
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between text-sm font-bold text-slate-800 mb-2">
-                      <span>Down Payment ({downPaymentPercent}%)</span>
-                      <span className="text-blue-600">₹ {downPaymentAmount.toLocaleString('en-IN')}</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="10"
-                      max="50"
-                      step="5"
-                      value={downPaymentPercent}
-                      onChange={(e) => setDownPaymentPercent(Number(e.target.value))}
-                      className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
-                    />
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between text-sm font-bold text-slate-800 mb-2">
-                      <span>Loan Tenure</span>
-                      <span className="text-blue-600">{loanTenureYears} Years ({totalMonths} Months)</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="3"
-                      max="20"
-                      step="1"
-                      value={loanTenureYears}
-                      onChange={(e) => setLoanTenureYears(Number(e.target.value))}
-                      className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
-                    />
-                  </div>
-                </div>
-
-                {/* Outputs */}
-                <div className="lg:col-span-5 bg-gradient-to-br from-blue-700 to-indigo-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl space-y-6">
-                  <h3 className="text-lg font-bold text-blue-200 uppercase tracking-wider">Investment Summary</h3>
-                  
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-baseline border-b border-white/15 pb-2">
-                      <span className="text-xs text-blue-100">Total Plot Value</span>
-                      <span className="text-2xl font-extrabold">₹ {totalPrice.toLocaleString('en-IN')}</span>
-                    </div>
-                    <div className="flex justify-between items-baseline border-b border-white/15 pb-2">
-                      <span className="text-xs text-blue-100">Down Payment Required</span>
-                      <span className="text-lg font-bold">₹ {downPaymentAmount.toLocaleString('en-IN')}</span>
-                    </div>
-                    <div className="flex justify-between items-baseline border-b border-white/15 pb-2">
-                      <span className="text-xs text-blue-100">Estimated Monthly EMI</span>
-                      <span className="text-2xl font-extrabold text-emerald-300">₹ {emi.toLocaleString('en-IN')}/mo</span>
-                    </div>
-                    <div className="bg-white/10 p-4 rounded-2xl backdrop-blur-sm border border-white/10">
-                      <span className="text-xs text-blue-200 block">Projected 5-Year Asset Value (2.85x)</span>
-                      <strong className="text-2xl font-extrabold text-amber-300">
-                        ₹ {estimated5YrAppreciation.toLocaleString('en-IN')}
-                      </strong>
-                      <p className="text-[11px] text-blue-100/70 mt-1">
-                        Based on historical Dholera smart city appreciation and completion of expressway + airport.
-                      </p>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => setIsBookModalOpen(true)}
-                    className="w-full py-3.5 px-4 bg-white text-blue-700 font-bold text-sm rounded-2xl shadow-lg hover:bg-blue-50 transition-all flex items-center justify-center gap-2"
-                  >
-                    Lock This Plot & Rate
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* TAB 5: BOOK SITE VISIT */}
           {activeTab === 'booking' && (
             <div className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200 shadow-sm animate-fade-in max-w-3xl mx-auto">
@@ -945,8 +802,8 @@ export default function ProjectDetail() {
                         <MapPin className="w-3.5 h-3.5 text-blue-600" />
                         {p.location}
                       </p>
-                      <span className="text-sm font-extrabold text-blue-700 block mt-3">
-                        {p.price}
+                      <span className="text-xs font-semibold text-emerald-700 block mt-3">
+                        100% Clear Title NA
                       </span>
                     </div>
 
@@ -1074,8 +931,8 @@ export default function ProjectDetail() {
               <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-2">
                 <Download className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900">Download Brochure & Pricing</h3>
-              <p className="text-xs text-slate-600 mt-1">Receive high-res layout map and price schedule for {project.title}.</p>
+              <h3 className="text-xl font-bold text-slate-900">Download Project Brochure & Layout</h3>
+              <p className="text-xs text-slate-600 mt-1">Receive high-res layout map and official project brochure for {project.title}.</p>
             </div>
 
             {formSubmitted ? (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
-import { getReviewSchema } from "../utils/SchemaMarkup";
+import Seo from "../components/Seo";
+import { getReviewSchema, getBreadcrumbSchema } from "../utils/SchemaMarkup";
 import { TestimonialService } from "../services/TestimonialService";
 import testomonial1 from "/src/assets/img/testomonials/D-P-Kaushik.webp";
 import testomonial2 from "/src/assets/img/testomonials/Khargeswar-Brahma.webp";
@@ -56,15 +56,16 @@ function Testimonial() {
 
   return (
     <div className="overflow-hidden bg-slate-50 text-slate-900">
-      <Helmet>
-        <title>Client Testimonials - Nestoria Group | Real Estate Developer in Dholera SIR</title>
-        <meta name="description" content="Read authentic testimonials from our satisfied clients who have invested in Dholera SIR through Nestoria Group." />
-        <meta name="keywords" content="Nestoria Group testimonials, client reviews, Dholera SIR investment reviews" />
-        <link rel="canonical" href="https://nestoriagroup.com/testimonial" />
-        {testimonialSchemas.map((schema, index) => (
-          <script key={index} type="application/ld+json">{JSON.stringify(schema)}</script>
-        ))}
-      </Helmet>
+      <Seo
+        title="Client Reviews & Testimonials | Nestoria Group Dholera SIR"
+        description="Read genuine reviews and success stories from 1,200+ verified investors, NRIs, and defense personnel who bought residential and commercial land with Nestoria Group."
+        keywords="Nestoria Group testimonials, client reviews, Dholera SIR investment reviews, Nestoria customer feedback, Dholera plot buyers experience"
+        canonicalUrl="/testimonial"
+        schemaMarkup={[
+          ...testimonialSchemas,
+          getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'Testimonials', url: '/testimonial' }])
+        ]}
+      />
 
       {/* Hero */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-slate-950">

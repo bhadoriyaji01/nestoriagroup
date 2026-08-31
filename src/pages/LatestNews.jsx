@@ -1,6 +1,7 @@
 // src/pages/LatestNews.jsx
 import React, { useState, useEffect, useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
+import Seo from '../components/Seo';
+import { getBreadcrumbSchema } from '../utils/SchemaMarkup';
 import { 
   Calendar, ExternalLink, Sparkles, Search, Newspaper, 
   ArrowRight, ShieldCheck, Cpu, Plane, Building2, Tag
@@ -117,13 +118,13 @@ const LatestNews = () => {
 
   return (
     <div className="latest-news-page bg-white min-h-screen">
-      <Helmet>
-        <title>Latest News & Developments | Nestoria Group Dholera SIR</title>
-        <meta 
-          name="description" 
-          content="Stay updated with the latest news on Tata Semiconductor Fab, Dholera International Airport, 6-lane Expressway, and Nestoria Group townships in Dholera SIR." 
-        />
-      </Helmet>
+      <Seo
+        title="Dholera Smart City News & Infrastructure Updates | Nestoria Group"
+        description="Latest updates on Tata Semiconductor plant construction, Ahmedabad-Dholera Expressway opening, international airport flight tests, and Dholera land registry."
+        keywords="Dholera SIR news, Tata fab Dholera latest news, Dholera airport construction update, Dholera expressway launch date, Dholera investment news"
+        canonicalUrl="/news"
+        schemaMarkup={getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'News', url: '/news' }])}
+      />
 
       {/* Page Header */}
       <ParallaxSection

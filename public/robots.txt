@@ -1,24 +1,34 @@
+# Robots.txt for Nestoria Group (https://nestoriagroup.com)
+# Real Estate Developer in Dholera SIR
+
 User-agent: *
 Allow: /
+Allow: /projects
+Allow: /project/
+Allow: /aboutDholera
+Allow: /about
+Allow: /services
+Allow: /contact
+Allow: /blog
+Allow: /latest-news
+Allow: /faq
+Allow: /media
+Allow: /achievements
+Allow: /testimonial
+Allow: /team
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.webp$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.svg$
 
-# Disallow non-essential pages
+# Disallow private and administrative assets
 Disallow: /admin/
 Disallow: /cgi-bin/
 Disallow: /tmp/
 Disallow: /private/
 
-# Crawl-delay: 10
-
-# Allow important pages
-Allow: /$
-Allow: /about$
-Allow: /aboutDholera$
-Allow: /services$
-Allow: /projects$
-Allow: /contact$
-
-# Host directive
+# Crawl optimization
 Host: nestoriagroup.com
-
-# Sitemap location
 Sitemap: https://nestoriagroup.com/sitemap.xml

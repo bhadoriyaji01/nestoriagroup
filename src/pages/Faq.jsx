@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import Seo from '../components/Seo';
+import { getFAQSchema, getBreadcrumbSchema } from '../utils/SchemaMarkup';
 import {
   Sparkles, HelpCircle, ChevronDown, List, Phone, Mail,
   Search, RefreshCw, Grid, Home, Building2, Factory, TrendingUp, Shield
@@ -30,7 +31,7 @@ const Faq = () => {
     ],
     property: [
       { question: "What types of properties does Nestoria Group offer in Dholera SIR?", answer: "We offer a diverse range of properties including residential plots, commercial properties, and industrial land parcels, each strategically located to maximize investment potential." },
-      { question: "What is the price range of properties in Dholera SIR?", answer: "Prices vary based on location, size, and type. Please contact our sales team for current pricing details." },
+      { question: "What plot sizes and configurations are available in Dholera SIR?", answer: "Nestoria Group offers residential plots, luxury villas, and commercial land parcels ranging from 150 sq.yd to 1,200+ sq.yd across prime Town Planning zones. Please contact our advisory team for brochures and layout plans." },
       { question: "Are the properties ready to move in?", answer: "We offer both ready-to-develop plots and under-development properties. Our sales team can guide you through available options." },
       { question: "Can I customize my property?", answer: "Yes, when purchasing land parcels, you have the flexibility to develop according to your requirements, subject to Dholera SIR zoning regulations." },
       { question: "How can I schedule a site visit?", answer: "Contact our office via phone, email, or contact form. Our team will arrange a convenient time for your visit." }
@@ -59,13 +60,20 @@ const Faq = () => {
   };
 
   const categoryIcons = { general: Grid, property: Home, investment: TrendingUp, dholera: Building2, legal: Shield };
+  const allFaqsList = Object.values(faqs).flat();
 
   return (
     <div className="overflow-hidden bg-white text-slate-900">
-      <Helmet>
-        <title>FAQ - Nestoria Group | Dholera SIR</title>
-        <meta name="description" content="Find answers to frequently asked questions about Nestoria Group, Dholera SIR properties, investments, and more." />
-      </Helmet>
+      <Seo
+        title="Dholera SIR Property FAQs | Investment, Approvals & Legal Verification"
+        description="Got questions about buying land in Dholera SIR? Find verified answers on legal title clearance, AUDA approvals, registry process, plot sizes, and NRI investment guidelines."
+        keywords="Dholera SIR FAQ, is Dholera safe to invest, how to buy plot in Dholera, AUDA approval Dholera, Dholera registry process, NRI land investment FAQ India"
+        canonicalUrl="/faq"
+        schemaMarkup={[
+          getFAQSchema(allFaqsList),
+          getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'FAQ', url: '/faq' }])
+        ]}
+      />
 
       {/* Hero Section */}
       <section className="relative min-h-[55vh] flex items-center justify-center overflow-hidden bg-slate-950">

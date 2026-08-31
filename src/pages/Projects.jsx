@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { allProjects } from '../data/projectsData';
 import Seo from '../components/Seo';
+import { getItemListSchema, getBreadcrumbSchema } from '../utils/SchemaMarkup';
 import ProjectVideosSlider from '../components/ProjectVideosSlider';
 import confetti from 'canvas-confetti';
 
@@ -53,15 +54,8 @@ export default function Projects() {
 
       return matchesCategory && matchesZone && matchesSearch;
     }).sort((a, b) => {
-      if (sortBy === 'price-low') {
-        const pA = parseFloat(a.price.replace(/[^\d.]/g, '')) || 0;
-        const pB = parseFloat(b.price.replace(/[^\d.]/g, '')) || 0;
-        return pA - pB;
-      }
-      if (sortBy === 'price-high') {
-        const pA = parseFloat(a.price.replace(/[^\d.]/g, '')) || 0;
-        const pB = parseFloat(b.price.replace(/[^\d.]/g, '')) || 0;
-        return pB - pA;
+      if (sortBy === 'name') {
+        return a.title.localeCompare(b.title);
       }
       return 0; // featured / default
     });
@@ -92,28 +86,20 @@ export default function Projects() {
     }
   };
 
-  const schemaData = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "name": "Nestoria Group Projects in Dholera SIR",
-    "description": "Comprehensive list of residential plots, luxury villas, and commercial land developments in Dholera Smart City.",
-    "numberOfItems": allProjects.length,
-    "itemListElement": allProjects.map((p, idx) => ({
-      "@type": "ListItem",
-      "position": idx + 1,
-      "name": p.title,
-      "url": `https://nestoriagroup.com/project/${p.slug}`
-    }))
-  };
-
   return (
     <div className="bg-slate-50 min-h-screen">
       <Seo
-        title="Projects in Dholera SIR | Residential Plots, Villas & Commercial Land | Nestoria Group"
-        description="Explore 100% Clear Title AUDA & SIRDA approved residential and commercial plots in Dholera SIR. Immediate registry, starting from ₹ 11.5 Lakhs. Book free VIP site visit."
-        keywords="Dholera SIR projects, Dholera Bhoomi, Orchid River View, Orchid Villa Gold, Dholera plots for sale, Nestoria Group projects"
+        title="Plots in Dholera SIR | Residential & Commercial Land | Nestoria Group"
+        description="Browse approved residential plots, luxury villa townships & commercial land parcels in Dholera SIR. 100% clear title, immediate registry near TP2 & Tata Fab."
+        keywords="plots in Dholera SIR, residential plots Dholera, commercial land Dholera SIR, buy land Dholera smart city, NA plots Dholera, luxury villa plots Dholera, Nestoria Atulyam, Nestoria Green Vista, Semicon Residency, Dholera Bhoomi"
         canonicalUrl="/projects"
-        schemaMarkup={schemaData}
+        schemaMarkup={[
+          getItemListSchema(allProjects),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Projects', url: '/projects' }
+          ])
+        ]}
       />
 
       {/* Hero Header Section */}
@@ -175,8 +161,7 @@ export default function Projects() {
                   className="bg-white border border-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-600"
                 >
                   <option value="featured">Featured First</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
+                  <option value="name">Project Name (A-Z)</option>
                 </select>
               </div>
             </div>
@@ -249,8 +234,8 @@ export default function Projects() {
                         <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">
                           {project.category}
                         </span>
-                        <span className="text-xs text-slate-500 font-medium">
-                          {project.pricePerSqYd}
+                        <span className="text-xs text-emerald-600 font-semibold">
+                          AUDA & SIRDA Approved
                         </span>
                       </div>
 
@@ -277,8 +262,8 @@ export default function Projects() {
                         <strong className="text-slate-800 font-semibold truncate block">{project.plotSizes}</strong>
                       </div>
                       <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                        <span className="text-[10px] text-slate-400 block">Starting From</span>
-                        <strong className="text-blue-700 font-bold block">{project.price}</strong>
+                        <span className="text-[10px] text-slate-400 block">Title Status</span>
+                        <strong className="text-emerald-700 font-bold block truncate">100% Clear Title</strong>
                       </div>
                     </div>
 

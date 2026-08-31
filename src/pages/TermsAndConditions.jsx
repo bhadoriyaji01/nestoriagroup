@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getLocalBusinessSchema } from "../utils/SchemaMarkup";
+import Seo from "../components/Seo";
+import { getLocalBusinessSchema, getBreadcrumbSchema } from "../utils/SchemaMarkup";
 import {
   Sparkles, FileText, Handshake, Building2, Info, Copyright,
   UserCheck, Scale, ExternalLink, Gavel, RefreshCw, Mail,
@@ -29,7 +30,7 @@ const TermsAndConditions = () => {
       <p className="text-slate-600 leading-relaxed">Nestoria Group is a real estate developer offering advisory, sales, and investment services for residential, commercial, and industrial properties, particularly in Dholera Special Investment Region (SIR). The information provided on this website is for general informational purposes and does not constitute a binding legal offer or financial advice until formal agreements are signed.</p>
     )},
     { icon: Info, title: "3. Property Information and Accuracy", content: (
-      <p className="text-slate-600 leading-relaxed">While we strive to ensure that all property details, layouts, pricing, and Dholera SIR infrastructure updates on the Website are accurate and up to date, we make no warranties or representations regarding the completeness or accuracy of the information. Property prices and availability are subject to change without prior notice. Visual representations are indicative and may differ from actual developments.</p>
+      <p className="text-slate-600 leading-relaxed">While we strive to ensure that all property details, layouts, and Dholera SIR infrastructure updates on the Website are accurate and up to date, we make no warranties or representations regarding the completeness or accuracy of the information. Property specifications and availability are subject to change without prior notice. Visual representations are indicative and may differ from actual developments.</p>
     )},
     { icon: Copyright, title: "4. Intellectual Property Rights", content: (
       <p className="text-slate-600 leading-relaxed">All content, logos, text, graphics, images, software, and overall design of this Website are the exclusive property of Nestoria Group and are protected by Indian and international copyright laws. You may not reproduce, distribute, or use any content for commercial purposes without our express written consent.</p>
@@ -60,7 +61,16 @@ const TermsAndConditions = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="hidden"><script type="application/ld+json">{JSON.stringify(businessSchema)}</script></div>
+      <Seo
+        title="Terms & Conditions | Nestoria Group Dholera SIR"
+        description="Review terms and conditions for navigating Nestoria Group's website, requesting property consultations, and scheduling site visits in Dholera SIR."
+        keywords="terms and conditions Nestoria Group, Dholera property advisory terms"
+        canonicalUrl="/terms-and-conditions"
+        schemaMarkup={[
+          businessSchema,
+          getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'Terms & Conditions', url: '/terms-and-conditions' }])
+        ]}
+      />
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-slate-950 py-16 sm:py-20 md:py-28 text-white">

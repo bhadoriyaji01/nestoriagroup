@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Seo from "../components/Seo";
+import { getBreadcrumbSchema } from "../utils/SchemaMarkup";
 import {
   Sparkles, Users, Lightbulb, Award, Handshake, ArrowRight,
   X, Maximize2, Mail, Briefcase
@@ -45,6 +47,13 @@ function Team() {
 
   return (
     <div className="overflow-hidden bg-white text-slate-900">
+      <Seo
+        title="Leadership & Management Team | Nestoria Group Dholera SIR"
+        description="Meet the visionary leadership and property investment specialists at Nestoria Group driving sustainable, legally approved township development in Dholera SIR."
+        keywords="Nestoria Group leadership, Shivkumar Singh Tomar, Mohan Singh Tomar, real estate team Dholera, Nestoria management"
+        canonicalUrl="/team"
+        schemaMarkup={getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'Our Team', url: '/team' }])}
+      />
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-slate-950">
         <div className="absolute inset-0 z-0">

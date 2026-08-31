@@ -1,19 +1,34 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Seo from "../components/Seo";
+import { getServiceSchema, getBreadcrumbSchema } from "../utils/SchemaMarkup";
 import {
   Home as HomeIcon, Building2, Factory, Search, FileText, TrendingUp,
   ShieldCheck, MapPin, ArrowRight, Car, Sparkles, Phone,
-  CheckCircle2, Layers
+  CheckCircle2, Layers, Users
 } from "lucide-react";
 import { openSiteVisitModal } from "../components/SiteVisitModal";
-import servicebanner from "/src/assets/img/services.webp";
-import residentialimg from "/src/assets/img/Residential-project.webp";
-import commercialimg from "/src/assets/img/COMMERCIAL-project.webp";
-import industrialimg from "/src/assets/img/Industrial-project.webp";
+import servicebanner from "../assets/img/services.webp";
+import residentialimg from "../assets/img/Residential-project.webp";
+import commercialimg from "../assets/img/COMMERCIAL-project.webp";
+import industrialimg from "../assets/img/Industrial-project.webp";
 
 function Services() {
   return (
     <div className="overflow-hidden bg-white text-slate-900">
+      <Seo
+        title="Real Estate Services in Dholera SIR | Property Consulting & Land Advisory"
+        description="Comprehensive real estate services in Dholera SIR: NA plot acquisition, 30-year legal title search, 3D printed villa construction, government registration & registry support."
+        keywords="Dholera real estate services, land legal verification Dholera, buy land advisory Dholera, 3D construction Dholera, property registry Dholera SIR"
+        canonicalUrl="/services"
+        schemaMarkup={[
+          getServiceSchema({
+            name: "Dholera SIR Real Estate Advisory & Plot Development",
+            description: "End-to-end land acquisition, legal verification, title clearance, and property registration services in Dholera Special Investment Region."
+          }),
+          getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'Services', url: '/services' }])
+        ]}
+      />
       {/* Hero Header */}
       <section className="relative min-h-[55vh] flex items-center justify-center overflow-hidden bg-slate-950">
         <div className="absolute inset-0 z-0">

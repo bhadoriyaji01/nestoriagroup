@@ -1,6 +1,8 @@
 import React from "react";
 import achievementBg from "../assets/img/icon/counter-bg-2.webp";
 import { motion } from "framer-motion";
+import Seo from "../components/Seo";
+import { getBreadcrumbSchema } from "../utils/SchemaMarkup";
 import {
   Sparkles, Trophy, Newspaper, ExternalLink, Mail, Award,
   TrendingUp,
@@ -45,6 +47,13 @@ function Achievements() {
 
   return (
     <motion.div initial="initial" animate="animate" variants={pageVariants} className="w-full overflow-hidden bg-slate-50 text-slate-900">
+      <Seo
+        title="Awards & Milestones | Nestoria Group Dholera SIR Achievements"
+        description="Explore Nestoria Group's industry accolades: Atmanirbhar Face of Bharat Award, CREDAI awards, and milestones since 2010 in Dholera smart city development."
+        keywords="Nestoria Group awards, Dholera real estate achievements, CREDAI developer Dholera, best builder award Gujarat"
+        canonicalUrl="/achievements"
+        schemaMarkup={getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'Achievements', url: '/achievements' }])}
+      />
       {/* Hero */}
       <div className="relative overflow-hidden bg-slate-950 py-20 sm:py-24 md:py-32 text-white" style={{ backgroundImage: `url(${achievementBg})`, backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
         <div className="absolute inset-0 bg-slate-950/80"></div>
