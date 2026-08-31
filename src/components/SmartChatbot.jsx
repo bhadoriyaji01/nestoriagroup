@@ -5,7 +5,7 @@ import {
   Sparkles, CheckCircle2, Calculator, ShieldCheck, ChevronRight,
   User, Mail, Car, RotateCcw
 } from 'lucide-react';
-import { queryKnowledgeEngine } from '../data/knowledgeBase';
+import { isWebsiteQuestion, queryKnowledgeEngine } from '../data/knowledgeBase';
 import { allProjects } from '../data/projectsData';
 import confetti from 'canvas-confetti';
 
@@ -88,7 +88,12 @@ export default function SmartChatbot() {
         triggerForm = 'callback';
         botResponse = "Our senior property advisor can connect with you within 15 minutes! Please share your contact details:";
       } else {
-        botResponse = queryKnowledgeEngine(text);
+        const isInWebsiteScope = isWebsiteQuestion(text);
+        botResponse = queryKnowledgeEngine(text, allProjects);
+        if (!isInWebsiteScope && !botResponse.startsWith('Hello!')) {
+          triggerForm = 'callback';
+          botResponse = "That question is outside the information available on our website. Please share your contact details and our team will help you with it directly:";
+        }
       }
 
       setMessages(prev => [
@@ -192,7 +197,7 @@ export default function SmartChatbot() {
               <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-600"></span>
             </span>
             <span className="text-xs font-semibold text-slate-800">
-              
+              NG Orbit
             </span>
           </div>
         )}

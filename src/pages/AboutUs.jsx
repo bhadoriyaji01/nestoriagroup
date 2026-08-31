@@ -49,7 +49,7 @@ function AboutUs() {
               <Phone className="w-5 h-5" />
               <span>Contact Us</span>
             </Link>
-            <Link to="/land-deals" className="group bg-slate-900/90 hover:bg-slate-800 text-white border-2 border-blue-500/70 hover:border-blue-300 font-bold text-base py-3.5 px-7 rounded-xl backdrop-blur-md shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 hover:scale-105 w-full sm:w-auto flex items-center justify-center gap-2">
+            <Link to="/projects" className="group bg-slate-900/90 hover:bg-slate-800 text-white border-2 border-blue-500/70 hover:border-blue-300 font-bold text-base py-3.5 px-7 rounded-xl backdrop-blur-md shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 hover:scale-105 w-full sm:w-auto flex items-center justify-center gap-2">
               <Building2 className="w-5 h-5 text-blue-400" />
               <span>View Properties</span>
             </Link>
@@ -122,7 +122,7 @@ function AboutUs() {
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-2xl shadow-sm hover:shadow-md transition-all border border-blue-200/50">
-                    <div className="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-1">5000+</div>
+                    <div className="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-1">7000+</div>
                     <h6 className="text-slate-600 font-semibold text-sm">Happy Clients</h6>
                   </div>
                   <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 p-5 rounded-2xl shadow-sm hover:shadow-md transition-all border border-emerald-200/50">

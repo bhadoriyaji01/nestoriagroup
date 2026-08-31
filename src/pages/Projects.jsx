@@ -240,6 +240,11 @@ export default function Projects() {
                   {/* Card Content Body */}
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                     <div>
+                      {project.logo && (
+                        <div className="w-full h-12 mb-3 flex items-center">
+                          <img src={project.logo} alt={`${project.title} logo`} className="max-w-[180px] max-h-12 object-contain object-left" />
+                        </div>
+                      )}
                       <div className="flex items-baseline justify-between mb-1">
                         <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">
                           {project.category}

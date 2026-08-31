@@ -112,7 +112,21 @@ export const websiteKnowledgeBase = {
 };
 
 // Natural language query processor matching user questions to knowledge
-export const queryKnowledgeEngine = (userQuery) => {
+const websiteTopicKeywords = [
+  "nestoria", "dholera", "project", "plot", "villa", "residential", "commercial", "industrial",
+  "price", "rate", "location", "office", "contact", "phone", "email", "site", "visit", "brochure",
+  "legal", "title", "approval", "auda", "sirda", "airport", "expressway", "semiconductor", "tata",
+  "emi", "loan", "payment", "investment", "return", "roi", "team", "about", "service", "testimonial",
+  "award", "news", "event", "gallery", "blog", "privacy", "cookie", "faq", "dhanala", "aakru",
+  "kanatalav", "bhangadh", "adhelai", "sodhi", "atulyam", "green vista", "semicon", "emerald", "skyline"
+];
+
+export const isWebsiteQuestion = (userQuery) => {
+  const query = userQuery.toLowerCase();
+  return websiteTopicKeywords.some(keyword => query.includes(keyword));
+};
+
+export const queryKnowledgeEngine = (userQuery, projects = []) => {
   const query = userQuery.toLowerCase().trim();
   
   if (!query) {
@@ -122,6 +136,22 @@ export const queryKnowledgeEngine = (userQuery) => {
   // Exact greetings
   if (query.match(/^(hi|hello|hey|namaste|good morning|good afternoon|good evening|ola)/i)) {
     return "Hello! Welcome to Nestoria Group. I am your 24/7 AI Property Assistant for Dholera SIR. I can help you with:\n\n• 📍 Booking a FREE VIP Site Visit\n• 🏡 Exploring residential, commercial & villa projects\n• 💰 Checking pricing, plot sizes & EMI plans\n• 📑 Downloading brochures & legal approval docs\n• 🚀 Understanding Dholera SIR smart city & Tata Fab updates\n\nWhat would you like to explore today?";
+  }
+
+  // Search the complete structured project catalogue before generic FAQs.
+  const projectMatch = projects.find((project) => {
+    const searchableText = `${project.title} ${project.slug} ${project.location} ${project.category} ${project.type}`.toLowerCase();
+    const queryTokens = query.split(/\W+/).filter(token => token.length > 2);
+    return queryTokens.length > 0 && queryTokens.filter(token => searchableText.includes(token)).length >= Math.min(2, queryTokens.length);
+  });
+
+  if (projectMatch) {
+    return `${projectMatch.title} is a ${projectMatch.category.toLowerCase()} project in ${projectMatch.location}.\n\n` +
+      `Starting price: ${projectMatch.price}\n` +
+      `Plot sizes: ${projectMatch.plotSizes}\n` +
+      `Status: ${projectMatch.status}\n\n` +
+      `${projectMatch.description}\n\n` +
+      `Would you like to book a free site visit or receive the project brochure?`;
   }
 
   // Check matching QA pairs by token scoring
@@ -154,6 +184,12 @@ export const queryKnowledgeEngine = (userQuery) => {
     return bestMatch.answer;
   }
 
-  // Fallback intelligent summary with action prompts
+  // Keep the fallback useful for website-related questions.
+  if (isWebsiteQuestion(query)) {
+    return `Nestoria Group offers verified residential, commercial, and industrial property opportunities in Dholera SIR.\n\n` +
+      `You can ask me about project prices, plot sizes, locations, legal documents, site visits, payment plans, Dholera infrastructure, or our company and services.`;
+  }
+
+  // The chatbot caller uses this marker to open the contact form for unrelated topics.
   return `Thank you for asking about "${userQuery}".\n\nNestoria Group is Dholera SIR's premier real estate developer offering 100% Clear Title, AUDA/Dholera SIRDA approved NA residential and commercial plots starting from ₹11.5 Lakhs.\n\nKey highlights:\n• Proximity to 6-lane Expressway & International Airport\n• Next to Tata Electronics ₹91,000 Cr Semiconductor Fab\n• Immediate Sub-Registrar registry & 7/12 mutation\n\nWould you like to:\n1. 📍 Book a Free Guided Site Visit?\n2. 📑 Download our complete Project Brochure?\n3. 📞 Request an instant callback from our Senior Consultant?`;
 };

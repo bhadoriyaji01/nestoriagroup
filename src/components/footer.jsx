@@ -113,12 +113,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/land-deals" className="text-slate-400 hover:text-white transition-colors flex items-center gap-1.5">
-                  <ChevronRight className="w-3.5 h-3.5 text-blue-500" />
-                  Exclusive Land Deals
-                </Link>
-              </li>
-              <li>
                 <Link to="/latest-news" className="text-slate-400 hover:text-white transition-colors flex items-center gap-1.5">
                   <ChevronRight className="w-3.5 h-3.5 text-blue-500" />
                   Tata Fab & Airport News

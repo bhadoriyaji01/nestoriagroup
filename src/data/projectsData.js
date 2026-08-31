@@ -27,6 +27,7 @@ import greenVistaLayout from '../assets/img/project/green-vista-layout.webp';
 import greenVistaLocation from '../assets/img/project/green-vista-location.webp';
 import greenVistaAmenities from '../assets/img/project/green-vista-amenities.webp';
 import atulyamBanner from '../assets/img/project/atulyam-banner.webp';
+import atulyamLogo from '../assets/img/nestoria-atulyam-logo.png';
 import atulyamAmenities from '../assets/img/project/atulyam-emenities.webp';
 import atulyamLayout from '../assets/img/project/atulyam-layout.webp';
 import atulyamLocation from '../assets/img/project/atulyam-location.webp';
@@ -38,6 +39,10 @@ import nestoriaHomesBanner from '../assets/img/project/nestoria-homes-banner.web
 import nestoriaHomesAmenities from '../assets/img/project/nestoria-homes-ameneties.webp';
 import nestoriaHomesLayout from '../assets/img/project/nestoria-homes-layout.webp';
 import nestoriaHomesLocation from '../assets/img/project/nestoria-homes-location.webp';
+import skylineBanner from '../assets/img/project/skyline-banner.webp';
+import skylineAmenities from '../assets/img/project/skyline-amenities.webp';
+import skylineLocation from '../assets/img/project/skyline-location.webp';
+import skylineLayout from '../assets/img/project/skyline-layout.webp';
 
 // Master Google Drive Link for Running Projects
 export const MASTER_DRIVE_FOLDER_URL = "https://drive.google.com/drive/u/0/folders/1TqURE9FY3EcM_4kj1MlfBjAy4lEjvnOn";
@@ -85,6 +90,7 @@ export const allProjects = [
     areaRange: '1,575 - 7,200 Sq. Ft. (Villas: 2BHK & 3BHK G+1)',
     totalUnits: '112 Premium Plots & Turnkey 3D Villas',
     image: atulyamBanner,
+    logo: atulyamLogo,
     gallery: [atulyamBanner, atulyamLayout, atulyamLocation, atulyamAmenities],
     reraNumber: 'NA Final Order Passed / Clear Title Registered',
     possession: 'Immediate Registry & Construction Ready',
@@ -404,8 +410,8 @@ export const allProjects = [
     plotSizes: '200, 300, 500 & 1,000 Sq. Yards',
     areaRange: '1,800 - 9,000 Sq. Ft.',
     totalUnits: '98 Premium Residential & Retail Plots',
-    image: orchidVillaLuxuriya,
-    gallery: [orchidVillaLuxuriya, orchidRiverView, orchidLuxury, commercialProject],
+    image: skylineBanner,
+    gallery: [skylineBanner, skylineAmenities, skylineLocation, skylineLayout],
     reraNumber: 'Final NA Order (Residential & Commercial) / Registered Sale Deed 4467',
     possession: 'Immediate Registry & Ready for Possession',
     driveFolderUrl: 'https://drive.google.com/drive/folders/1f7sepHdIKoDBoZlCfprPVDt3nB1EU5R3',

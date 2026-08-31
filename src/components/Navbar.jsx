@@ -138,7 +138,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-1 xl:space-x-1.5 text-sm font-semibold text-slate-700">
             <Link
               to="/"
-              className={`px-3 py-2 rounded-xl transition-colors hover:text-blue-600 hover:bg-blue-50/60 ${
+              className={`order-1 px-3 py-2 rounded-xl transition-colors hover:text-blue-600 hover:bg-blue-50/60 ${
                 location.pathname === "/" ? "text-blue-600 bg-blue-50/80 font-bold" : ""
               }`}
             >
@@ -147,7 +147,7 @@ export default function Navbar() {
 
             {/* PROJECTS DROPDOWN WITH HOVER BRIDGE */}
             <div
-              className="relative"
+              className="relative order-3"
               onMouseEnter={handleProjectsMouseEnter}
               onMouseLeave={handleProjectsMouseLeave}
             >
@@ -216,7 +216,7 @@ export default function Navbar() {
 
             {/* ABOUT DROPDOWN WITH HOVER BRIDGE */}
             <div
-              className="relative"
+              className="relative order-2"
               onMouseEnter={handleAboutMouseEnter}
               onMouseLeave={handleAboutMouseLeave}
             >
@@ -273,27 +273,17 @@ export default function Navbar() {
             {/* Dholera SIR */}
             <Link
               to="/aboutDholera"
-              className={`px-3 py-2 rounded-xl transition-colors hover:text-blue-600 hover:bg-blue-50/60 ${
+              className={`order-4 px-3 py-2 rounded-xl transition-colors hover:text-blue-600 hover:bg-blue-50/60 ${
                 location.pathname === "/aboutDholera" ? "text-blue-600 bg-blue-50/80 font-bold" : ""
               }`}
             >
               Dholera SIR
             </Link>
 
-            {/* Land Deals */}
-            <Link
-              to="/land-deals"
-              className={`px-3 py-2 rounded-xl transition-colors hover:text-blue-600 hover:bg-blue-50/60 ${
-                location.pathname === "/land-deals" ? "text-blue-600 bg-blue-50/80 font-bold" : ""
-              }`}
-            >
-              Land Deals
-            </Link>
-
             {/* BLOG LINK (DIRECT ACCESSIBILITY) */}
             <Link
               to="/blog"
-              className={`px-3 py-2 rounded-xl transition-colors hover:text-blue-600 hover:bg-blue-50/60 ${
+              className={`order-5 px-3 py-2 rounded-xl transition-colors hover:text-blue-600 hover:bg-blue-50/60 ${
                 location.pathname === "/blog" ? "text-blue-600 bg-blue-50/80 font-bold" : ""
               }`}
             >
@@ -303,7 +293,7 @@ export default function Navbar() {
             {/* Updates / News */}
             <Link
               to="/latest-news"
-              className={`px-3 py-2 rounded-xl transition-colors hover:text-blue-600 hover:bg-blue-50/60 ${
+              className={`order-6 px-3 py-2 rounded-xl transition-colors hover:text-blue-600 hover:bg-blue-50/60 ${
                 location.pathname === "/latest-news" ? "text-blue-600 bg-blue-50/80 font-bold" : ""
               }`}
             >
@@ -313,7 +303,7 @@ export default function Navbar() {
             {/* FAQ */}
             <Link
               to="/faq"
-              className={`px-3 py-2 rounded-xl transition-colors hover:text-blue-600 hover:bg-blue-50/60 ${
+              className={`order-7 px-3 py-2 rounded-xl transition-colors hover:text-blue-600 hover:bg-blue-50/60 ${
                 location.pathname === "/faq" ? "text-blue-600 bg-blue-50/80 font-bold" : ""
               }`}
             >
@@ -364,16 +354,16 @@ export default function Navbar() {
         {/* Mobile Navigation Drawer */}
         {isOpen && (
           <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-2 animate-fade-in max-h-[85vh] overflow-y-auto">
-            <div className="space-y-1">
+            <div className="flex flex-col space-y-1">
               <Link
                 to="/"
-                className="block px-3 py-2 rounded-xl font-semibold text-slate-800 hover:bg-blue-50"
+                className="order-1 block px-3 py-2 rounded-xl font-semibold text-slate-800 hover:bg-blue-50"
               >
                 Home
               </Link>
 
               {/* Mobile Projects Accordion */}
-              <div>
+              <div className="order-3">
                 <button
                   type="button"
                   onClick={() => setMobileProjectsOpen(!mobileProjectsOpen)}
@@ -407,7 +397,7 @@ export default function Navbar() {
               </div>
 
               {/* Mobile About Accordion */}
-              <div>
+              <div className="order-2">
                 <button
                   type="button"
                   onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
@@ -433,22 +423,15 @@ export default function Navbar() {
 
               <Link
                 to="/aboutDholera"
-                className="block px-3 py-2 rounded-xl font-semibold text-slate-800 hover:bg-blue-50"
+                className="order-4 block px-3 py-2 rounded-xl font-semibold text-slate-800 hover:bg-blue-50"
               >
                 About Dholera Smart City
               </Link>
               
-              <Link
-                to="/land-deals"
-                className="block px-3 py-2 rounded-xl font-semibold text-slate-800 hover:bg-blue-50"
-              >
-                Exclusive Land Deals
-              </Link>
-
               {/* BLOG IN MOBILE */}
               <Link
                 to="/blog"
-                className="block px-3 py-2 rounded-xl font-semibold text-slate-800 hover:bg-blue-50 flex items-center justify-between"
+                className="order-5 block px-3 py-2 rounded-xl font-semibold text-slate-800 hover:bg-blue-50 flex items-center justify-between"
               >
                 <span>Insights & Blog</span>
                 <span className="text-[10px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">New</span>
@@ -456,14 +439,14 @@ export default function Navbar() {
 
               <Link
                 to="/latest-news"
-                className="block px-3 py-2 rounded-xl font-semibold text-slate-800 hover:bg-blue-50"
+                className="order-6 block px-3 py-2 rounded-xl font-semibold text-slate-800 hover:bg-blue-50"
               >
                 News & Developments
               </Link>
 
               <Link
                 to="/faq"
-                className="block px-3 py-2 rounded-xl font-semibold text-slate-800 hover:bg-blue-50"
+                className="order-7 block px-3 py-2 rounded-xl font-semibold text-slate-800 hover:bg-blue-50"
               >
                 FAQ
               </Link>

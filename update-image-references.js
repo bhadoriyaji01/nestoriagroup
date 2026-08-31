@@ -12,7 +12,6 @@ const filesToUpdate = [
   'src/pages/Blog.jsx',
   'src/pages/Contact.jsx',
   'src/pages/Home.jsx',
-  'src/pages/LandDeal.jsx',
   'src/pages/Media.jsx',
   'src/pages/Projects.jsx',
   'src/pages/Services.jsx',

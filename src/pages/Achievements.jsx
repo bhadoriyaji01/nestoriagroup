@@ -32,7 +32,7 @@ function Achievements() {
     { id: 4, year: "2019", title: "Future Goals", description: "Nestoria is paving the way for the future by embracing opportunities in Dholera SIR, one of the most promising smart cities in the world." },
     { id: 5, year: "2020", title: "100+ Acres Under Development", description: "Reached the milestone of having more than 100 acres of land under active development across various projects." },
     { id: 6, year: "2021", title: "Launch of Industrial Projects", description: "Expanded portfolio with the launch of Nestoria Industrial Park, catering to manufacturing and logistics sectors." },
-    { id: 7, year: "2022", title: "5000+ Happy Customers", description: "Celebrated the milestone of serving over 5000 satisfied customers across our residential and commercial projects." },
+    { id: 7, year: "2022", title: "7000+ Happy Customers", description: "Celebrated the milestone of serving over 5000 satisfied customers across our residential and commercial projects." },
     { id: 8, year: "2023", title: "Strategic Partnerships", description: "Formed strategic alliances with international investors and technology providers to enhance our project offerings." },
   ];
 

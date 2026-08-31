@@ -195,12 +195,15 @@ export default {
   ],
   safelist: [
     // Safelist common classes that might be generated dynamically
-    /bg-(primary|secondary|accent)-(50|100|200|300|400|500|600|700|800|900)/,
-    /text-(primary|secondary|accent)-(50|100|200|300|400|500|600|700|800|900)/,
-    /border-(primary|secondary|accent)-(50|100|200|300|400|500|600|700|800|900)/,
-    /hover:bg-(primary|secondary|accent)-(50|100|200|300|400|500|600|700|800|900)/,
-    /animate-(fade-in|slide-up|scale-in|fade-in-left|fade-in-right)/,
-    /btn-(primary|secondary|accent|outline)/,
-    /gradient-(primary|secondary|accent)-(light|dark)?/,
+    { pattern: /bg-(primary|secondary|accent)-(50|100|200|300|400|500|600|700|800|900)/ },
+    { pattern: /text-(primary|secondary|accent)-(50|100|200|300|400|500|600|700|800|900)/ },
+    { pattern: /border-(primary|secondary|accent)-(50|100|200|300|400|500|600|700|800|900)/ },
+    {
+      pattern: /bg-(primary|secondary|accent)-(50|100|200|300|400|500|600|700|800|900)/,
+      variants: ['hover'],
+    },
+    { pattern: /animate-(fade-in|slide-up|scale-in|fade-in-left|fade-in-right)/ },
+    { pattern: /btn-(primary|secondary|accent|outline)/ },
+    { pattern: /gradient-(primary|secondary|accent)-(light|dark)?/ },
   ],
 }

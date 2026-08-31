@@ -55,7 +55,7 @@ export const getLocalBusinessSchema = () => {
     "url": "https://nestoriagroup.com",
     "telephone": "+919213005611",
     "priceRange": "₹₹₹",
-    "description": "Exclusive Land Deals In Dholera SIR | Residential & Commercial Plots",
+    "description": "Trusted residential, commercial, and industrial real estate opportunities in Dholera SIR.",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "3rd Floor, Sarthik Annexe , Satellite Road, Iskon Cross Road, Ahmedabad - 380015, Gujarat, India",

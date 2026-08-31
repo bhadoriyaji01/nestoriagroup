@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { 
   ShieldCheck, MapPin, ArrowRight, Car, Sparkles, 
   ChevronRight, ChevronLeft, Building2, CheckCircle2, Video, Play,
@@ -56,14 +56,47 @@ import nitinji from "../assets/img/team/management/nitinji.webp";
 import skyRiseLogo from "../assets/img/Sky rise Logo.jpg.jpeg";
 import orchidRiverViewLogo from "../assets/img/ORCHID RIVER VIEW Logo.jpg.jpeg";
 import orchidVillaGoldLogo from "../assets/img/ORCHILD VILLA GOLD 2023-BROSHER.webp";
-import nestoriaHomesLogo from "../assets/img/SunshineResidency.webp";
+import emeraldLogo from "../assets/img/Emerald Commercial Hub Logo.png";
+import greenVistaLogo from "../assets/img/Green Vista Logo.png";
+import monitoResidencyLogo from "../assets/img/Monito Residency.png";
+import nestoriaHomesLogo from "../assets/img/Nestoria Homes Logo.png";
+import semiconResidencyLogo from "../assets/img/Semicon Residency Logo.png";
+import skylineLogo from "../assets/img/Skyline Imperia Logo.png";
+import dholeraInteractiveMap from "../assets/img/dholera_interactive_project_map.svg?raw";
+import atulyamLogo from "../assets/img/nestoria-atulyam-logo.png";
+
+const projectMapLogoUrls = {
+  __PROJECT_LOGO_ATULYAM__: atulyamLogo,
+  __PROJECT_LOGO_GREEN_VISTA__: greenVistaLogo,
+  __PROJECT_LOGO_SKYLINE_IMPERIA__: skylineLogo,
+  __PROJECT_LOGO_SEMICON_CITY__: semiconResidencyLogo,
+  __PROJECT_LOGO_EMERALD_COMMERCIAL__: emeraldLogo,
+  __PROJECT_LOGO_NESTORIA_HOMES__: nestoriaHomesLogo,
+};
+
+const interactiveMapMarkup = Object.entries(projectMapLogoUrls).reduce(
+  (markup, [placeholder, logoUrl]) => markup.replaceAll(placeholder, logoUrl),
+  dholeraInteractiveMap
+);
+
+const projectMapRoutes = {
+  'project-atulyam': '/project/nestoria-atulyam-dhanala',
+  'project-green-vista': '/project/nestoria-green-vista-aakru',
+  'project-skyline-imperia': '/project/nestoria-skyline-imperia-sodhi',
+  'project-semicon-city': '/project/nestoria-semicon-residency-kanatalav',
+  'project-emerald-commercial': '/project/nestoria-emerald-commercial-hub-bhangadh',
+  'project-nestoria-homes': '/project/nestoria-homes-adhelai',
+};
 
 function Home() {
+  const navigate = useNavigate();
+  const interactiveMapRef = useRef(null);
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
   const [hasDisclaimerShown, setHasDisclaimerShown] = useState(false);
   
   // Gallery state
   const [galleryCategory, setGalleryCategory] = useState('all');
+  const [galleryType, setGalleryType] = useState('existing');
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
   // Keyboard navigation for lightbox
@@ -85,6 +118,30 @@ function Home() {
       setIsDisclaimerOpen(true);
     }
   }, []);
+
+  useEffect(() => {
+    const mapContainer = interactiveMapRef.current;
+    if (!mapContainer) return undefined;
+
+    const openProject = (event) => {
+      const projectMarker = event.target.closest('.nestoria-project');
+      const route = projectMarker && projectMapRoutes[projectMarker.id];
+      if (route) navigate(route);
+    };
+
+    const handleMarkerKeyDown = (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openProject(event);
+    };
+
+    mapContainer.addEventListener('click', openProject);
+    mapContainer.addEventListener('keydown', handleMarkerKeyDown);
+    return () => {
+      mapContainer.removeEventListener('click', openProject);
+      mapContainer.removeEventListener('keydown', handleMarkerKeyDown);
+    };
+  }, [navigate]);
 
   const closeDisclaimer = () => {
     setIsDisclaimerOpen(false);
@@ -242,7 +299,7 @@ function Home() {
               <div className="text-[11px] text-slate-400 uppercase tracking-wider">Industry Leadership</div>
             </div>
             <div>
-              <div className="text-lg font-extrabold text-white">5,000+</div>
+              <div className="text-lg font-extrabold text-white">7,000+</div>
               <div className="text-[11px] text-slate-400 uppercase tracking-wider">Satisfied Plot Buyers</div>
             </div>
             <div>
@@ -633,6 +690,11 @@ function Home() {
                 {/* Card Content Body */}
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div>
+                    {project.logo && (
+                      <div className="w-full h-12 mb-3 flex items-center">
+                        <img src={project.logo} alt={`${project.title} logo`} className="max-w-[180px] max-h-12 object-contain object-left" />
+                      </div>
+                    )}
                     <div className="flex items-baseline justify-between mb-1">
                       <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">
                         {project.category}
@@ -710,8 +772,8 @@ function Home() {
       {/* All Projects Video Slider Section */}
       <ProjectVideosSlider />
 
-      {/* Project Logos Marquee Section */}
-      <section className="py-12 md:py-16 bg-white overflow-hidden">
+      {/* Registered Township Brands Section */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <h6 className="text-blue-600 font-semibold text-sm uppercase tracking-wider">
@@ -723,50 +785,40 @@ function Home() {
             <div className="h-1 w-20 bg-blue-600 mx-auto mt-3"></div>
           </div>
 
-          {/* Marquee Container */}
-          <div className="relative w-full overflow-hidden">
-            <div className="flex animate-marquee">
-              {/* First set of logos */}
-              <div className="flex items-center gap-8 md:gap-16 px-4" style={{ minWidth: 'max-content' }}>
-                {[
-                  skyRiseLogo,
-                  orchidRiverViewLogo,
-                  orchidVillaGoldLogo,
-                  nestoriaHomesLogo
-                ].map((logoSrc, index) => (
-                  <div
-                    key={index}
-                    className="flex-shrink-0 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 md:p-8 border border-slate-200 hover:border-blue-300 group cursor-pointer"
-                  >
-                    <img
-                      src={logoSrc}
-                      alt={`Project Logo ${index + 1}`}
-                      className="w-[150px] md:w-[180px] h-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                    />
-                  </div>
-                ))}
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 content-center">
+              {[
+                atulyamLogo,
+                greenVistaLogo,
+                skylineLogo,
+                semiconResidencyLogo,
+                emeraldLogo,
+                nestoriaHomesLogo,
+                skyRiseLogo,
+                orchidRiverViewLogo,
+                monitoResidencyLogo
+              ].map((logoSrc, index) => (
+                <div
+                  key={index}
+                  className="min-h-32 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-4 md:p-5 border border-slate-200 hover:border-blue-300 group flex items-center justify-center"
+                >
+                  <img
+                    src={logoSrc}
+                    alt="Township logo"
+                    className="w-full h-20 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                  />
+                </div>
+              ))}
+            </div>
 
-              {/* Duplicate set for seamless loop */}
-              <div className="flex items-center gap-8 md:gap-16 px-4" style={{ minWidth: 'max-content' }}>
-                {[
-                  skyRiseLogo,
-                  orchidRiverViewLogo,
-                  orchidVillaGoldLogo,
-                  nestoriaHomesLogo
-                ].map((logoSrc, index) => (
-                  <div
-                    key={`dup-${index}`}
-                    className="flex-shrink-0 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 md:p-8 border border-slate-200 hover:border-blue-300 group cursor-pointer"
-                  >
-                    <img
-                      src={logoSrc}
-                      alt={`Project Logo ${index + 1}`}
-                      className="w-[150px] md:w-[180px] h-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                    />
-                  </div>
-                ))}
-              </div>
+            <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-2 shadow-xl h-[620px] sm:h-[740px] lg:h-auto lg:min-h-[760px]">
+              <div
+                ref={interactiveMapRef}
+                role="img"
+                aria-label="Interactive Dholera SIR project map"
+                className="absolute inset-2 w-[calc(100%-1rem)] h-[calc(100%-1rem)] [&>svg]:w-full [&>svg]:h-full [&>svg]:object-contain"
+                dangerouslySetInnerHTML={{ __html: interactiveMapMarkup }}
+              />
             </div>
           </div>
         </div>
@@ -953,38 +1005,65 @@ function Home() {
             </p>
           </div>
 
-          {/* Gallery Category Filter Pills */}
-          <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 mb-8 sm:mb-10 no-scrollbar">
+          {/* Event Status Tabs */}
+          <div className="flex items-center justify-center gap-2 mb-5">
             {[
-              { id: 'all', label: 'All Events & Functions', count: 9 },
-              { id: 'conclaves', label: 'Investor Conclaves', count: 2 },
-              { id: 'ceremonies', label: 'Bhoomi Pujan & Launches', count: 1 },
-              { id: 'awards', label: 'Awards & Felicitations', count: 2 },
-              { id: 'celebrations', label: 'Festive & Galas', count: 2 },
-              { id: 'delegations', label: 'VIP Delegations & Meets', count: 2 }
-            ].map((cat) => (
+              { id: 'existing', label: 'Existing Events', count: 9 },
+              { id: 'upcoming', label: 'Upcoming Events', count: 2 }
+            ].map((type) => (
               <button
-                key={cat.id}
-                onClick={() => setGalleryCategory(cat.id)}
+                key={type.id}
+                onClick={() => { setGalleryType(type.id); setGalleryCategory('all'); setLightboxIndex(null); }}
                 className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-full font-bold text-xs sm:text-sm whitespace-nowrap transition-all duration-300 flex items-center gap-1.5 cursor-pointer ${
-                  galleryCategory === cat.id
+                  galleryType === type.id
                     ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30 scale-105'
                     : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 shadow-xs'
                 }`}
               >
-                <span>{cat.label}</span>
+                <span>{type.label}</span>
                 <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                  galleryCategory === cat.id ? 'bg-blue-800 text-blue-100' : 'bg-slate-100 text-slate-500'
+                  galleryType === type.id ? 'bg-blue-800 text-blue-100' : 'bg-slate-100 text-slate-500'
                 }`}>
-                  {cat.count}
+                  {type.count}
                 </span>
               </button>
             ))}
           </div>
 
+          {/* Existing event category filters */}
+          {galleryType === 'existing' && (
+            <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 mb-8 sm:mb-10 no-scrollbar">
+              {[
+                { id: 'all', label: 'All Events & Functions', count: 9 },
+                { id: 'conclaves', label: 'Investor Conclaves', count: 2 },
+                { id: 'ceremonies', label: 'Bhoomi Pujan & Launches', count: 1 },
+                { id: 'awards', label: 'Awards & Felicitations', count: 2 },
+                { id: 'celebrations', label: 'Festive & Galas', count: 2 },
+                { id: 'delegations', label: 'VIP Delegations & Meets', count: 2 }
+              ].map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setGalleryCategory(cat.id)}
+                  className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-full font-bold text-xs sm:text-sm whitespace-nowrap transition-all duration-300 flex items-center gap-1.5 cursor-pointer ${
+                    galleryCategory === cat.id
+                      ? 'bg-slate-800 text-white shadow-lg shadow-slate-800/30 scale-105'
+                      : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 shadow-xs'
+                  }`}
+                >
+                  <span>{cat.label}</span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                    galleryCategory === cat.id ? 'bg-slate-600 text-slate-100' : 'bg-slate-100 text-slate-500'
+                  }`}>
+                    {cat.count}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+
           {/* Bento Style Responsive Grid */}
           {(() => {
-            const galleryItems = [
+            const existingEvents = [
               {
                 id: 1,
                 title: "Annual Dholera SIR Mega Investor Conclave",
@@ -1095,20 +1174,56 @@ function Home() {
               }
             ];
 
-            const filteredItems = galleryCategory === 'all'
+            const upcomingEvents = [
+              {
+                id: 'upcoming-1',
+                title: "Dholera SIR 2026 Investor Preview Meet",
+                categoryLabel: "Investor Preview",
+                location: "Ahmedabad Corporate Office",
+                image: eventNews1,
+                gridClass: "col-span-1 md:col-span-2 lg:col-span-2 row-span-2 min-h-[340px] md:min-h-[460px]",
+                badge: "Registration Open",
+                tagColor: "bg-blue-600",
+                desc: "Join our upcoming investor briefing for the latest Dholera SIR infrastructure and project updates.",
+                registrationUrl: ""
+              },
+              {
+                id: 'upcoming-2',
+                title: "Nestoria Project Site Visit & Open House",
+                categoryLabel: "Site Visit",
+                location: "Dholera SIR",
+                image: eventNews2,
+                gridClass: "col-span-1 md:col-span-1 lg:col-span-2 row-span-1 min-h-[220px]",
+                badge: "Registration Open",
+                tagColor: "bg-emerald-600",
+                desc: "Reserve your seat for a guided project tour and on-site briefing with the Nestoria team.",
+                registrationUrl: ""
+              }
+            ];
+
+            const galleryItems = galleryType === 'upcoming' ? upcomingEvents : existingEvents;
+
+            const filteredItems = galleryType === 'upcoming' || galleryCategory === 'all'
               ? galleryItems
               : galleryItems.filter(item => item.category === galleryCategory);
 
             return (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 auto-rows-[220px]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
                   {filteredItems.map((item, index) => (
                     <div
                       key={item.id}
                       onClick={() => setLightboxIndex(index)}
-                      className={`relative rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 group cursor-pointer border border-slate-200/80 bg-slate-900 ${
-                        galleryCategory === 'all' ? item.gridClass : 'col-span-1 md:col-span-1 lg:col-span-2 min-h-[280px]'
-                      }`}
+                      className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group cursor-pointer border border-slate-200/80 bg-slate-900"
+                      role="button"
+                      tabIndex="0"
+                      aria-label={`Open ${item.title}`}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                          event.preventDefault();
+                          setLightboxIndex(index);
+                        }
+                      }}
                     >
                       {/* Background Image with Zoom on Hover */}
                       <img
@@ -1143,6 +1258,20 @@ function Home() {
                         <h3 className="text-white font-bold text-sm sm:text-base md:text-lg leading-snug group-hover:text-blue-200 transition-colors line-clamp-2">
                           {item.title}
                         </h3>
+
+                        {galleryType === 'upcoming' && (
+                          <a
+                            href={item.registrationUrl || undefined}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(event) => event.stopPropagation()}
+                            className={`mt-3 inline-flex w-fit items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${item.registrationUrl ? 'bg-white text-blue-700 hover:bg-blue-50' : 'bg-slate-500/70 text-slate-300 cursor-not-allowed'}`}
+                            aria-disabled={!item.registrationUrl}
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            {item.registrationUrl ? 'Register Now' : 'Form Link Pending'}
+                          </a>
+                        )}
 
                         <p className="text-slate-300 text-xs mt-1.5 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">
                           {item.desc}
@@ -1573,7 +1702,7 @@ function Home() {
             </div>
             <div className="flex items-center justify-center px-2">
               
-              <span className="font-bold text-white">5000+</span>
+              <span className="font-bold text-white">7000+</span>
               <span className="ml-2 text-sm text-gray-300 hidden md:inline">Delighted Clients</span>
             </div>
              <div className="flex items-center justify-center md:justify-end px-2">

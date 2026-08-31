@@ -15,7 +15,6 @@ Allow: /about$
 Allow: /aboutDholera$
 Allow: /services$
 Allow: /projects$
-Allow: /land-deals$
 Allow: /contact$
 
 # Host directive

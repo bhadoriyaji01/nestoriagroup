@@ -41,7 +41,7 @@ export default function ProjectDetail() {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (project) {
-      setSelectedImage(project.image);
+      setSelectedImage(project.logo || project.image);
       const parsedRate = parseInt(project.pricePerSqYd.replace(/\D/g, '')) || 4800;
       setRatePerSqYd(parsedRate);
     }
@@ -175,8 +175,8 @@ export default function ProjectDetail() {
               <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200/80 bg-slate-900 group aspect-[16/10]">
                 <img
                   src={selectedImage || project.image}
-                  alt={`${project.title} master view`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  alt={`${project.title} ${selectedImage === project.logo ? 'logo' : 'master view'}`}
+                  className={`w-full h-full ${selectedImage === project.logo ? 'object-contain bg-white p-8' : 'object-cover'} group-hover:scale-105 transition-transform duration-700`}
                 />
                 <div className="absolute top-4 left-4 flex flex-wrap gap-2">
                   <span className="bg-blue-600 text-white font-bold text-xs uppercase px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1">
@@ -221,9 +221,14 @@ export default function ProjectDetail() {
                   <Award className="w-3.5 h-3.5" />
                   {project.category}
                 </div>
-                <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
-                  {project.title}
-                </h1>
+                <div className="flex items-center gap-3">
+                  {project.logo && (
+                    <img src={project.logo} alt={`${project.title} logo`} className="w-20 h-14 object-contain object-left shrink-0" />
+                  )}
+                  <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
+                    {project.title}
+                  </h1>
+                </div>
                 <p className="text-sm sm:text-base text-slate-600 mt-2 font-medium">
                   {project.tagline}
                 </p>

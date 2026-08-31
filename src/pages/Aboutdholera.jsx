@@ -82,7 +82,7 @@ function Aboutdholera() {
             India's First Planned Smart Industrial City with unlimited growth potential
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-5 w-full sm:w-auto">
-            <Link to="/land-deals" className="group bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-bold text-base py-4 px-8 rounded-xl shadow-2xl shadow-blue-600/40 hover:shadow-2xl hover:shadow-blue-500/60 transition-all duration-300 transform hover:-translate-y-1.5 hover:scale-105 w-full sm:w-auto flex items-center justify-center gap-2">
+            <Link to="/projects" className="group bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-bold text-base py-4 px-8 rounded-xl shadow-2xl shadow-blue-600/40 hover:shadow-2xl hover:shadow-blue-500/60 transition-all duration-300 transform hover:-translate-y-1.5 hover:scale-105 w-full sm:w-auto flex items-center justify-center gap-2">
               <Search className="w-5 h-5" />
               <span>Explore Opportunities</span>
             </Link>
@@ -152,7 +152,7 @@ function Aboutdholera() {
                   </div>
                 ))}
               </div>
-              <Link to="/land-deals" className="group inline-flex items-center bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-blue-600/30 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <Link to="/projects" className="group inline-flex items-center bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-blue-600/30 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                 <span>Explore Opportunities</span>
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform duration-300" />
               </Link>
@@ -315,7 +315,7 @@ function Aboutdholera() {
                 <Link to="/contact" className="group bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-bold py-4 px-8 rounded-xl shadow-2xl shadow-blue-600/40 transition-all duration-300 transform hover:-translate-y-1.5 flex items-center justify-center gap-2">
                   <Phone className="w-5 h-5" /> Contact Us Now
                 </Link>
-                <Link to="/land-deals" className="group bg-slate-900/90 hover:bg-slate-800 text-white border-2 border-blue-500/70 hover:border-blue-300 font-bold py-3.5 px-7 rounded-xl backdrop-blur-md shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 flex items-center justify-center gap-2">
+                <Link to="/projects" className="group bg-slate-900/90 hover:bg-slate-800 text-white border-2 border-blue-500/70 hover:border-blue-300 font-bold py-3.5 px-7 rounded-xl backdrop-blur-md shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 flex items-center justify-center gap-2">
                   <Search className="w-5 h-5 text-blue-400" /> View Properties
                 </Link>
               </div>

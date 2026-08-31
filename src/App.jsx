@@ -18,7 +18,6 @@ const Contact = lazy(() => import('./pages/Contact'));
 const Media = lazy(() => import('./pages/Media'));
 const LatestNews = lazy(() => import('./pages/LatestNews'));
 const Achievements = lazy(() => import('./pages/Achievements'));
-const LandDeals = lazy(() => import('./pages/LandDeal'));
 const Projects = lazy(() => import('./pages/Projects'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const Services = lazy(() => import('./pages/Services'));
@@ -116,7 +115,7 @@ function App() {
               <Seo 
                 title="Real Estate Developer In Dholera SIR | Nestoria Group | Investment Plots"
                 description="Nestoria Group is the most trusted and award-winning real estate developer in Dholera SIR, offering premium residential, commercial & industrial land parcels in India's first greenfield smart city."
-                keywords="Nestoria Group, Dholera SIR, Real Estate, Smart City, Investment, Land Deals, Property"
+                keywords="Nestoria Group, Dholera SIR, Real Estate, Smart City, Investment, Property"
                 schemaMarkup={organizationSchema}
                 canonicalUrl="https://nestoriagroup.com"
               />
@@ -140,7 +139,6 @@ function App() {
               <Route path="/team" element={<Suspense fallback={<div className="flex justify-center items-center h-64" role="status" aria-label="Loading team page"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div></div>}><><Seo title="Our Team - Nestoria Group" description="Meet the team of experts at Nestoria Group." keywords="team, Nestoria Group, real estate experts" /><TeamNestoria /></></Suspense>} />
               <Route path="/blog" element={<Suspense fallback={<div className="flex justify-center items-center h-64" role="status" aria-label="Loading blog page"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div></div>}><><Seo title="Blog - Nestoria Group" description="Read our latest articles on real estate and Dholera SIR." keywords="blog, real estate, Dholera SIR, articles" /><Blog /></></Suspense>} />
               <Route path="/faq" element={<Suspense fallback={<div className="flex justify-center items-center h-64" role="status" aria-label="Loading FAQ page"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div></div>}><><Seo title="FAQ - Nestoria Group" description="Frequently asked questions about investing in Dholera SIR." keywords="FAQ, real estate investment, Dholera SIR" /><FAQ /></></Suspense>} />
-              <Route path="/land-deals" element={<Suspense fallback={<div className="flex justify-center items-center h-64" role="status" aria-label="Loading land deals page"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div></div>}><><Seo title="Exclusive Land Deals In Dholera SIR | Residential & Commercial Plots" description="Explore premium land investment opportunities in Dholera SIR." keywords="land deals, real estate, Dholera SIR, investment" /><LandDeals /></></Suspense>} />
               <Route path="/media" element={<Suspense fallback={<div className="flex justify-center items-center h-64" role="status" aria-label="Loading media page"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div></div>}><><Seo title="Media - Nestoria Group" description="See our latest media coverage and press releases." keywords="media, Nestoria Group, press releases" /><Media /></></Suspense>} />
               <Route path="/latest-news" element={<Suspense fallback={<div className="flex justify-center items-center h-64" role="status" aria-label="Loading latest news page"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div></div>}><><Seo title="Latest News - Nestoria Group | Dholera SIR Updates" description="Stay updated with the latest news and developments about Dholera SIR and Nestoria Group." keywords="latest news, Dholera SIR updates, real estate news" /><LatestNews /></></Suspense>} />
               <Route path="/projects" element={<Suspense fallback={<div className="flex justify-center items-center h-64" role="status" aria-label="Loading projects page"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div></div>}><><Seo title="Projects in Dholera SIR - Nestoria Group" description="Explore our premium residential, commercial & luxury villa projects in Dholera SIR." keywords="projects, real estate, Dholera SIR, Dholera Bhoomi, Orchid River View" /><Projects /></></Suspense>} />
