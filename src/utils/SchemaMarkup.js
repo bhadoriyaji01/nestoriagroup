@@ -26,7 +26,7 @@ export const getOrganizationSchema = () => {
       "height": 512
     },
     "image": LOGO_URL,
-    "description": "Top-rated real estate developer in Dholera SIR offering AUDA-approved NA residential, commercial, villa, and industrial investment plots near the Tata Semiconductor Fab.",
+    "description": "Top-rated real estate developer in Dholera SIR offering 100% clear title NA residential, commercial, villa, and industrial investment plots near the Tata Semiconductor Fab.",
     "telephone": "+919213005611",
     "email": "nestoriagroupofficial@gmail.com",
     "priceRange": "$$",

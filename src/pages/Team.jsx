@@ -11,8 +11,6 @@ import arvindjiiImg from "../assets/img/team/sales/arvindji.webp";
 import devendrajiiImg from "../assets/img/team/sales/devendraji.webp";
 import ramendrajiiImg from "../assets/img/team/sales/ramendraji.webp";
 import jagdishjiiImg from "../assets/img/team/sales/jagdishji.webp";
-import garimajiiImg from "../assets/img/team/management/garimaji0.webp";
-import bhavnajiImg from "../assets/img/team/management/bhavnaji.webp";
 import nitinjiImg from "../assets/img/team/management/nitinji.webp";
 import mohanjiImg from "../assets/img/team/management/mohanji.webp";
 import shivjiImg from "../assets/img/team/management/shivji.webp";
@@ -94,8 +92,8 @@ function Team() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             {leadershipTeam.map((leader) => (
               <div key={leader.id} className="group bg-white rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-lg hover:border-blue-300 transition-all duration-300 overflow-hidden hover:-translate-y-1.5">
-                <div className="relative overflow-hidden">
-                  <img src={leader.image} className="w-full h-80 md:h-96 object-cover group-hover:scale-105 transition-transform duration-700" alt={leader.name} />
+                <div className="relative overflow-hidden bg-slate-100">
+                  <img src={leader.image} className="w-full h-80 md:h-[26rem] object-contain object-center bg-white group-hover:scale-[1.02] transition-transform duration-700" alt={leader.name} />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                     <a href={`mailto:${leader.socialLinks.email}`} className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-white/30 transition-all">
                       <Mail className="w-4 h-4" /> Contact

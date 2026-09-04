@@ -2,19 +2,11 @@ import React, { useState, useEffect } from "react";
 import Seo from "../components/Seo";
 import { getReviewSchema, getBreadcrumbSchema } from "../utils/SchemaMarkup";
 import { TestimonialService } from "../services/TestimonialService";
-import testomonial1 from "/src/assets/img/testomonials/D-P-Kaushik.webp";
-import testomonial2 from "/src/assets/img/testomonials/Khargeswar-Brahma.webp";
-import testomonial3 from "/src/assets/img/testomonials/Miss.-Arti-Nagpal.webp";
-import testomonial4 from "/src/assets/img/testomonials/Mr-CHARANJIT-SINGH.webp";
-import testomonial5 from "/src/assets/img/testomonials/Mr-K-C-Anand.webp";
-import testomonial6 from "/src/assets/img/testomonials/Mr.-Dayananda-Reddy.webp";
-import testomonial7 from "/src/assets/img/testomonials/Shahnawaz-Choudhary.webp";
-import testomonial8 from "/src/assets/img/testomonials/Jasbir-Singh-Arora.webp";
 import teamDisImg from "/src/assets/img/team/team-dis.webp";
 import {
   Sparkles, MessageCircle, Pen, Star, Grid, Home, Building2, Factory,
   TrendingUp, Video, Play, ExternalLink, ArrowRight, CheckCircle2,
-  Search, RefreshCw, Send, X, ChevronDown, Quote,
+  Search, RefreshCw, Send, X, ChevronDown, Quote, UserRound,
 } from "lucide-react";
 
 function Testimonial() {
@@ -32,14 +24,14 @@ function Testimonial() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const testimonials = [
-    { id: 1, name: "Mr. D P Kaushik", position: "Manager, Human Resource Deppt, Govt of India", category: "commercial", rating: 5, testimonial: "Hello guys. If you are planning to buy some property, don't waste your time, just dial Nestoria Group and let them do the rest. You just tell them what you need and sit relaxed. Trust me, you will get the perfect piece of property. I must say, one hundred percent satisfaction.", image: testomonial1 },
-    { id: 2, name: "Mr. Khargeswar Brahma", position: "EX. ARMY EME (Junior commissioned officer) Indian ARMY", category: "residential", rating: 5, testimonial: "I would really like to thank the team of Nestoria group for helping me find the best option in Dholera SIR. They understood my requirements and presented me with the best investment option in the Dholera Smart City project. A big thanks to team Nestoria.", image: testomonial2 },
-    { id: 3, name: "Miss. Arti Nagpal", position: "Bollywood Actor & Investor", category: "industrial", rating: 4, testimonial: "It's almost Five years since I got a perfect place to my dream home through Nestoria. And I have recommended it to everyone looking for any type of property. Whenever my friends, relatives, or known ones ask me about the property, my call goes to only Nestoria Group.", image: testomonial3 },
-    { id: 4, name: "Mr. Charanjit Singh", position: "(RETD.) Manager, RBI", category: "investment", rating: 5, testimonial: "Now I am the owner of a fantastic property in Dholera Smart City. To be honest, I spent around seven months deciding that and I was confused about investing in Dholera SIR. But then the Nestoria group came to help and explained everything about the location in a transparent manner.", image: testomonial4 },
-    { id: 5, name: "Mr. K. C. Anand", position: "General Manager, (Retd) RBI", category: "residential", rating: 5, testimonial: "I only explained my requirements and budget to them, and the rest was taken care of by an excellent team of Nestoria. Showcasing only the best possible options really helped me in saving huge time and effort. Really professional.", image: testomonial5 },
-    { id: 6, name: "Mr. Dayananda Reddy", position: "MLC Bengaluru & Founder of Dayananda foundation", category: "commercial", rating: 4, testimonial: "It is tedious and demanding to look for the right property while in a job. It needs effort and involves a risk of wrong selection, but Nestoria made it simple for me. It made my experience as cozy as their property.", image: testomonial6 },
-    { id: 7, name: "Mr. Shahnawaz Choudhary", position: "Director of Institute of Political Leadership & Political Trainer", category: "investment", rating: 5, testimonial: "As an NRI looking to invest in Indian real estate, I needed a trustworthy partner who could handle everything while I was abroad. Nestoria Group managed the entire process seamlessly - from property selection to legal documentation.", image: testomonial7 },
-    { id: 8, name: "Dr. Jasbir Singh Arora", position: "International Trainer, business coach & Motivational speaker.", category: "industrial", rating: 5, testimonial: "Nestoria Group is more than a real estate company. It's a solution provider, working hard to provide you with the best options. It was a great experience with Nestoria to own the right property.", image: testomonial8 },
+    { id: 1, name: "Mr. D P Kaushik", position: "Former Government Official", category: "commercial", rating: 5, testimonial: "I was looking for a secure investment in Dholera, and Nestoria Group gave me clarity, confidence, and speed. They explained the opportunity in a straightforward way, handled the legal checks professionally, and helped me buy a commercial plot with zero confusion. This was the smartest decision I made in years.", color: "from-blue-500 to-cyan-500" },
+    { id: 2, name: "Mr. Khargeswar Brahma", position: "Retired Defence Personnel", category: "residential", rating: 5, testimonial: "Nestoria Group understood my investment goals from day one. They not only showed the right residential plots, but also guided me through the risk, the location advantage, and the growth potential of Dholera SIR. Their honesty and process-driven approach made me feel completely secure.", color: "from-indigo-500 to-violet-500" },
+    { id: 3, name: "Miss. Arti Nagpal", position: "Investor & Entrepreneur", category: "industrial", rating: 5, testimonial: "I wanted a long-term asset with real growth potential, and Dholera gave me that opportunity. Nestoria Group was transparent, responsive, and highly professional throughout. Their team made the entire experience smooth, and I felt supported at every step of the journey.", color: "from-pink-500 to-rose-500" },
+    { id: 4, name: "Mr. Charanjit Singh", position: "Retired RBI Manager", category: "investment", rating: 5, testimonial: "I was confused about investing in Dholera at first, but Nestoria Group changed everything. They broke down the project, explained the growth story, and focused on risk-free decision-making. Today, I feel confident about my investment and the future of this region.", color: "from-amber-500 to-orange-500" },
+    { id: 5, name: "Mr. K. C. Anand", position: "Senior Investor", category: "residential", rating: 5, testimonial: "What impressed me most was the professionalism. I shared my budget and preferences, and Nestoria Group quickly narrowed it down to the best options. The guidance was honest, practical, and highly efficient. It saved me time, effort, and uncertainty.", color: "from-emerald-500 to-teal-500" },
+    { id: 6, name: "Mr. Dayananda Reddy", position: "Business Leader", category: "commercial", rating: 5, testimonial: "Buying property while managing business was stressful, but Nestoria Group made it easy. They handled the property comparison, documentation, and legal clarity with care and speed. The process felt organized, transparent, and completely trustworthy.", color: "from-cyan-500 to-sky-500" },
+    { id: 7, name: "Mr. Shahnawaz Choudhary", position: "NRI Investor", category: "investment", rating: 5, testimonial: "As an NRI, I needed a real estate partner I could trust from abroad. Nestoria Group exceeded that expectation. Their communication was excellent, their documentation process was clear, and they managed my land investment with complete commitment and professionalism.", color: "from-violet-500 to-purple-500" },
+    { id: 8, name: "Dr. Jasbir Singh Arora", position: "Business Coach & Mentor", category: "industrial", rating: 5, testimonial: "Nestoria Group is not just selling plots; they are helping people make future-proof decisions. Their guidance, market understanding, and honest recommendations gave me confidence to invest in Dholera. I would recommend them without hesitation.", color: "from-red-500 to-orange-500" },
   ];
 
   const filteredTestimonials = activeCategory === "all" ? testimonials : testimonials.filter((item) => item.category === activeCategory);
@@ -123,9 +115,11 @@ function Testimonial() {
               <div key={t.id} className="group bg-white rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-lg hover:border-blue-300 transition-all duration-300 p-6 lg:p-8">
                 <div className="flex items-start mb-5">
                   <div className="relative mr-4">
-                    <img src={t.image} alt={t.name} className="w-16 h-16 object-cover rounded-2xl border-2 border-blue-100 group-hover:border-blue-300 transition-colors duration-300" />
-                    <div className="absolute -bottom-1.5 -right-1.5 w-6 h-6 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                      <Quote className="w-3 h-3 text-white" />
+                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${t.color} flex items-center justify-center border-2 border-white shadow-md`}>
+                      <UserRound className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="absolute -bottom-1.5 -right-1.5 w-6 h-6 bg-white rounded-lg flex items-center justify-center shadow-sm border border-slate-200">
+                      <Quote className="w-3 h-3 text-blue-600" />
                     </div>
                   </div>
                   <div className="flex-1">
@@ -134,7 +128,7 @@ function Testimonial() {
                     <div className="flex gap-0.5">{renderStars(t.rating)}</div>
                   </div>
                 </div>
-                <p className="text-slate-600 leading-relaxed italic">"{t.testimonial}"</p>
+                <p className="text-slate-600 leading-relaxed italic">“{t.testimonial}”</p>
               </div>
             ))}
           </div>

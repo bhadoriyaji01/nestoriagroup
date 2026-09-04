@@ -21,6 +21,11 @@ export default defineConfig({
     allowedHosts: 'all',
     open: false,
     proxy: {
+      '/api/events': {
+        target: 'https://events.nestoriagroup.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/events/, '/api/events.php'),
+      },
       '/api': {
         target: 'https://newsapi.org/v2',
         changeOrigin: true,

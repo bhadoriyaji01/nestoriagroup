@@ -264,10 +264,10 @@ const Blog = () => {
                 onClick={() => openSiteVisitModal()}
                 className="py-3.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg transition-all cursor-pointer"
               >
-                Book Free Site Visit
+                Book Your Property
               </button>
               <a
-                href="https://wa.me/919213005611?text=Hello%20Nestoria%20Group,%20I%20read%20your%20blog%20and%20want%20to%20know%20more%20about%20plots."
+                href="https://wa.me/919274411712?text=Hello%20Nestoria%20Group,%20I%20read%20your%20blog%20and%20want%20to%20know%20more%20about%20plots."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg transition-all"
@@ -351,7 +351,7 @@ const Blog = () => {
                   onClick={() => { setReadingPost(null); openSiteVisitModal(); }}
                   className="py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow transition-all ml-auto cursor-pointer"
                 >
-                  Book Free Site Visit
+                  Book Your Property
                 </button>
               </div>
             </div>

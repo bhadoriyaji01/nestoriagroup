@@ -24,7 +24,19 @@ function Seo({
     ? (imageUrl.startsWith('http') ? imageUrl : `https://nestoriagroup.com${imageUrl.startsWith('/') ? imageUrl : `/${imageUrl}`}`) 
     : 'https://nestoriagroup.com/logonew.png';
 
-  const schemas = Array.isArray(schemaMarkup) ? schemaMarkup : (schemaMarkup ? [schemaMarkup] : []);
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${fullCanonicalUrl}#webpage`,
+    "url": fullCanonicalUrl,
+    "name": title,
+    "description": description,
+    "isPartOf": { "@id": "https://nestoriagroup.com/#website" },
+    "publisher": { "@id": "https://nestoriagroup.com/#organization" },
+    "inLanguage": "en-US"
+  };
+
+  const schemas = [webPageSchema, ...(Array.isArray(schemaMarkup) ? schemaMarkup : (schemaMarkup ? [schemaMarkup] : []))];
 
   return (
     <Helmet>
@@ -36,15 +48,19 @@ function Seo({
       {keywords && <meta name="keywords" content={keywords} />}
       <meta name="author" content={author} />
       <meta name="robots" content={robots} />
+      <meta name="googlebot" content={robots} />
 
       {/* Canonical URL */}
       <link rel="canonical" href={fullCanonicalUrl} />
+      <link rel="alternate" hrefLang="en-IN" href={fullCanonicalUrl} />
+      <link rel="alternate" hrefLang="x-default" href={fullCanonicalUrl} />
 
       {/* Open Graph / Facebook */}
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content={type} />
       <meta property="og:image" content={fullImageUrl} />
+      <meta property="og:image:alt" content={`${title} - Nestoria Group`} />
       <meta property="og:url" content={fullCanonicalUrl} />
       <meta property="og:site_name" content="Nestoria Group" />
       <meta property="og:locale" content="en_US" />
@@ -54,6 +70,8 @@ function Seo({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullImageUrl} />
+      <meta name="twitter:image:alt" content={`${title} - Nestoria Group`} />
+      <meta name="twitter:url" content={fullCanonicalUrl} />
 
       {/* Schema Markup (Single or Multiple) */}
       {schemas.map((schema, index) => (

@@ -8,7 +8,7 @@ export const websiteKnowledgeBase = {
     name: "Nestoria Group",
     tagline: "Most Trusted and Award-Winning Real Estate Developer in Dholera SIR",
     phone: "+919213005611",
-    whatsapp: "+919213005611",
+    whatsapp: "+919274411712",
     email: "info@nestoriagroup.com",
     headOffice: "3rd Floor, Sarthik Annexe, Satellite Road, Iscon Cross Road, Ahmedabad - 380015, Gujarat, India",
     siteOffice: "Near ABCD Building, Activation Area TP 2A, Dholera SIR, Gujarat - 382455",
@@ -41,7 +41,7 @@ export const websiteKnowledgeBase = {
       "4. Agreement to Sale & Payment Plan: Execute agreement to sale with flexible zero-interest installment options or upfront full payment discount.",
       "5. Government Sub-Registrar Deed Execution: Official sale deed registered in your name at the Dholera Sub-Registrar office with instant biometric registry and 7/12 land title transfer."
     ],
-    legalSafety: "All Nestoria Group projects are 100% NA (Non-Agricultural), Title Clear with official search reports, free of any legal litigation, and registered with local planning authorities (AUDA & Dholera SIRDA)."
+    legalSafety: "All Nestoria Group projects are 100% NA (Non-Agricultural), Title Clear with official search reports, free of any legal litigation, and registered with local planning authorities."
   },
 
   siteVisitInfo: {
@@ -66,7 +66,7 @@ export const websiteKnowledgeBase = {
     },
     {
       keywords: ["legal", "title", "approval", "government", "auda", "sirda", "safe", "risk", "fraud", "registry"],
-      answer: "All Nestoria Group projects are 100% Clear Title, NA (Non-Agricultural) sanctioned with Dholera SIRDA / AUDA approvals. We provide full legal dockets, 30-year search reports by High Court advocates, and execute direct registered sale deeds at the Government Sub-Registrar office in Dholera with instant 7/12 title mutation in your name."
+      answer: "All Nestoria Group projects are 100% Clear Title, NA (Non-Agricultural) sanctioned with legal documentation and verified approvals. We provide full legal dockets, 30-year search reports by High Court advocates, and execute direct registered sale deeds at the Government Sub-Registrar office in Dholera with instant 7/12 title mutation in your name."
     },
     {
       keywords: ["semiconductor", "tata", "chip", "micron", "factory", "investment", "fab"],
@@ -190,5 +190,5 @@ export const queryKnowledgeEngine = (userQuery, projects = []) => {
   }
 
   // The chatbot caller uses this marker to open the contact form for unrelated topics.
-  return `Thank you for asking about "${userQuery}".\n\nNestoria Group is Dholera SIR's premier real estate developer offering 100% Clear Title, AUDA/Dholera SIRDA approved NA residential and commercial plots with immediate registry.\n\nKey highlights:\n• Proximity to 6-lane Expressway & International Airport\n• Next to Tata Electronics ₹91,000 Cr Semiconductor Fab\n• Immediate Sub-Registrar registry & 7/12 mutation\n\nWould you like to:\n1. 📍 Book a Free Guided Site Visit?\n2. 📑 Download our complete Project Brochure?\n3. 📞 Request an instant callback from our Senior Consultant?`;
+  return `Thank you for asking about "${userQuery}".\n\nNestoria Group is Dholera SIR's premier real estate developer offering 100% Clear Title NA residential and commercial plots with immediate registry.\n\nKey highlights:\n• Proximity to 6-lane Expressway & International Airport\n• Next to Tata Electronics ₹91,000 Cr Semiconductor Fab\n• Immediate Sub-Registrar registry & 7/12 mutation\n\nWould you like to:\n1. 📍 Book a Free Guided Site Visit?\n2. 📑 Download our complete Project Brochure?\n3. 📞 Request an instant callback from our Senior Consultant?`;
 };

@@ -23,7 +23,7 @@ export default function Footer() {
                 Guaranteed 100% NA Title Clear Land Plots
               </h4>
               <p className="text-xs sm:text-sm text-slate-300">
-                AUDA & Dholera SIRDA Sanctioned Layouts • Immediate Sub-Registrar Registry
+                Sanctioned Layouts • Immediate Sub-Registrar Registry
               </p>
             </div>
           </div>
@@ -35,7 +35,7 @@ export default function Footer() {
               Explore All Projects
             </Link>
             <a
-              href="https://wa.me/919213005611?text=Hello%20Nestoria%20Group,%20please%20send%20brochure%20and%20project%20details"
+              href="https://wa.me/919274411712?text=Hello%20Nestoria%20Group,%20please%20send%20brochure%20and%20project%20details"
               target="_blank"
               rel="noopener noreferrer"
               className="py-3 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg transition-all"
@@ -58,11 +58,6 @@ export default function Footer() {
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
               Dholera SIR's most trusted real estate developer. Offering premium residential plots, luxury villas, and high-yield commercial land parcels in India's first greenfield smart city.
             </p>
-            <div className="text-xs text-slate-300 space-y-1 pt-1">
-              <div>🏆 <strong>12+</strong> Delivered Townships</div>
-              <div>🌍 <strong>3,500+</strong> Global Investors</div>
-              <div>📐 <strong>25M+</strong> Sq. Ft. Land Developed</div>
-            </div>
           </div>
 
           {/* Column 2: Projects Portfolio Links */}
@@ -167,10 +162,45 @@ export default function Footer() {
             </div>
 
             <div className="pt-2">
-              <span className="text-[11px] text-slate-400 block mb-1">Dholera Site Office:</span>
-              <span className="text-xs text-slate-300">
-                Near ABCD Building, Activation Area TP 2A, Dholera SIR
-              </span>
+              <span className="text-[11px] text-slate-400 block mb-2">Follow Nestoria Group</span>
+              <div className="flex items-center gap-2.5">
+                <a
+                  href="https://www.instagram.com/nestoria.group/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Nestoria Group on Instagram"
+                  className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex items-center justify-center text-white hover:scale-110 transition-transform"
+                >
+                  <i className="fab fa-instagram text-base" />
+                </a>
+                <a
+                  href="http://www.youtube.com/@nestoriagroup"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Nestoria Group on YouTube"
+                  className="w-9 h-9 rounded-xl bg-red-600 flex items-center justify-center text-white hover:scale-110 transition-transform"
+                >
+                  <i className="fab fa-youtube text-base" />
+                </a>
+                <a
+                  href="https://www.facebook.com/nestoriagroup/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Nestoria Group on Facebook"
+                  className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white hover:scale-110 transition-transform"
+                >
+                  <i className="fab fa-facebook-f text-base" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/nestoriagroup"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Nestoria Group on LinkedIn"
+                  className="w-9 h-9 rounded-xl bg-sky-700 flex items-center justify-center text-white hover:scale-110 transition-transform"
+                >
+                  <i className="fab fa-linkedin-in text-base" />
+                </a>
+              </div>
             </div>
           </div>
 

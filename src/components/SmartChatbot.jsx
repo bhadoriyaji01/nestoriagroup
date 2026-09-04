@@ -1,13 +1,31 @@
 // src/components/SmartChatbot.jsx
 import { useState, useEffect, useRef } from 'react';
 import { 
-  MessageSquare, X, Send, FileText, Phone, 
-  Sparkles, CheckCircle2, Calculator, ShieldCheck, ChevronRight,
-  User, Mail, Car, RotateCcw
+  MessageSquare, X, Send, Phone,
+  Sparkles, CheckCircle2, ShieldCheck, ChevronRight,
+  User, Mail, RotateCcw
 } from 'lucide-react';
 import { isWebsiteQuestion, queryKnowledgeEngine } from '../data/knowledgeBase';
 import { allProjects } from '../data/projectsData';
+import ContactService from '../services/ContactService';
 import confetti from 'canvas-confetti';
+
+const residentialProjects = ['Semicon Residency', 'Nestoria Atulyam', 'Skyline Imperia', 'Nestoria Homes', 'Nestoria Green Vista'];
+const unsupportedTopics = /\b(price|prices|cost|rate|payment|emi|loan|installment|document|documents|approval|approvals|legal|booking|book|guaranteed roi|guaranteed return|how much)\b/i;
+
+const flowActions = {
+  welcome: ['Residential Plots', 'Commercial Property', 'Bulk Land Parcels', 'Investment Guidance', 'Ask a Question', 'Connect with an Expert'],
+  residential: [...residentialProjects, 'Help Me Choose'],
+  project: ['Project Details', 'Location', 'Property Options', 'Amenities', 'Investment Potential', 'Download Brochure', 'Connect with an Expert'],
+  investment: ['Why Invest in Dholera?', 'Potential ROI', 'Dholera Infrastructure', 'Connectivity', 'Residential vs Commercial', 'Investment Budget', 'Talk to an Expert'],
+};
+
+const getProjectByQuery = (query) => allProjects.find((project) => {
+  const projectName = project.title.toLowerCase();
+  return query.includes(projectName) || projectName.split(' ').filter((token) => token.length > 3).every((token) => query.includes(token));
+});
+
+const projectResponse = (project) => `${project.title} is a ${project.category.toLowerCase()} project in ${project.location}.\n\n${project.description}\n\nPlot options: ${project.plotSizes}\nStatus: ${project.status}\n\nWhich part would you like to explore next?`;
 
 export default function SmartChatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,29 +33,28 @@ export default function SmartChatbot() {
     {
       id: 'welcome-1',
       sender: 'bot',
-      text: "👋 Welcome to Nestoria Group! I am your AI Property Advisor for Dholera Smart City.\n\nHow can I help you today? You can ask any question, explore our prime projects, or book a complimentary VIP site visit.",
+      text: "Hi! Welcome to Nestoria.\n\nI’m Nia, your Nestoria Property Advisor. I can help you explore our properties, understand the Dholera opportunity, and connect you with our property experts.\n\nWhat are you looking for?",
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      showActions: true
+      actions: flowActions.welcome
     }
   ]);
   const [inputVal, setInputVal] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [activeForm, setActiveForm] = useState(null); // 'site-visit' | 'brochure' | 'emi' | 'callback'
+  const [activeForm, setActiveForm] = useState(null); // 'expert' | 'brochure'
   const [unreadCount, setUnreadCount] = useState(1);
+  const [selectedProjectTitle, setSelectedProjectTitle] = useState('');
 
   // Form states
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
-    date: '',
-    pickupLocation: 'Ahmedabad Corporate Office (Satellite Road)',
-    project: 'Dholera Bhoomi',
-    visitorsCount: '2',
-    requirement: 'Residential Plot'
+    project: '',
+    company: '',
+    requirement: '',
+    question: ''
   });
-  const [bookingSuccess, setBookingSuccess] = useState(false);
-  const [bookingRef, setBookingRef] = useState('');
+  const [formStatus, setFormStatus] = useState('idle');
 
   const chatEndRef = useRef(null);
 
@@ -69,31 +86,62 @@ export default function SmartChatbot() {
     }
     setIsTyping(true);
 
-    // Process using offline Natural Language Knowledge Engine
     setTimeout(() => {
-      const lower = text.toLowerCase();
+      const lower = text.toLowerCase().trim();
+      const project = getProjectByQuery(lower);
       let botResponse = '';
+      let actions = [];
       let triggerForm = null;
 
-      if (lower.includes('site visit') || lower.includes('book visit') || lower.includes('tour') || lower.includes('pickup')) {
-        triggerForm = 'site-visit';
-        botResponse = "I'd be delighted to arrange a 100% FREE VIP site visit for you! Please choose your preferred date and pickup location below:";
-      } else if (lower.includes('brochure') || lower.includes('download') || lower.includes('catalog')) {
-        triggerForm = 'brochure';
-        botResponse = "You can download our official master plan & brochure dossier right here. Please provide your contact details to receive the instant download link:";
-      } else if (lower.includes('emi') || lower.includes('calculator') || lower.includes('loan')) {
-        triggerForm = 'emi';
-        botResponse = "Here is our Smart Real Estate EMI & Investment Growth Calculator. Try calculating your monthly outlay and projected returns below:";
-      } else if (lower.includes('callback') || lower.includes('call me') || lower.includes('speak')) {
-        triggerForm = 'callback';
-        botResponse = "Our senior property advisor can connect with you within 15 minutes! Please share your contact details:";
-      } else {
-        const isInWebsiteScope = isWebsiteQuestion(text);
+      if (unsupportedTopics.test(lower) || /\b(call|expert|person|team|connect)\b/i.test(lower)) {
+        botResponse = "That’s something our Nestoria property expert can assist with. Please share your details and our team will contact you.";
+        triggerForm = 'expert';
+      } else if (/brochure|download/.test(lower)) {
+        botResponse = "I can help you receive the relevant project brochure. Please share your details and select the project so our team can provide the correct brochure.";
+        triggerForm = 'expert';
+      } else if (/roi|return|potential/.test(lower)) {
+        botResponse = "Real-estate returns cannot be guaranteed. Potential returns depend on purchase price, location, infrastructure development, demand, market conditions, and holding period. For a project-specific discussion, I can connect you with a Nestoria property expert.";
+        actions = ['Explore Residential', 'Explore Commercial', 'Connect with an Expert'];
+      } else if (/^(hi|hello|hey|namaste)\b/i.test(lower)) {
+        botResponse = "Hi! I’m Nia, your Nestoria Property Advisor. What are you looking for?";
+        actions = flowActions.welcome;
+      } else if (/residential|residential plots|villa/.test(lower)) {
+        botResponse = "Great! Which type of residential property would you like to explore?";
+        actions = flowActions.residential;
+      } else if (/commercial|emerald/.test(lower)) {
+        botResponse = "We currently have Emerald Commercial Hub as our commercial property option. What would you like to explore?";
+        actions = ['Project Details', 'Location', 'Property Details', 'Commercial Potential', 'Download Brochure', 'Connect with an Expert'];
+      } else if (/bulk|parcel|land area|square feet|square yards/.test(lower)) {
+        botResponse = "Certainly. For bulk land requirements, I’ll collect a few basic details so our property specialist can understand your requirement.";
+        triggerForm = 'expert';
+      } else if (/investment guidance|investment|investing|why invest|why dholera/.test(lower)) {
+        botResponse = "Dholera is being developed as a large-scale greenfield industrial city and a major node of the Delhi–Mumbai Industrial Corridor. Its opportunity is linked to planned infrastructure, industrial development, connectivity, and economic activity. Returns are not guaranteed and depend on the specific property and holding period.";
+        actions = flowActions.investment;
+      } else if (/help me choose/.test(lower)) {
+        botResponse = "I can help you narrow down the right residential option. What is your primary objective?";
+        actions = ['Investment', 'Future Home', 'Lifestyle', 'Villa', 'Long-Term Investment', 'Just Exploring'];
+      } else if (/just exploring/.test(lower)) {
+        botResponse = "Of course! Take your time. You can explore our properties or learn more about the Dholera opportunity.";
+        actions = ['Residential Properties', 'Commercial Property', 'Bulk Land Parcels', 'Why Dholera?', 'Download Brochure', 'Ask a Question'];
+      } else if (/future home|lifestyle|long-term investment/.test(lower)) {
+        botResponse = "Thanks. What is your approximate budget or investment range?";
+        actions = ['₹15–25 Lakh', '₹25–50 Lakh', '₹50 Lakh–₹1 Crore', '₹1–1.5 Crore', 'Not Decided Yet'];
+      } else if (/ask a question/.test(lower)) {
+        botResponse = "Sure! Please type your question and I’ll help you with it using Nestoria’s website information.";
+      } else if (project) {
+        setSelectedProjectTitle(project.title);
+        botResponse = projectResponse(project);
+        actions = flowActions.project;
+      } else if (/project details|location|property options|amenities|commercial potential|dholera infrastructure|connectivity/.test(lower)) {
+        const selectedProject = allProjects.find((item) => item.title === selectedProjectTitle);
+        botResponse = selectedProject ? projectResponse(selectedProject) : queryKnowledgeEngine(text, allProjects);
+        actions = flowActions.project;
+      } else if (isWebsiteQuestion(text)) {
         botResponse = queryKnowledgeEngine(text, allProjects);
-        if (!isInWebsiteScope && !botResponse.startsWith('Hello!')) {
-          triggerForm = 'callback';
-          botResponse = "That question is outside the information available on our website. Please share your contact details and our team will help you with it directly:";
-        }
+        actions = ['Explore Residential', 'Explore Commercial', 'Why Dholera?', 'Connect with an Expert'];
+      } else {
+        botResponse = "I can answer questions about Nestoria properties and the Dholera opportunity using our website information. This question needs a property expert’s response. Would you like to connect with our team?";
+        triggerForm = 'expert';
       }
 
       setMessages(prev => [
@@ -103,11 +151,12 @@ export default function SmartChatbot() {
           sender: 'bot',
           text: botResponse,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          showActions: !triggerForm
+          actions: triggerForm ? [] : actions
         }
       ]);
       setIsTyping(false);
       if (triggerForm) {
+        setFormStatus('idle');
         setActiveForm(triggerForm);
       }
     }, 650);
@@ -120,71 +169,38 @@ export default function SmartChatbot() {
       return;
     }
 
-    const refId = `NST-${Math.floor(100000 + Math.random() * 900000)}`;
-    setBookingRef(refId);
-    setBookingSuccess(true);
-
-    // Fire celebration confetti
-    try {
-      confetti({
-        particleCount: 80,
-        spread: 60,
-        origin: { y: 0.7 }
-      });
-    } catch {
-      // ignore if unavailable
-    }
-
-    // Save lead to localStorage
-    const existingLeads = JSON.parse(localStorage.getItem('nestoria_leads') || '[]');
-    const newLead = {
-      id: refId,
-      timestamp: new Date().toISOString(),
-      type: activeForm || 'general',
-      ...formData
-    };
-    existingLeads.push(newLead);
-    localStorage.setItem('nestoria_leads', JSON.stringify(existingLeads));
-
-    // Add confirmation message to chat
-    setTimeout(() => {
-      let confirmationText = '';
-      if (activeForm === 'site-visit') {
-        confirmationText = `🎉 Success! Your Free Site Visit is confirmed under Booking ID #${refId}.\n\n📅 Date: ${formData.date || 'Upcoming Weekend'}\n🚗 Pickup: ${formData.pickupLocation}\n👥 Guests: ${formData.visitorsCount}\n📍 Project: ${formData.project}\n\nOur hospitality manager will contact you on ${formData.phone} with vehicle and driver details.`;
-      } else if (activeForm === 'brochure') {
-        confirmationText = `📄 Success! The high-definition master plan brochure for ${formData.project} has been prepared for ${formData.name}. We've sent a copy to WhatsApp (${formData.phone}) and email.`;
-      } else {
-        confirmationText = `✅ Thank you ${formData.name}! Your request (Ref #${refId}) has been assigned to our Senior Dholera Consultant. You will receive a priority call on ${formData.phone} shortly.`;
-      }
-
-      setMessages(prev => [
-        ...prev,
-        {
-          id: `bot-conf-${Date.now()}`,
-          sender: 'bot',
-          text: confirmationText,
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          showActions: true,
-          bookingRef: refId
-        }
-      ]);
+    setFormStatus('submitting');
+    ContactService.sendContactForm({
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      subject: `Nia chatbot lead - ${formData.project || 'Property enquiry'}`,
+      message: [
+        `Interest: ${formData.project || formData.requirement || 'Not specified'}`,
+        `Company: ${formData.company || 'Not specified'}`,
+        `Additional requirement: ${formData.requirement || formData.question || 'Not specified'}`
+      ].join('\n')
+    }).then(() => {
+      setFormStatus('success');
+      setMessages(prev => [...prev, {
+        id: `bot-conf-${Date.now()}`,
+        sender: 'bot',
+        text: `Thank you, ${formData.name}. Your details have been shared with our Nestoria property team. A property expert will contact you regarding your requirement.`,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        actions: flowActions.welcome
+      }]);
       setActiveForm(null);
-    }, 400);
+      setFormData((prev) => ({ ...prev, name: '', phone: '', email: '', company: '', requirement: '', question: '' }));
+      try { confetti({ particleCount: 50, spread: 55, origin: { y: 0.7 } }); } catch { /* optional enhancement */ }
+    }).catch(() => {
+      setFormStatus('error');
+    });
   };
 
   const handleWhatsAppRedirect = (customText) => {
     const text = customText || `Hello Nestoria Group, I am interested in Dholera SIR properties. Please share project details and brochure.`;
-    window.open(`https://wa.me/919213005611?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(`https://wa.me/919274411712?text=${encodeURIComponent(text)}`, '_blank');
   };
-
-  const quickPrompts = [
-    { label: "📍 Book Free Site Visit", action: () => handleSendMessage("I want to book a free site visit to Dholera SIR") },
-    { label: "🏡 Explore Townships", action: () => handleSendMessage("What are your available residential and villa projects in Dholera SIR?") },
-    { label: "🚀 Tata Semiconductor Hub", action: () => handleSendMessage("Tell me about the Tata Semiconductor plant in Dholera SIR") },
-    { label: "📑 Download Brochure", action: () => handleSendMessage("How can I download the complete project brochure?") },
-    { label: "⚖️ Legal & Clear Title Status", action: () => handleSendMessage("Are all Nestoria projects 100% NA Title Clear and AUDA approved?") },
-    { label: "🗺️ Dholera Master Plan", action: () => handleSendMessage("Tell me about the Dholera SIR master plan, expressway, and airport development") },
-  ];
 
   return (
     <>
@@ -197,7 +213,7 @@ export default function SmartChatbot() {
               <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-600"></span>
             </span>
             <span className="text-xs font-semibold text-slate-800">
-              NG Orbit
+              NIA
             </span>
           </div>
         )}
@@ -250,9 +266,9 @@ export default function SmartChatbot() {
                 onClick={() => setMessages([{
                   id: 'reset',
                   sender: 'bot',
-                  text: "Chat cleared! How can I help you today with your Dholera SIR investment?",
+                  text: "Hi! I’m Nia, your Nestoria Property Advisor. What are you looking for?",
                   time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                  showActions: true
+                  actions: flowActions.welcome
                 }])}
                 title="Restart conversation"
                 className="p-1.5 text-blue-200 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
@@ -273,13 +289,20 @@ export default function SmartChatbot() {
           <div className="bg-blue-50/90 border-b border-blue-100 px-3 py-2 flex items-center justify-between text-xs text-blue-800">
             <span className="flex items-center gap-1 font-medium text-slate-700">
               <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
-              100% Clear Title & AUDA Approved
+              100% Clear Title
             </span>
             <button
               onClick={() => handleWhatsAppRedirect()}
               className="text-blue-700 font-semibold hover:underline flex items-center gap-1"
             >
               WhatsApp Support
+              <ChevronRight className="w-3 h-3" />
+            </button>
+            <button
+              onClick={() => handleSendMessage('Connect with an Expert')}
+              className="text-blue-700 font-semibold hover:underline flex items-center gap-1"
+            >
+              Lead Form
               <ChevronRight className="w-3 h-3" />
             </button>
           </div>
@@ -303,15 +326,15 @@ export default function SmartChatbot() {
                 <span className="text-[10px] text-slate-400 mt-1 px-1">{msg.time}</span>
 
                 {/* Inline Action Pills */}
-                {msg.showActions && (
+                {msg.actions?.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mt-2 max-w-[95%]">
-                    {quickPrompts.map((p, idx) => (
+                    {msg.actions.map((action, idx) => (
                       <button
                         key={idx}
-                        onClick={p.action}
+                        onClick={() => handleSendMessage(action)}
                         className="text-xs bg-white text-blue-700 font-medium px-2.5 py-1.5 rounded-full border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all shadow-xs"
                       >
-                        {p.label}
+                        {action}
                       </button>
                     ))}
                   </div>
@@ -324,10 +347,7 @@ export default function SmartChatbot() {
               <div className="bg-white border border-blue-200 rounded-2xl p-4 shadow-md animate-fade-in">
                 <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
                   <h4 className="font-bold text-sm text-slate-900 flex items-center gap-1.5">
-                    {activeForm === 'site-visit' && <><Car className="w-4 h-4 text-blue-600" /> Book Free Site Visit</>}
-                    {activeForm === 'brochure' && <><FileText className="w-4 h-4 text-blue-600" /> Download Brochure</>}
-                    {activeForm === 'emi' && <><Calculator className="w-4 h-4 text-blue-600" /> EMI & ROI Estimator</>}
-                    {activeForm === 'callback' && <><Phone className="w-4 h-4 text-blue-600" /> Instant Callback</>}
+                    <Phone className="w-4 h-4 text-blue-600" /> Connect with a Property Expert
                   </h4>
                   <button
                     onClick={() => setActiveForm(null)}
@@ -383,49 +403,6 @@ export default function SmartChatbot() {
                     </div>
                   </div>
 
-                  {activeForm === 'site-visit' && (
-                    <>
-                      <div className="grid grid-cols-2 gap-2">
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-700 mb-1">Preferred Date</label>
-                          <input
-                            type="date"
-                            value={formData.date}
-                            onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                            className="w-full px-2 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-700 mb-1">No. of Visitors</label>
-                          <select
-                            value={formData.visitorsCount}
-                            onChange={(e) => setFormData({ ...formData, visitorsCount: e.target.value })}
-                            className="w-full px-2 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800"
-                          >
-                            <option value="1">1 Person</option>
-                            <option value="2">2 Persons</option>
-                            <option value="3-4">3-4 Persons (Family)</option>
-                            <option value="5+">5+ Persons (Group)</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-semibold text-slate-700 mb-1">Pickup Location</label>
-                        <select
-                          value={formData.pickupLocation}
-                          onChange={(e) => setFormData({ ...formData, pickupLocation: e.target.value })}
-                          className="w-full px-2 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800"
-                        >
-                          <option value="Ahmedabad Corporate Office (Satellite Road)">Ahmedabad Office (Satellite Rd)</option>
-                          <option value="Ahmedabad Airport (SVP International)">Ahmedabad Airport</option>
-                          <option value="Sabarmati / Kalupur Railway Station">Sabarmati / Kalupur Station</option>
-                          <option value="Direct Dholera Site Office (Self Drive)">Direct Dholera Site Office</option>
-                        </select>
-                      </div>
-                    </>
-                  )}
-
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1">Interested Project</label>
                     <select
@@ -433,23 +410,38 @@ export default function SmartChatbot() {
                       onChange={(e) => setFormData({ ...formData, project: e.target.value })}
                       className="w-full px-2 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800"
                     >
-                      {allProjects.map((proj) => (
-                        <option key={proj.id} value={proj.title}>
-                          {proj.title} ({proj.category})
-                        </option>
-                      ))}
+                      <option value="">Select a project or requirement</option>
+                      {allProjects.map((proj) => <option key={proj.id} value={proj.title}>{proj.title}</option>)}
+                      <option value="Bulk Land Parcels">Bulk Land Parcels</option>
+                      <option value="Investment Guidance">Investment Guidance</option>
                     </select>
                   </div>
 
+                  <input
+                    type="text"
+                    placeholder="Company name (optional)"
+                    value={formData.company}
+                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                    className="w-full px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800"
+                  />
+
+                  <textarea
+                    placeholder="Additional requirement or question"
+                    value={formData.requirement}
+                    onChange={(e) => setFormData({ ...formData, requirement: e.target.value })}
+                    rows="2"
+                    className="w-full px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800"
+                  />
+
+                  {formStatus === 'error' && <p className="text-xs text-red-600">We could not send your details. Please try again.</p>}
+
                   <button
                     type="submit"
+                    disabled={formStatus === 'submitting'}
                     className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5"
                   >
                     <CheckCircle2 className="w-4 h-4" />
-                    {activeForm === 'site-visit' && 'Confirm Free VIP Site Visit'}
-                    {activeForm === 'brochure' && 'Instant Download Brochure PDF'}
-                    {activeForm === 'emi' && 'Get Custom EMI Calculation Dossier'}
-                    {activeForm === 'callback' && 'Request Priority Call Back'}
+                    {formStatus === 'submitting' ? 'Sending...' : 'Connect Me With an Expert'}
                   </button>
                 </form>
               </div>

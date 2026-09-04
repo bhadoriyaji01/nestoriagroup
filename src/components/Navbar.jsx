@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { allProjects } from "../data/projectsData";
 import { openSiteVisitModal } from "./SiteVisitModal";
+import newLogo from "../assets/img/new-logo.png";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -120,8 +121,8 @@ export default function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
             <img
-              className="h-11 sm:h-13 w-auto object-contain transition-transform group-hover:scale-105"
-              src="/logonew.png"
+              className="h-14 sm:h-16 w-auto max-w-[190px] object-contain transition-transform group-hover:scale-105"
+              src={newLogo}
               alt="Nestoria Group Logo"
             />
             <div className="hidden sm:block">
@@ -129,7 +130,7 @@ export default function Navbar() {
                 NESTORIA <span className="text-blue-600">GROUP</span>
               </span>
               <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block mt-0.5">
-                Dedicated To Dholera 
+                Dedicated To Dholera
               </span>
             </div>
           </Link>
@@ -224,7 +225,7 @@ export default function Navbar() {
                 type="button"
                 onClick={() => setIsAboutDropdownOpen(!isAboutDropdownOpen)}
                 className={`px-3 py-2 rounded-xl transition-colors hover:text-blue-600 hover:bg-blue-50/60 flex items-center gap-1 cursor-pointer ${
-                  ['/about', '/team', '/achievements', '/media', '/services', '/testimonial'].includes(location.pathname)
+                  ['/about', '/team', '/achievements', '/events-gallery', '/media', '/services', '/testimonial'].includes(location.pathname)
                     ? "text-blue-600 bg-blue-50/80 font-bold"
                     : ""
                 }`}
@@ -250,6 +251,7 @@ export default function Navbar() {
                     { label: "Company Overview", link: "/about", icon: Building2 },
                     { label: "Leadership & Team", link: "/team", icon: Users },
                     { label: "Key Milestones & Awards", link: "/achievements", icon: Award },
+                    { label: "Events & Functions Gallery", link: "/events-gallery", icon: Image },
                     { label: "Media & Ground Gallery", link: "/media", icon: Image },
                     { label: "Investor Services", link: "/services", icon: Briefcase },
                     { label: "Client Testimonials", link: "/testimonial", icon: MessageSquare },
@@ -319,7 +321,7 @@ export default function Navbar() {
               className="py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-500/25 hover:shadow-lg transition-all flex items-center gap-1.5 transform hover:-translate-y-0.5 cursor-pointer"
             >
               <Car className="w-4 h-4 text-white" />
-              <span>Book Site Visit</span>
+              <span>Book Your Property</span>
             </button>
             <Link
               to="/contact"
@@ -337,7 +339,7 @@ export default function Navbar() {
               className="py-2 px-3 bg-blue-600 text-white font-bold text-xs rounded-xl shadow-sm flex items-center gap-1 cursor-pointer"
             >
               <Car className="w-3.5 h-3.5 text-white" />
-              <span>Site Visit</span>
+                <span>Book Your Property</span>
             </button>
 
             <button
@@ -414,6 +416,7 @@ export default function Navbar() {
                     <Link to="/about" className="block py-1 text-xs text-slate-600 hover:text-blue-600">• Company Overview</Link>
                     <Link to="/team" className="block py-1 text-xs text-slate-600 hover:text-blue-600">• Leadership & Team</Link>
                     <Link to="/achievements" className="block py-1 text-xs text-slate-600 hover:text-blue-600">• Milestones & Awards</Link>
+                    <Link to="/events-gallery" className="block py-1 text-xs text-slate-600 hover:text-blue-600">• Events & Functions Gallery</Link>
                     <Link to="/media" className="block py-1 text-xs text-slate-600 hover:text-blue-600">• Media & Gallery</Link>
                     <Link to="/services" className="block py-1 text-xs text-slate-600 hover:text-blue-600">• Investor Services</Link>
                     <Link to="/testimonial" className="block py-1 text-xs text-slate-600 hover:text-blue-600">• Testimonials</Link>
@@ -467,7 +470,7 @@ export default function Navbar() {
                 className="w-full py-3 bg-blue-600 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-md cursor-pointer"
               >
                 <Car className="w-4 h-4 text-white" />
-                Book Free Site Visit (AC Pickup)
+                Book Your Property
               </button>
               
               <a

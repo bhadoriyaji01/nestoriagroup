@@ -122,8 +122,8 @@ const LatestNews = () => {
         title="Dholera Smart City News & Infrastructure Updates | Nestoria Group"
         description="Latest updates on Tata Semiconductor plant construction, Ahmedabad-Dholera Expressway opening, international airport flight tests, and Dholera land registry."
         keywords="Dholera SIR news, Tata fab Dholera latest news, Dholera airport construction update, Dholera expressway launch date, Dholera investment news"
-        canonicalUrl="/news"
-        schemaMarkup={getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'News', url: '/news' }])}
+        canonicalUrl="/latest-news"
+        schemaMarkup={getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'Latest News', url: '/latest-news' }])}
       />
 
       {/* Page Header */}

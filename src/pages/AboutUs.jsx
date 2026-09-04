@@ -1,20 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Seo from '../components/Seo';
 import { getBreadcrumbSchema } from '../utils/SchemaMarkup';
 import {
   ShieldCheck, MapPin, ArrowRight, Car, Sparkles,
   Building2, CheckCircle2, Award, Users, Eye, Target,
-  Handshake, Scale, Gem, UserCheck, Phone
+  Handshake, Scale, Gem, UserCheck, Phone, Video, Play
 } from 'lucide-react';
 import { openSiteVisitModal } from '../components/SiteVisitModal';
 import aboutbanner from '../assets/img/about1.webp';
+import headoffice from '../assets/img/headoffice.jpeg';
 import shivsirimg from '../assets/img/team/management/shivji.webp';
 import mohansirimg from '../assets/img/team/management/mohanji.webp';
 import nitinsirimg from '../assets/img/team/management/nitinji.webp';
 import dholeradpmap from '../assets/img/icon/dholera-dp-map.webp';
 
 function AboutUs() {
+  const videoRef = useRef(null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -23,7 +27,7 @@ function AboutUs() {
     <div className="overflow-hidden bg-white text-slate-900">
       <Seo
         title="About Nestoria Group | Trusted Real Estate Developer in Dholera SIR"
-        description="Nestoria Group is Dholera's award-winning real estate developer. Specializing in AUDA-approved NA clear title residential & commercial plots with 100% legal verification."
+        description="Nestoria Group is Dholera's award-winning real estate developer. Specializing in 100% clear title residential & commercial plots with 100% legal verification."
         keywords="about Nestoria Group, best builder in Dholera, Dholera SIR real estate company, clear title plots developer, trusted Dholera developers, Nestoria Buildcon"
         canonicalUrl="/about"
         schemaMarkup={getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'About Us', url: '/about' }])}
@@ -39,7 +43,7 @@ function AboutUs() {
         <div className="relative z-10 max-w-5xl mx-auto px-4 py-20 text-center">
           <div className="inline-flex items-center gap-2 bg-blue-600/30 border border-blue-400/40 backdrop-blur-md text-blue-200 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide mb-6 shadow-lg">
             <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
-            Since 2010 • 15+ Years of Trust & Excellence
+            Since 2018 • 6+ Years of Trust in Dholera
           </div>
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-4 font-condor tracking-tight leading-[1.15]">
             About <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-cyan-200">Nestoria Group</span>
@@ -94,7 +98,7 @@ function AboutUs() {
                 </h2>
                 <div className="h-1 w-20 bg-blue-600 mb-6 rounded-full"></div>
                 <p className="text-slate-600 mb-4 text-base sm:text-lg leading-relaxed">
-                  Nestoria Buildcon Pvt. Ltd. is one of the fastest-growing real estate companies with the prime focus on Dholera Special Investment Region. We have been an emblem of trust, transparency, and customer-oriented solutions for 15+ years.
+                  Nestoria Buildcon Pvt. Ltd. is one of the fastest-growing real estate companies with the prime focus on Dholera Special Investment Region. We have been an emblem of trust, transparency, and customer-oriented solutions for 6+ years in Dholera.
                 </p>
                 <p className="text-slate-600 mb-4 text-base sm:text-lg leading-relaxed">
                   In 2010, we started our journey from Gwalior, Madhya Pradesh. Our passion to help others choose the perfect property and our hard work led us to the path of success.
@@ -126,7 +130,7 @@ function AboutUs() {
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-2xl shadow-sm hover:shadow-md transition-all border border-blue-200/50">
-                    <div className="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-1">7000+</div>
+                    <div className="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-1">8,000+</div>
                     <h6 className="text-slate-600 font-semibold text-sm">Happy Clients</h6>
                   </div>
                   <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 p-5 rounded-2xl shadow-sm hover:shadow-md transition-all border border-emerald-200/50">
@@ -134,9 +138,72 @@ function AboutUs() {
                     <h6 className="text-slate-600 font-semibold text-sm">Projects Completed</h6>
                   </div>
                 </div>
+                <div className="mt-4 bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-2xl shadow-sm hover:shadow-md transition-all border border-amber-200/50">
+                  <div className="text-3xl sm:text-4xl font-extrabold text-amber-600 mb-1">1,00,000+</div>
+                  <h6 className="text-slate-600 font-semibold text-sm">Visitors & Site Tour Leads</h6>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Company Video & Drive Gallery */}
+      <section className="py-16 md:py-24 bg-slate-900 text-white relative overflow-hidden border-b border-slate-800">
+        <div className="absolute -top-24 left-1/3 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-20 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 bg-blue-500/15 border border-blue-400/30 text-blue-300 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+              <Video className="w-3.5 h-3.5 text-blue-400" />
+              Company Media
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 leading-tight text-white">
+              Watch Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-300">Videos</span>
+            </h2>
+            <div className="h-1 w-20 bg-blue-500 mx-auto mb-4 rounded-full"></div>
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+              Take a virtual tour of the Nestoria Group office and meet the environment behind our property advisory team.
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto rounded-[28px] overflow-hidden border border-slate-700/80 shadow-2xl shadow-blue-950/40 bg-slate-950">
+            <div className="relative aspect-video w-full bg-slate-950">
+              <video
+                ref={videoRef}
+                className="w-full h-full object-cover cursor-pointer"
+                playsInline
+                preload="auto"
+                poster={headoffice}
+                title="Nestoria Group Office Tour"
+                onClick={() => {
+                  if (videoRef.current?.paused) {
+                    videoRef.current.play();
+                  } else {
+                    videoRef.current?.pause();
+                  }
+                }}
+                onPlay={() => setIsVideoPlaying(true)}
+                onPause={() => setIsVideoPlaying(false)}
+                onEnded={() => setIsVideoPlaying(false)}
+              >
+                <source src="https://nestoriagroup.com/All_office_Tour.mp4" type="video/mp4" />
+                Your browser does not support the video element.
+              </video>
+              {!isVideoPlaying && (
+                <button
+                  type="button"
+                  onClick={() => videoRef.current?.play()}
+                  aria-label="Play Nestoria Group office tour video"
+                  className="absolute inset-0 m-auto w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-blue-600/95 hover:bg-blue-500 text-white shadow-2xl shadow-blue-900/50 flex items-center justify-center transition-transform duration-300 hover:scale-110 animate-pulse"
+                >
+                  <Play className="w-8 h-8 sm:w-10 sm:h-10 ml-1 fill-current" />
+                </button>
+              )}
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -320,7 +387,7 @@ function AboutUs() {
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
               <button onClick={() => openSiteVisitModal("About CTA")} type="button" className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 hover:from-blue-500 hover:via-blue-400 hover:to-blue-600 text-white font-bold text-sm sm:text-base rounded-2xl shadow-xl shadow-blue-600/40 hover:shadow-2xl hover:shadow-blue-500/60 transition-all transform hover:-translate-y-1 hover:scale-105 flex items-center justify-center gap-2.5 cursor-pointer duration-300">
                 <Car className="w-5 h-5" />
-                <span>Book Free VIP Site Tour</span>
+                <span>Book Your Property</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
               </button>
               <Link to="/contact" className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-blue-300/60 font-bold text-sm sm:text-base rounded-2xl backdrop-blur-sm transition-all transform hover:-translate-y-1 hover:scale-105 flex items-center justify-center gap-2.5 duration-300">

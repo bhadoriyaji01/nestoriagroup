@@ -5,7 +5,7 @@ import {
   ChevronRight, ChevronLeft, Building2, CheckCircle2, Video, Play,
   Phone, Award, Check, Eye, Maximize2, X, Download, Tag, Layers,
   ExternalLink, Compass, Grid, Filter, Image as ImageIcon,
-  Gem, FileText, TrendingUp, Users, Heart, Calendar, Map, Globe,
+  Gem, FileText, TrendingUp, Users, Heart, Calendar, Map, Globe, AlertCircle,
   Leaf, Cpu, Home as HomeIcon, Factory, FileCheck2, UserCheck, BadgeCheck
 } from "lucide-react";
 import Carousel from "../components/Carousel";
@@ -88,6 +88,47 @@ const projectMapRoutes = {
   'project-nestoria-homes': '/project/nestoria-homes-adhelai',
 };
 
+const EVENTS_API_URL = import.meta.env.DEV
+  ? '/api/events'
+  : 'https://events.nestoriagroup.com/api/events.php';
+
+const eventImages = {
+  eventNews1,
+  eventNews2,
+  eventNews3,
+  eventNews4,
+  eventNews5,
+  eventNews6,
+  mediaEvent1,
+  mediaEvent2,
+  teamDis,
+};
+
+const getHomeEventImage = (item) => {
+  const imageValue = item?.image || item?.imageUrl || item?.img || item?.mediaUrl || item?.photo || item?.url;
+
+  if (typeof imageValue === 'string' && imageValue.trim()) {
+    const normalized = imageValue.trim();
+    return eventImages[normalized] || normalized;
+  }
+
+  return null;
+};
+
+const normalizeHomeEventData = (item, index) => ({
+  id: item?.id ?? `${item?.title ?? 'event'}-${index}`,
+  title: item?.title || item?.name || `Event ${index + 1}`,
+  category: item?.category || item?.eventType || 'conclaves',
+  categoryLabel: item?.categoryLabel || item?.category || item?.eventType || 'Event',
+  location: item?.location || item?.city || 'Dholera SIR',
+  image: getHomeEventImage(item),
+  badge: item?.badge || item?.status || 'Featured',
+  tagColor: item?.tagColor || 'bg-blue-600',
+  desc: item?.desc || item?.description || 'Event details coming soon.',
+  registrationUrl: item?.registrationUrl || item?.url || item?.link || '',
+  type: item?.type || item?.status || 'existing',
+});
+
 function Home() {
   const navigate = useNavigate();
   const interactiveMapRef = useRef(null);
@@ -149,6 +190,69 @@ function Home() {
     localStorage.setItem('homeDisclaimerShown', 'true');
   };
 
+  const [apiExistingEvents, setApiExistingEvents] = useState([]);
+  const [apiUpcomingEvents, setApiUpcomingEvents] = useState([]);
+  const [apiEventsLoading, setApiEventsLoading] = useState(true);
+  const [apiEventsError, setApiEventsError] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchEvents = async () => {
+      try {
+        setApiEventsLoading(true);
+        const response = await fetch(EVENTS_API_URL, {
+            headers: { Accept: 'application/json' },
+          });
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch gallery data (${response.status})`);
+        }
+
+        const contentType = response.headers.get('content-type') || '';
+        if (!contentType.includes('application/json')) {
+          throw new Error('Events API returned a non-JSON response.');
+        }
+
+        const data = await response.json();
+        const events = data[0];
+
+        if (!events || !Array.isArray(events.existingEvents) || !Array.isArray(events.upcomingEvents)) {
+          throw new Error('Events API returned an invalid response.');
+        }
+
+        const existingData = events.existingEvents;
+        const upcomingData = events.upcomingEvents;
+
+        const existing = existingData.map((item, index) => normalizeHomeEventData(item, index));
+        const upcoming = upcomingData.map((item, index) => normalizeHomeEventData(item, index));
+
+        if (isMounted) {
+          setApiExistingEvents(existing);
+          setApiUpcomingEvents(upcoming);
+          setApiEventsError(null);
+        }
+      } catch (error) {
+        console.error('Home gallery API fetch failed:', error);
+        if (isMounted) {
+          setApiExistingEvents([]);
+          setApiUpcomingEvents([]);
+          setApiEventsError(error.message || 'Unable to load events from the API.');
+        }
+      } finally {
+        if (isMounted) {
+          setApiEventsLoading(false);
+        }
+      }
+    };
+
+    fetchEvents();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <div className="overflow-hidden bg-white text-slate-900">
       {/* First-Visit Disclaimer Dialog */}
@@ -173,7 +277,7 @@ function Home() {
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4 text-xs sm:text-sm text-slate-600 leading-relaxed">
               <div className="bg-blue-50/80 p-4 rounded-2xl border border-blue-200/80 text-blue-900 font-medium">
-                Nestoria Buildcon Pvt. Ltd. is an established real estate developer specializing in Dholera Smart City with 15+ years of dedicated service and over 5,000+ satisfied clients.
+                Nestoria Buildcon Pvt. Ltd. is an established real estate developer specializing in Dholera Smart City with 6+ years of dedicated service and over 8,000+ satisfied clients.
               </div>
 
               <p>
@@ -276,7 +380,7 @@ function Home() {
               className="group bg-slate-900/90 hover:bg-slate-800 text-white border-2 border-blue-500/70 hover:border-blue-300 font-bold text-base py-3.5 px-7 rounded-xl backdrop-blur-md shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 hover:scale-105 w-full sm:w-auto flex items-center justify-center gap-2 min-h-[48px] cursor-pointer"
             >
               <Car className="w-5 h-5 text-blue-400 group-hover:scale-125 group-hover:text-blue-300 transition-all" />
-              <span>Book VIP Site Visit</span>
+              <span>Book Your Property</span>
             </button>
 
             <a
@@ -296,10 +400,10 @@ function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
               {[
-                { number: "50,000+", label: "Investors & Visitors", icon: Users, color: "text-blue-400", bg: "bg-blue-500/15" },
-                { number: "5,000+", label: "Happy Customers", icon: Heart, color: "text-rose-400", bg: "bg-rose-500/15" },
+                { number: "1,00,000+", label: "Visitors", icon: Users, color: "text-blue-400", bg: "bg-blue-500/15" },
+                { number: "8,000+", label: "Happy Customers", icon: Heart, color: "text-rose-400", bg: "bg-rose-500/15" },
                 { number: "50+", label: "Projects Delivered", icon: Building2, color: "text-emerald-400", bg: "bg-emerald-500/15" },
-                { number: "15+", label: "Years Experience", icon: Calendar, color: "text-amber-400", bg: "bg-amber-500/15" },
+                { number: "6+", label: "Years in Dholera", icon: Calendar, color: "text-amber-400", bg: "bg-amber-500/15" },
                 { number: "50+", label: "Cities In India", icon: Map, color: "text-cyan-400", bg: "bg-cyan-500/15" },
                 { number: "9+", label: "Global Nations", icon: Globe, color: "text-indigo-400", bg: "bg-indigo-500/15" },
               ].map((stat, i) => (
@@ -345,7 +449,7 @@ function Home() {
                   <div className="text-white">
                     <span className="inline-flex items-center gap-1.5 bg-blue-600/90 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
                       <Sparkles className="w-3.5 h-3.5" />
-                      Since 2010 • 15+ Years Legacy
+                      Since 2018 • 6+ Years in Dholera
                     </span>
                     <h4 className="text-lg sm:text-xl font-bold">Pioneering Dholera SIR Urban Development</h4>
                   </div>
@@ -373,7 +477,7 @@ function Home() {
                 <div className="h-1 w-20 bg-blue-600 mb-6 rounded-full"></div>
                 
                 <p className="text-slate-600 mb-8 text-base sm:text-lg leading-relaxed">
-                  Established in 2010, Nestoria Group has emerged as Dholera SIR&apos;s foremost township developer. Backed by institutional transparency, 100% legal NA clear-title verification, and on-ground infrastructure execution, we have empowered over <strong className="text-slate-900 font-semibold">5,000+ satisfied investors</strong> across India and 9+ overseas nations.
+                  Established in 2010, Nestoria Group has emerged as Dholera SIR&apos;s foremost township developer. Backed by institutional transparency, 100% legal NA clear-title verification, and on-ground infrastructure execution, we have empowered over <strong className="text-slate-900 font-semibold">8,000+ satisfied investors</strong> across India and 9+ overseas nations.
                 </p>
 
                 {/* 4 Feature Cards */}
@@ -437,7 +541,7 @@ function Home() {
                     className="inline-flex items-center gap-2 bg-white hover:bg-blue-50 text-slate-800 font-semibold py-3.5 px-6 rounded-2xl border border-slate-300 hover:border-blue-300 shadow-sm hover:shadow-md transition-all text-sm cursor-pointer hover:scale-105 hover:-translate-y-0.5 group"
                   >
                     <Car className="w-4 h-4 text-blue-600 group-hover:scale-110 transition-transform" />
-                    <span>Book Site Visit</span>
+                    <span>Book Your Property</span>
                   </button>
                 </div>
               </div>
@@ -485,7 +589,7 @@ function Home() {
                 tag: "High Capital Appreciation",
                 tagColor: "bg-blue-600/20 text-blue-300 border-blue-500/30",
                 desc: "Gated luxury townships featuring asphalt road networks, dedicated clubhouses, landscaped gardens, and instant boundary demarcation.",
-                badge: "Starting 100 Sq. Yds"
+                badge: "100 sq. yard onwards"
               },
               {
                 icon: Building2,
@@ -540,7 +644,7 @@ function Home() {
                     onClick={() => openSiteVisitModal(`Service - ${item.title}`)}
                     className="text-xs text-slate-400 hover:text-blue-200 font-semibold transition-all cursor-pointer hover:underline"
                   >
-                    Book Site Tour
+                    Book Your Property
                   </button>
                 </div>
               </div>
@@ -701,18 +805,18 @@ function Home() {
                 {/* Card Content Body */}
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div>
-                    {project.logo && (
-                      <div className="w-full h-12 mb-3 flex items-center">
-                        <img src={project.logo} alt={`${project.title} logo`} className="max-w-[180px] max-h-12 object-contain object-left" />
+                    <div className="flex items-center gap-3 mb-3 min-w-0">
+                      {project.logo && (
+                        <img src={project.logo} alt={`${project.title} logo`} className="w-16 h-12 object-contain object-left shrink-0" />
+                      )}
+                      <div className="min-w-0">
+                        <span className="text-xs font-bold text-blue-600 uppercase tracking-wider block truncate">
+                          {project.category}
+                        </span>
+                        <span className="text-[11px] text-emerald-600 font-semibold block">
+                          100% Clear Title
+                        </span>
                       </div>
-                    )}
-                    <div className="flex items-baseline justify-between mb-1">
-                      <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">
-                        {project.category}
-                      </span>
-                      <span className="text-xs text-emerald-600 font-semibold">
-                        AUDA & SIRDA Approved
-                      </span>
                     </div>
 
                     <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-700 transition-all duration-300">
@@ -734,8 +838,8 @@ function Home() {
                   {/* Key Specs */}
                   <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 text-xs">
                     <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                      <span className="text-[10px] text-slate-400 block">Plot Sizes</span>
-                      <strong className="text-slate-800 font-semibold truncate block">{project.plotSizes}</strong>
+                      <span className="text-[10px] text-slate-400 block">Plot Size</span>
+                      <strong className="text-slate-800 font-semibold truncate block">100 sq. yard onwards</strong>
                     </div>
                     <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
                       <span className="text-[10px] text-slate-400 block">Title Status</span>
@@ -753,7 +857,7 @@ function Home() {
                       <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform duration-300" />
                     </Link>
                     <a
-                      href="https://wa.me/919213005611?text=Hello%20Nestoria%20Group,%20please%20send%20brochure%20and%20project%20details"
+                      href="https://wa.me/919274411712?text=Hello%20Nestoria%20Group,%20please%20send%20brochure%20and%20project%20details"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="py-2.5 px-3 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-slate-700 hover:text-emerald-700 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1"
@@ -973,11 +1077,24 @@ function Home() {
             </p>
           </div>
 
+          {apiEventsLoading && (
+            <div className="flex items-center justify-center py-4 mb-6">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+            </div>
+          )}
+
+          {apiEventsError && !apiEventsLoading && (
+            <div className="flex items-center justify-center gap-2 py-4 mb-6 text-sm font-semibold text-red-700">
+              <AlertCircle className="w-4 h-4" />
+              {apiEventsError}
+            </div>
+          )}
+
           {/* Event Status Tabs */}
           <div className="flex items-center justify-center gap-2 mb-5">
             {[
-              { id: 'existing', label: 'Existing Events', count: 9 },
-              { id: 'upcoming', label: 'Upcoming Events', count: 2 }
+              { id: 'existing', label: 'Existing Events', count: apiExistingEvents.length },
+              { id: 'upcoming', label: 'Upcoming Events', count: apiUpcomingEvents.length }
             ].map((type) => (
               <button
                 key={type.id}
@@ -1002,12 +1119,12 @@ function Home() {
           {galleryType === 'existing' && (
             <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 mb-8 sm:mb-10 no-scrollbar">
               {[
-                { id: 'all', label: 'All Events & Functions', count: 9 },
-                { id: 'conclaves', label: 'Investor Conclaves', count: 2 },
-                { id: 'ceremonies', label: 'Bhoomi Pujan & Launches', count: 1 },
-                { id: 'awards', label: 'Awards & Felicitations', count: 2 },
-                { id: 'celebrations', label: 'Festive & Galas', count: 2 },
-                { id: 'delegations', label: 'VIP Delegations & Meets', count: 2 }
+                { id: 'all', label: 'All Events & Functions', count: apiExistingEvents.length },
+                { id: 'conclaves', label: 'Investor Conclaves', count: apiExistingEvents.filter((item) => item.category === 'conclaves').length },
+                { id: 'ceremonies', label: 'Bhoomi Pujan & Launches', count: apiExistingEvents.filter((item) => item.category === 'ceremonies').length },
+                { id: 'awards', label: 'Awards & Felicitations', count: apiExistingEvents.filter((item) => item.category === 'awards').length },
+                { id: 'celebrations', label: 'Festive & Galas', count: apiExistingEvents.filter((item) => item.category === 'celebrations').length },
+                { id: 'delegations', label: 'VIP Delegations & Meets', count: apiExistingEvents.filter((item) => item.category === 'delegations').length }
               ].map((cat) => (
                 <button
                   key={cat.id}
@@ -1031,154 +1148,17 @@ function Home() {
 
           {/* Bento Style Responsive Grid */}
           {(() => {
-            const existingEvents = [
-              {
-                id: 1,
-                title: "Annual Dholera SIR Mega Investor Conclave",
-                category: "conclaves",
-                categoryLabel: "Investor Summit",
-                location: "The Grand Hyatt, Ahmedabad",
-                image: eventNews1,
-                gridClass: "col-span-1 md:col-span-2 lg:col-span-2 row-span-2 min-h-[340px] md:min-h-[460px]",
-                badge: "500+ Attendees",
-                tagColor: "bg-blue-600",
-                desc: "High-level strategic conclave bringing together institutional investors, defense veterans, and business leaders for Dholera Smart City roadmap."
-              },
-              {
-                id: 2,
-                title: "Bhoomi Pujan & Auspicious Foundation Ceremony",
-                category: "ceremonies",
-                categoryLabel: "Foundation Ceremony",
-                location: "Dholera SIR Activation Zone",
-                image: eventNews2,
-                gridClass: "col-span-1 md:col-span-1 lg:col-span-1 row-span-1 min-h-[220px]",
-                badge: "Township Launch",
-                tagColor: "bg-amber-600",
-                desc: "Traditional Vedic foundation stone laying ceremony attended by company directors, Vedic scholars, and early-stage land investors."
-              },
-              {
-                id: 3,
-                title: "Real Estate Infrastructure Leadership Award",
-                category: "awards",
-                categoryLabel: "Excellence Award",
-                location: "National Conclave, Gandhinagar",
-                image: eventNews5,
-                gridClass: "col-span-1 md:col-span-1 lg:col-span-1 row-span-1 min-h-[220px]",
-                badge: "Industry Honor",
-                tagColor: "bg-emerald-600",
-                desc: "Nestoria Group executive leadership felicitated for groundbreaking 100% NA clear-title delivery and ethical land governance in Gujarat."
-              },
-              {
-                id: 4,
-                title: "Annual Corporate Milestone Gala & Felicitation",
-                category: "celebrations",
-                categoryLabel: "Milestone Gala",
-                location: "Nestoria Grand Banquet Hall",
-                image: eventNews3,
-                gridClass: "col-span-1 md:col-span-1 lg:col-span-1 row-span-2 min-h-[340px] md:min-h-[460px]",
-                badge: "15+ Yrs Trust",
-                tagColor: "bg-purple-600",
-                desc: "Celebrating 15+ years of excellence, recognizing outstanding team contributors, and honoring landmark project completion milestones."
-              },
-              {
-                id: 5,
-                title: "International NRI Delegation & VIP Briefing Meet",
-                category: "delegations",
-                categoryLabel: "VIP Delegation",
-                location: "Dholera Experience Centre",
-                image: mediaEvent1,
-                gridClass: "col-span-1 md:col-span-2 lg:col-span-2 row-span-1 min-h-[240px]",
-                badge: "Global Investors",
-                tagColor: "bg-indigo-600",
-                desc: "Hosting international NRI delegations and corporate partners with live master plan presentations, legal due-diligence sessions, and site briefings."
-              },
-              {
-                id: 6,
-                title: "Gujarat Smart Cities & Semiconductor Seminar",
-                category: "conclaves",
-                categoryLabel: "Industry Seminar",
-                location: "Mahatma Mandir Convention Centre",
-                image: mediaEvent2,
-                gridClass: "col-span-1 md:col-span-1 lg:col-span-1 row-span-1 min-h-[220px]",
-                badge: "Keynote Session",
-                tagColor: "bg-sky-600",
-                desc: "Keynote presentation by Nestoria leadership on the economic impact of Tata Semiconductor Fab, greenfield expressway, and Dholera commercial zoning."
-              },
-              {
-                id: 7,
-                title: "Festive Diwali Milan & Corporate Celebration",
-                category: "celebrations",
-                categoryLabel: "Festive Gathering",
-                location: "Nestoria Grand Event Lawns",
-                image: eventNews4,
-                gridClass: "col-span-1 md:col-span-1 lg:col-span-1 row-span-1 min-h-[220px]",
-                badge: "Family & Team",
-                tagColor: "bg-rose-600",
-                desc: "Joyous traditional festive gatherings bringing together executive leadership, dedicated staff, associates, and client families."
-              },
-              {
-                id: 8,
-                title: "Super Achievers Channel Partner Conclave",
-                category: "awards",
-                categoryLabel: "Partner Honors",
-                location: "Radisson Blu, Ahmedabad",
-                image: eventNews6,
-                gridClass: "col-span-1 md:col-span-2 lg:col-span-2 row-span-1 min-h-[220px]",
-                badge: "Top Achievers",
-                tagColor: "bg-teal-600",
-                desc: "Felicitation ceremony honoring top-performing channel partners, wealth advisors, and distribution networks across India and abroad."
-              },
-              {
-                id: 9,
-                title: "Executive Strategic Planning & Governance Workshop",
-                category: "delegations",
-                categoryLabel: "Board Review",
-                location: "Nestoria Executive Boardroom",
-                image: teamDis,
-                gridClass: "col-span-1 md:col-span-2 lg:col-span-2 row-span-1 min-h-[220px]",
-                badge: "Project Review",
-                tagColor: "bg-slate-800",
-                desc: "Board of Directors and engineering team reviewing on-ground development speed, legal compliance filings, and infrastructure handovers."
-              }
-            ];
-
-            const upcomingEvents = [
-              {
-                id: 'upcoming-1',
-                title: "Dholera SIR 2026 Investor Preview Meet",
-                categoryLabel: "Investor Preview",
-                location: "Ahmedabad Corporate Office",
-                image: eventNews1,
-                gridClass: "col-span-1 md:col-span-2 lg:col-span-2 row-span-2 min-h-[340px] md:min-h-[460px]",
-                badge: "Registration Open",
-                tagColor: "bg-blue-600",
-                desc: "Join our upcoming investor briefing for the latest Dholera SIR infrastructure and project updates.",
-                registrationUrl: ""
-              },
-              {
-                id: 'upcoming-2',
-                title: "Nestoria Project Site Visit & Open House",
-                categoryLabel: "Site Visit",
-                location: "Dholera SIR",
-                image: eventNews2,
-                gridClass: "col-span-1 md:col-span-1 lg:col-span-2 row-span-1 min-h-[220px]",
-                badge: "Registration Open",
-                tagColor: "bg-emerald-600",
-                desc: "Reserve your seat for a guided project tour and on-site briefing with the Nestoria team.",
-                registrationUrl: ""
-              }
-            ];
-
-            const galleryItems = galleryType === 'upcoming' ? upcomingEvents : existingEvents;
+            const galleryItems = galleryType === 'upcoming' ? apiUpcomingEvents : apiExistingEvents;
 
             const filteredItems = galleryType === 'upcoming' || galleryCategory === 'all'
               ? galleryItems
               : galleryItems.filter(item => item.category === galleryCategory);
+            const itemsToShow = filteredItems.slice(0, 3);
 
             return (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
-                  {filteredItems.map((item, index) => (
+                  {itemsToShow.map((item, index) => (
                     <div
                       key={item.id}
                       onClick={() => setLightboxIndex(index)}
@@ -1264,10 +1244,10 @@ function Home() {
                       <div className="flex items-center justify-between px-5 py-3.5 bg-slate-950 border-b border-slate-800 text-white shrink-0">
                         <div className="flex items-center gap-3">
                           <span className="text-xs font-bold text-slate-400">
-                            Event Photo {lightboxIndex + 1} of {filteredItems.length}
+                            Event Photo {lightboxIndex + 1} of {itemsToShow.length}
                           </span>
                           <span className="text-[11px] bg-blue-600/30 text-blue-300 border border-blue-500/40 px-2.5 py-0.5 rounded-full font-semibold">
-                            {filteredItems[lightboxIndex].categoryLabel}
+                            {itemsToShow[lightboxIndex].categoryLabel}
                           </span>
                         </div>
 
@@ -1284,8 +1264,8 @@ function Home() {
                       {/* Main Image Stage */}
                       <div className="relative flex-1 bg-black flex items-center justify-center overflow-hidden min-h-[300px] sm:min-h-[420px] max-h-[62vh]">
                         <img
-                          src={filteredItems[lightboxIndex].image}
-                          alt={filteredItems[lightboxIndex].title}
+                          src={itemsToShow[lightboxIndex].image}
+                          alt={itemsToShow[lightboxIndex].title}
                           className="max-w-full max-h-[60vh] object-contain mx-auto"
                         />
 
@@ -1294,7 +1274,7 @@ function Home() {
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
-                            setLightboxIndex((lightboxIndex - 1 + filteredItems.length) % filteredItems.length);
+                            setLightboxIndex((lightboxIndex - 1 + itemsToShow.length) % itemsToShow.length);
                           }}
                           className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/60 hover:bg-blue-600 text-white flex items-center justify-center backdrop-blur-md transition-all shadow-lg cursor-pointer hover:scale-125 hover:shadow-xl hover:shadow-blue-600/50 duration-300"
                           aria-label="Previous Image"
@@ -1306,7 +1286,7 @@ function Home() {
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
-                            setLightboxIndex((lightboxIndex + 1) % filteredItems.length);
+                            setLightboxIndex((lightboxIndex + 1) % itemsToShow.length);
                           }}
                           className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/60 hover:bg-blue-600 text-white flex items-center justify-center backdrop-blur-md transition-all shadow-lg cursor-pointer hover:scale-125 hover:shadow-xl hover:shadow-blue-600/50 duration-300"
                           aria-label="Next Image"
@@ -1323,10 +1303,10 @@ function Home() {
                             <span>{filteredItems[lightboxIndex].location}</span>
                           </div>
                           <h4 className="text-base sm:text-lg font-bold text-white">
-                            {filteredItems[lightboxIndex].title}
+                            {itemsToShow[lightboxIndex].title}
                           </h4>
                           <p className="text-xs text-slate-400 mt-1 max-w-2xl">
-                            {filteredItems[lightboxIndex].desc}
+                            {itemsToShow[lightboxIndex].desc}
                           </p>
                         </div>
 
@@ -1335,7 +1315,7 @@ function Home() {
                             type="button"
                             onClick={() => {
                               setLightboxIndex(null);
-                              openSiteVisitModal(`Event Inquiry - ${filteredItems[lightboxIndex].title}`);
+                              openSiteVisitModal(`Event Inquiry - ${itemsToShow[lightboxIndex].title}`);
                             }}
                             className="flex-1 sm:flex-none py-2.5 px-5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer hover:scale-105 duration-300"
                           >
@@ -1343,8 +1323,8 @@ function Home() {
                             Inquire for Next Conclave
                           </button>
                           <a
-                            href={filteredItems[lightboxIndex].image}
-                            download={`nestoria-event-${filteredItems[lightboxIndex].id}.jpeg`}
+                            href={itemsToShow[lightboxIndex].image}
+                            download={`nestoria-event-${itemsToShow[lightboxIndex].id}.jpeg`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors flex items-center justify-center"
@@ -1364,11 +1344,11 @@ function Home() {
           {/* Action Row */}
           <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
             <Link
-              to="/media"
+              to="/events-gallery"
               className="inline-flex items-center gap-2 py-3.5 px-7 bg-white hover:bg-blue-50 text-blue-700 font-bold text-sm rounded-2xl border border-slate-300 hover:border-blue-300 shadow-sm hover:shadow-md transition-all group hover:scale-105 hover:-translate-y-0.5 duration-300"
             >
               <Grid className="w-4 h-4 text-blue-600 group-hover:scale-110 transition-transform" />
-              <span>View Full Media & News Coverage</span>
+              <span>View Full Events & Functions Gallery</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
             </Link>
 
@@ -1412,7 +1392,7 @@ function Home() {
 
             {/* Subtitle Description */}
             <p className="text-base sm:text-lg md:text-xl mb-10 max-w-2xl mx-auto text-slate-300 leading-relaxed font-normal">
-              Join over <strong className="text-white font-semibold">5,000+ smart investors</strong> capitalizing on India&apos;s first platinum greenfield smart city. Get customized plot recommendations, clear title documentation, and immediate registry assistance.
+              Join over <strong className="text-white font-semibold">8,000+ smart investors</strong> capitalizing on India&apos;s first platinum greenfield smart city. Get customized plot recommendations, clear title documentation, and immediate registry assistance.
             </p>
 
             {/* Trust Highlights Grid */}
@@ -1439,7 +1419,7 @@ function Home() {
                 className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 hover:from-blue-500 hover:via-blue-400 hover:to-blue-600 text-white font-bold text-sm sm:text-base rounded-2xl shadow-xl shadow-blue-600/40 hover:shadow-2xl hover:shadow-blue-500/60 transition-all transform hover:-translate-y-1 hover:scale-105 flex items-center justify-center gap-2.5 cursor-pointer duration-300"
               >
                 <Car className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span>Book Free VIP Site Tour</span>
+                <span>Book Your Property</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
               </button>
 
@@ -1470,102 +1450,6 @@ function Home() {
         </div>
       </section>
 
-
-      {/* Executive Team Section */}
-      <section className="py-16 md:py-24 bg-slate-50 border-b border-slate-200/80">
-        <div className="container mx-auto px-4">
-          
-          {/* Section Header */}
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
-              <Award className="w-3.5 h-3.5 text-blue-600" />
-              Executive Stewardship
-            </div>
-            
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
-              Visionary <span className="text-blue-600">Leadership</span>
-            </h2>
-            
-            <div className="h-1 w-20 bg-blue-600 mx-auto mt-3 mb-4 rounded-full"></div>
-            
-            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              Meet the executive leadership driving Nestoria Group&apos;s pioneering infrastructure vision and customer-first land governance in Dholera SIR.
-            </p>
-          </div>
-
-          {/* Team Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {[
-              {
-                name: "ShivKumar Singh Tomar",
-                role: "Chairman & Founder",
-                tag: "Strategic Vision",
-                image: shivji,
-                badgeColor: "bg-blue-600 text-white"
-              },
-              {
-                name: "Mohan Singh Tomar",
-                role: "Chief Executive Officer (CEO)",
-                tag: "Operations & Expansion",
-                image: mohanji,
-                badgeColor: "bg-emerald-600 text-white"
-              },
-              {
-                name: "Nitin Singh Tomar",
-                role: "Managing Director",
-                tag: "Project Delivery",
-                image: nitinji,
-                badgeColor: "bg-purple-600 text-white"
-              },
-            ].map((member, i) => (
-              <div 
-                key={i}
-                className="group bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 overflow-hidden flex flex-col hover:-translate-y-1.5"
-              >
-                <div className="relative overflow-hidden bg-slate-100 aspect-[4/5] sm:aspect-square md:aspect-[4/5]">
-                  <img
-                    src={member.image}
-                    alt={`${member.name} - ${member.role}`}
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
-                  
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <span className={`inline-block text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md mb-1.5 ${member.badgeColor}`}>
-                      {member.tag}
-                    </span>
-                    <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-blue-100 transition-all duration-300">
-                      {member.name}
-                    </h3>
-                  </div>
-                </div>
-
-                <div className="p-5 text-center bg-white border-t border-slate-100">
-                  <p className="text-blue-700 font-extrabold text-xs sm:text-sm uppercase tracking-wider mb-2">
-                    {member.role}
-                  </p>
-                  <p className="text-slate-500 text-xs leading-normal">
-                    Pioneering ethical, high-growth real estate development in Dholera SIR.
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* CTA Button */}
-          <div className="text-center mt-12">
-            <Link
-              to="/team"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-bold py-3.5 px-8 rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-2xl hover:shadow-blue-600/40 transition-all duration-300 text-sm group hover:scale-110 hover:-translate-y-1"
-            >
-              <Users className="w-4 h-4 group-hover:scale-110 transition-transform" />
-              <span>Meet Our Full Management Team</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Testimonials Section */}
       <section className="py-16 md:py-24 bg-white">
@@ -1670,7 +1554,7 @@ function Home() {
             </div>
             <div className="flex items-center justify-center px-2">
               
-              <span className="font-bold text-white">7000+</span>
+              <span className="font-bold text-white">8,000+</span>
               <span className="ml-2 text-sm text-gray-300 hidden md:inline">Delighted Clients</span>
             </div>
              <div className="flex items-center justify-center md:justify-end px-2">

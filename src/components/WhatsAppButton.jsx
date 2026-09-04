@@ -12,7 +12,7 @@ export default function WhatsAppButton() {
       onMouseLeave={() => setIsHovered(false)}
     >
       <a
-        href="https://wa.me/919213005611?text=Hello%20Nestoria%20Group,%20I%20am%20interested%20in%20Dholera%20SIR%20plots%20and%20projects.%20Please%20share%20details."
+        href="https://wa.me/919274411712?text=Hello%20Nestoria%20Group,%20I%20am%20interested%20in%20Dholera%20SIR%20plots%20and%20projects.%20Please%20share%20details."
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with Nestoria Group on WhatsApp"

@@ -28,6 +28,11 @@ import greenVistaLocation from '../assets/img/project/green-vista-location.webp'
 import greenVistaAmenities from '../assets/img/project/green-vista-amenities.webp';
 import atulyamBanner from '../assets/img/project/atulyam-banner.webp';
 import atulyamLogo from '../assets/img/nestoria-atulyam-logo.png';
+import greenVistaLogo from '../assets/img/Green Vista Logo.png';
+import semiconResidencyLogo from '../assets/img/Semicon Residency Logo.png';
+import emeraldLogo from '../assets/img/Emerald Commercial Hub Logo.png';
+import nestoriaHomesLogo from '../assets/img/Nestoria Homes Logo.png';
+import skylineLogo from '../assets/img/Skyline Imperia Logo.png';
 import atulyamAmenities from '../assets/img/project/atulyam-emenities.webp';
 import atulyamLayout from '../assets/img/project/atulyam-layout.webp';
 import atulyamLocation from '../assets/img/project/atulyam-location.webp';
@@ -156,6 +161,7 @@ export const allProjects = [
     areaRange: '1,350 - 4,500 Sq. Ft.',
     totalUnits: '136 NA Plotted Units',
     image: greenVistaBanner,
+    logo: greenVistaLogo,
     gallery: [greenVistaBanner, greenVistaLayout, greenVistaLocation, greenVistaAmenities],
     reraNumber: 'Government NA Order & Plan Pass Approved',
     possession: 'Immediate Registry & Demarcated Plots',
@@ -218,6 +224,7 @@ export const allProjects = [
     areaRange: '1,575 - 5,400 Sq. Ft.',
     totalUnits: '128 High-Demand Plots',
     image: semiconBanner,
+    logo: semiconResidencyLogo,
     gallery: [semiconBanner, semiconLayout, semiconLocation, semiconAmenities],
     reraNumber: 'NA Final Order for Residential Purpose / Title Clear',
     possession: 'Immediate Registry & Fast Possession',
@@ -279,6 +286,7 @@ export const allProjects = [
     areaRange: '2,700 - 22,500 Sq. Ft.',
     totalUnits: '42 Premium Commercial Parcels',
     image: emeraldBanner,
+    logo: emeraldLogo,
     gallery: [emeraldBanner, emeraldLayout, emeraldLocation, emeraldSurvey],
     reraNumber: 'NA Multi-Purpose Commercial Approved / Registered Sale Deed 4438',
     possession: 'Immediate Registry & Construction Ready',
@@ -338,6 +346,7 @@ export const allProjects = [
     areaRange: '1,440 - 6,300 Sq. Ft.',
     totalUnits: '140 Residential Plots',
     image: nestoriaHomesBanner,
+    logo: nestoriaHomesLogo,
     gallery: [nestoriaHomesBanner, nestoriaHomesLayout, nestoriaHomesLocation, nestoriaHomesAmenities],
     reraNumber: 'NA Approved Clear Title / Plan Pass Sanctioned',
     possession: 'Immediate Registry',
@@ -399,6 +408,7 @@ export const allProjects = [
     areaRange: '1,800 - 9,000 Sq. Ft.',
     totalUnits: '98 Premium Residential & Retail Plots',
     image: skylineBanner,
+    logo: skylineLogo,
     gallery: [skylineBanner, skylineAmenities, skylineLocation, skylineLayout],
     reraNumber: 'Final NA Order (Residential & Commercial) / Registered Sale Deed 4467',
     possession: 'Immediate Registry & Ready for Possession',
@@ -462,7 +472,7 @@ export const allProjects = [
     totalUnits: '148 Premium Plots',
     image: dholeraBhoomi,
     gallery: [dholeraBhoomi, natureNest, sunshineResidency],
-    reraNumber: 'AUDA & Dholera SIRDA Approved / Clear Title',
+    reraNumber: 'Clear Title / Verified Documentation',
     possession: 'Immediate Registry & Possession',
     description: 'Dholera Bhoomi is Nestoria Group’s landmark residential plotting project located in the heart of Town Planning 2. Designed for visionary investors and homeowners, it provides 100% legally clear title, NA (Non-Agricultural) plotted land with underground smart utilities and immediate registry.',
     overview: 'Positioned close to the upcoming ABCD building and express highway junction, Dholera Bhoomi represents the pinnacle of smart-city urban living with zero pollution, green boulevards, and rapid capital appreciation potential.',
@@ -470,7 +480,7 @@ export const allProjects = [
       'Immediate Registry & Sub-Registrar Clear Title',
       'Direct connectivity to Ahmedabad-Dholera 6-Lane Expressway',
       'Located within 5 minutes of Dholera Activation Zone (TP2A)',
-      '100% NA Plotted Project with AUDA / Dholera SIRDA clearance',
+      '100% NA Plotted Project with verified legal documentation',
       'Equipped with 12m & 18m internal wide concrete roads'
     ],
     amenities: [
@@ -509,7 +519,7 @@ export const allProjects = [
     totalUnits: '120 Plots',
     image: dholeraBhoomi2,
     gallery: [dholeraBhoomi2, dholeraBhoomi3, orchidVillaGreens],
-    reraNumber: 'Dholera SIRDA Compliant / NA NOC Clear',
+    reraNumber: 'Verified Documentation / NA NOC Clear',
     possession: 'Immediate Registry',
     description: 'Following the immense success of Phase I, Dholera Bhoomi Phase II delivers upgraded civic infrastructure, wider tree-lined avenues, integrated compound walls, and close proximity to the proposed IT & Knowledge Park.',
     overview: 'Strategically located within the rapid development zone, this project offers flexible installment options and high appreciation backed by government investments in expressway connectivity and water treatment facilities.',

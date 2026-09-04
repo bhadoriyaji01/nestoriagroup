@@ -107,7 +107,7 @@ export default function Projects() {
         <div className="container mx-auto px-4 text-center max-w-4xl">
           <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-blue-200">
             <Sparkles className="w-4 h-4" />
-            100% NA Title Clear & AUDA / SIRDA Approved
+            100% NA Title Clear
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 leading-tight">
             Our Master-Planned <span className="text-blue-600">Townships in Dholera SIR</span>
@@ -225,18 +225,18 @@ export default function Projects() {
                   {/* Card Content Body */}
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                     <div>
-                      {project.logo && (
-                        <div className="w-full h-12 mb-3 flex items-center">
-                          <img src={project.logo} alt={`${project.title} logo`} className="max-w-[180px] max-h-12 object-contain object-left" />
+                      <div className="flex items-center gap-3 mb-3 min-w-0">
+                        {project.logo && (
+                          <img src={project.logo} alt={`${project.title} logo`} className="w-16 h-12 object-contain object-left shrink-0" />
+                        )}
+                        <div className="min-w-0">
+                          <span className="text-xs font-bold text-blue-600 uppercase tracking-wider block truncate">
+                            {project.category}
+                          </span>
+                          <span className="text-[11px] text-emerald-600 font-semibold block">
+                            100% Clear Title
+                          </span>
                         </div>
-                      )}
-                      <div className="flex items-baseline justify-between mb-1">
-                        <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">
-                          {project.category}
-                        </span>
-                        <span className="text-xs text-emerald-600 font-semibold">
-                          AUDA & SIRDA Approved
-                        </span>
                       </div>
 
                       <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
@@ -258,8 +258,8 @@ export default function Projects() {
                     {/* Key Attributes Grid */}
                     <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 text-xs">
                       <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                        <span className="text-[10px] text-slate-400 block">Plot Sizes</span>
-                        <strong className="text-slate-800 font-semibold truncate block">{project.plotSizes}</strong>
+                        <span className="text-[10px] text-slate-400 block">Plot Size</span>
+                        <strong className="text-slate-800 font-semibold truncate block">100 sq. yard onwards</strong>
                       </div>
                       <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
                         <span className="text-[10px] text-slate-400 block">Title Status</span>
@@ -313,7 +313,7 @@ export default function Projects() {
               <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-2">
                 <Car className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900">Book Free VIP Site Tour</h3>
+              <h3 className="text-2xl font-bold text-slate-900">Book Your Property</h3>
               <p className="text-xs text-slate-600 mt-1">
                 Project: <strong className="text-blue-600">{selectedProjectForTour.title}</strong>
               </p>
@@ -346,41 +346,27 @@ export default function Projects() {
                     className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-800"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Phone Number *</label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="+91 98765 43210"
-                      value={tourForm.phone}
-                      onChange={(e) => setTourForm({ ...tourForm, phone: e.target.value })}
-                      className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-800"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Preferred Date</label>
-                    <input
-                      type="date"
-                      value={tourForm.date}
-                      onChange={(e) => setTourForm({ ...tourForm, date: e.target.value })}
-                      className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-800"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Phone Number *</label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 98765 43210"
+                    value={tourForm.phone}
+                    onChange={(e) => setTourForm({ ...tourForm, phone: e.target.value })}
+                    className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-800"
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Pickup Location</label>
-                  <select
-                    value={tourForm.pickup}
-                    onChange={(e) => setTourForm({ ...tourForm, pickup: e.target.value })}
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Additional Requirement</label>
+                  <textarea
+                    value={tourForm.message || ''}
+                    onChange={(e) => setTourForm({ ...tourForm, message: e.target.value })}
+                    placeholder="Tell us what you are looking for"
+                    rows="2"
                     className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800"
-                  >
-                    <option value="Ahmedabad Corporate Office (Satellite Road)">Ahmedabad Corporate Office</option>
-                    <option value="Ahmedabad Airport (SVP International)">Ahmedabad Airport</option>
-                    <option value="Sabarmati / Kalupur Railway Station">Sabarmati / Kalupur Station</option>
-                    <option value="Direct Dholera Site Office (Self Drive)">Direct Dholera Site Office</option>
-                  </select>
+                  />
                 </div>
 
                 <button
@@ -388,7 +374,7 @@ export default function Projects() {
                   className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-lg transition-all flex items-center justify-center gap-1.5"
                 >
                   <CheckCircle2 className="w-4 h-4" />
-                  Confirm Free VIP Site Tour
+                  Book Your Property
                 </button>
               </form>
             )}

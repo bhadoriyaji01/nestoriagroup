@@ -10,6 +10,7 @@ import {
 import { allProjects, getProjectBySlug } from '../data/projectsData';
 import Seo from '../components/Seo';
 import { getRealEstateListingSchema, getBreadcrumbSchema } from '../utils/SchemaMarkup';
+import ContactService from '../services/ContactService';
 import confetti from 'canvas-confetti';
 
 export default function ProjectDetail() {
@@ -26,8 +27,6 @@ export default function ProjectDetail() {
     name: '',
     phone: '',
     email: '',
-    date: '',
-    pickup: 'Ahmedabad Corporate Office (Satellite Road)',
     message: ''
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -64,27 +63,23 @@ export default function ProjectDetail() {
       return;
     }
 
-    const refId = `NST-${Math.floor(100000 + Math.random() * 900000)}`;
-    const leads = JSON.parse(localStorage.getItem('nestoria_leads') || '[]');
-    leads.push({
-      id: refId,
-      timestamp: new Date().toISOString(),
-      project: project.title,
-      ...leadForm
+    ContactService.sendContactForm({
+      name: leadForm.name,
+      phone: leadForm.phone,
+      email: leadForm.email,
+      subject: `Property Booking Request - ${project.title}`,
+      message: `Interested project: ${project.title}\nAdditional requirement: ${leadForm.message || 'Not specified'}`
+    }).then(() => {
+      setFormSubmitted(true);
+      try { confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); } catch { /* optional enhancement */ }
+    }).catch(() => {
+      alert("We could not send your request. Please try again.");
     });
-    localStorage.setItem('nestoria_leads', JSON.stringify(leads));
-
-    setFormSubmitted(true);
-    try {
-      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-    } catch {
-      // ignore
-    }
   };
 
   const handleWhatsAppInquiry = () => {
-    const text = `Hello Nestoria Group, I am interested in ${project.title} (${project.location}). Please send the brochure, layout plan, and book a free site visit for me.`;
-    window.open(`https://wa.me/919213005611?text=${encodeURIComponent(text)}`, '_blank');
+    const text = `Hello Nestoria Group, I would like to book ${project.title} through your property team. Please have an expert contact me.`;
+    window.open(`https://wa.me/919274411712?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   // Structured Schema Markup for Project Page
@@ -107,7 +102,7 @@ export default function ProjectDetail() {
     <div className="bg-slate-50 min-h-screen">
       <Seo
         title={`${project.title} Dholera SIR | Layout, NA Plots & Site Visit | Nestoria Group`}
-        description={`${project.title} in ${project.location}. AUDA-approved NA clear title plots near Tata Semiconductor Fab & Ahmedabad-Dholera Expressway. Free chauffeur site visits.`}
+        description={`${project.title} in ${project.location}. 100% clear title plots near Tata Semiconductor Fab & Ahmedabad-Dholera Expressway. Free chauffeur site visits.`}
         keywords={`${project.title}, ${project.title} Dholera, Dholera SIR plots, buy plots in Dholera, Dholera property investment, Nestoria Group projects, ${project.zone}, NA clear title plots`}
         canonicalUrl={`/project/${project.slug}`}
         imageUrl={project.image}
@@ -263,7 +258,7 @@ export default function ProjectDetail() {
                 </span>
                 <span className="flex items-center gap-1 font-medium">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  AUDA & SIRDA Approved
+                  100% Clear Title
                 </span>
                 <span className="flex items-center gap-1 font-medium">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
@@ -288,7 +283,7 @@ export default function ProjectDetail() {
               { id: 'videos', label: 'Videos & Virtual Tour' },
               { id: 'amenities', label: 'World-Class Amenities' },
               { id: 'connectivity', label: 'Strategic Connectivity' },
-              { id: 'booking', label: 'Book Site Visit' }
+              { id: 'booking', label: 'Book Your Property' }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -658,14 +653,14 @@ export default function ProjectDetail() {
             </div>
           )}
 
-          {/* TAB 5: BOOK SITE VISIT */}
+          {/* TAB 5: BOOK YOUR PROPERTY */}
           {activeTab === 'booking' && (
             <div className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200 shadow-sm animate-fade-in max-w-3xl mx-auto">
               <div className="text-center mb-8">
                 <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
                   <Car className="w-6 h-6" />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Schedule Your Free VIP Site Tour</h2>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Book Your Property</h2>
                 <p className="text-slate-600 text-sm mt-1">
                   Complimentary AC vehicle pickup from Ahmedabad Airport, Railway Station, or our Corporate HQ.
                 </p>
@@ -674,7 +669,7 @@ export default function ProjectDetail() {
               {formSubmitted ? (
                 <div className="p-8 text-center bg-emerald-50 border border-emerald-200 rounded-3xl space-y-4">
                   <CheckCircle2 className="w-16 h-16 text-emerald-600 mx-auto" />
-                  <h3 className="text-2xl font-bold text-slate-900">Site Visit Request Confirmed!</h3>
+                  <h3 className="text-2xl font-bold text-slate-900">Property Booking Request Received!</h3>
                   <p className="text-sm text-slate-600 max-w-md mx-auto">
                     Thank you {leadForm.name}! Our hospitality team has reserved your VIP seat for {project.title}. We will contact you at {leadForm.phone} with vehicle coordinates.
                   </p>
@@ -682,7 +677,7 @@ export default function ProjectDetail() {
                     onClick={() => setFormSubmitted(false)}
                     className="py-2.5 px-6 bg-emerald-600 text-white font-bold text-xs rounded-xl shadow-md"
                   >
-                    Book Another Tour
+                    Book Another Property
                   </button>
                 </div>
               ) : (
@@ -712,40 +707,26 @@ export default function ProjectDetail() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Email Address</label>
-                      <input
-                        type="email"
-                        placeholder="sunil@example.com"
-                        value={leadForm.email}
-                        onChange={(e) => setLeadForm({ ...leadForm, email: e.target.value })}
-                        className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white text-slate-800"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Preferred Date</label>
-                      <input
-                        type="date"
-                        value={leadForm.date}
-                        onChange={(e) => setLeadForm({ ...leadForm, date: e.target.value })}
-                        className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white text-slate-800"
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">Email Address</label>
+                    <input
+                      type="email"
+                      placeholder="sunil@example.com"
+                      value={leadForm.email}
+                      onChange={(e) => setLeadForm({ ...leadForm, email: e.target.value })}
+                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white text-slate-800"
+                    />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Pickup Point</label>
-                    <select
-                      value={leadForm.pickup}
-                      onChange={(e) => setLeadForm({ ...leadForm, pickup: e.target.value })}
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">Additional Requirement</label>
+                    <textarea
+                      value={leadForm.message}
+                      onChange={(e) => setLeadForm({ ...leadForm, message: e.target.value })}
+                      placeholder="Tell us what you are looking for"
+                      rows="3"
                       className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white text-slate-800"
-                    >
-                      <option value="Ahmedabad Corporate Office (Satellite Road)">Ahmedabad Office (Satellite Rd)</option>
-                      <option value="Ahmedabad Airport (SVP International)">Ahmedabad Airport</option>
-                      <option value="Sabarmati / Kalupur Railway Station">Sabarmati / Kalupur Railway Station</option>
-                      <option value="Direct Dholera Site Office (Self Drive)">Direct Dholera Site Office</option>
-                    </select>
+                    />
                   </div>
 
                   <button
@@ -753,7 +734,7 @@ export default function ProjectDetail() {
                     className="w-full py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-2xl shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
                   >
                     <CheckCircle2 className="w-5 h-5" />
-                    Confirm Free VIP Site Tour
+                    Book Your Property
                   </button>
                 </form>
               )}
@@ -835,7 +816,7 @@ export default function ProjectDetail() {
             </button>
 
             <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-slate-900">Book Free VIP Site Tour</h3>
+              <h3 className="text-2xl font-bold text-slate-900">Book Your Property</h3>
               <p className="text-xs text-slate-600 mt-1">Touring: <strong className="text-blue-600">{project.title}</strong></p>
             </div>
 
@@ -866,7 +847,7 @@ export default function ProjectDetail() {
                     className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-800"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div>
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1">Phone Number *</label>
                     <input
@@ -879,28 +860,26 @@ export default function ProjectDetail() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Preferred Date</label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">Email Address</label>
                     <input
-                      type="date"
-                      value={leadForm.date}
-                      onChange={(e) => setLeadForm({ ...leadForm, date: e.target.value })}
+                      type="email"
+                      placeholder="name@example.com"
+                      value={leadForm.email}
+                      onChange={(e) => setLeadForm({ ...leadForm, email: e.target.value })}
                       className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-800"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Pickup Location</label>
-                  <select
-                    value={leadForm.pickup}
-                    onChange={(e) => setLeadForm({ ...leadForm, pickup: e.target.value })}
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Additional Requirement</label>
+                  <textarea
+                    value={leadForm.message}
+                    onChange={(e) => setLeadForm({ ...leadForm, message: e.target.value })}
+                    placeholder="Tell us what you are looking for"
+                    rows="2"
                     className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800"
-                  >
-                    <option value="Ahmedabad Corporate Office (Satellite Road)">Ahmedabad Corporate Office</option>
-                    <option value="Ahmedabad Airport (SVP International)">Ahmedabad Airport</option>
-                    <option value="Sabarmati / Kalupur Railway Station">Sabarmati / Kalupur Station</option>
-                    <option value="Direct Dholera Site Office (Self Drive)">Direct Dholera Site Office</option>
-                  </select>
+                  />
                 </div>
 
                 <button
@@ -908,7 +887,7 @@ export default function ProjectDetail() {
                   className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-lg transition-all flex items-center justify-center gap-1.5"
                 >
                   <CheckCircle2 className="w-4 h-4" />
-                  Confirm Free VIP Site Tour
+                  Book Your Property
                 </button>
               </form>
             )}

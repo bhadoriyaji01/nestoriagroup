@@ -55,7 +55,7 @@ function Services() {
             </Link>
             <button onClick={() => openSiteVisitModal("Services Hero")} className="group bg-slate-900/90 hover:bg-slate-800 text-white border-2 border-blue-500/70 hover:border-blue-300 font-bold text-base py-3.5 px-7 rounded-xl backdrop-blur-md shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 hover:scale-105 w-full sm:w-auto flex items-center justify-center gap-2 cursor-pointer">
               <Car className="w-5 h-5 text-blue-400" />
-              <span>Book Site Visit</span>
+              <span>Book Your Property</span>
             </button>
           </div>
         </div>
@@ -80,7 +80,7 @@ function Services() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {[
-              { icon: HomeIcon, title: "Residential Plots", desc: "Premium residential plots in strategic locations within Dholera SIR, perfect for building your dream home or for investment purposes.", tag: "High Appreciation", tagColor: "bg-blue-600/20 text-blue-700 border-blue-500/30", badge: "Starting 100 Sq. Yds" },
+              { icon: HomeIcon, title: "Residential Plots", desc: "Premium residential plots in strategic locations within Dholera SIR, perfect for building your dream home or for investment purposes.", tag: "High Appreciation", tagColor: "bg-blue-600/20 text-blue-700 border-blue-500/30", badge: "100 sq. yard onwards" },
               { icon: Building2, title: "Commercial Properties", desc: "Strategic commercial plots in high-growth areas of Dholera SIR, ideal for businesses looking to establish presence in this emerging hub.", tag: "High ROI", tagColor: "bg-emerald-600/20 text-emerald-700 border-emerald-500/30", badge: "Main TP Corridors" },
               { icon: Factory, title: "Industrial Plots", desc: "Large industrial plots in designated zones of Dholera SIR, suitable for manufacturing, warehousing, and industrial operations.", tag: "Infra Ready", tagColor: "bg-purple-600/20 text-purple-700 border-purple-500/30", badge: "Near Tata Fab" },
               { icon: Search, title: "Property Consultation", desc: "Expert consultation to help you identify the right property based on your requirements, budget, and investment goals.", tag: "Expert Advisory", tagColor: "bg-amber-600/20 text-amber-700 border-amber-500/30", badge: "Personalized" },
@@ -300,7 +300,7 @@ function Services() {
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
               <button onClick={() => openSiteVisitModal("Services CTA")} type="button" className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white font-bold text-sm sm:text-base rounded-2xl shadow-xl shadow-blue-600/40 hover:shadow-2xl transition-all transform hover:-translate-y-1 hover:scale-105 flex items-center justify-center gap-2.5 cursor-pointer duration-300">
                 <Car className="w-5 h-5" />
-                <span>Book Free VIP Site Tour</span>
+                <span>Book Your Property</span>
               </button>
               <Link to="/contact" className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-blue-300/60 font-bold text-sm sm:text-base rounded-2xl backdrop-blur-sm transition-all transform hover:-translate-y-1 hover:scale-105 flex items-center justify-center gap-2.5 duration-300">
                 <Phone className="w-5 h-5 text-blue-300" />

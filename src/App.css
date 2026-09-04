@@ -35,6 +35,37 @@ input[type="reset"]:focus {
   position: relative;
 }
 
+/* Keep section watermarks atmospheric without competing with readable content. */
+.has-section-watermark {
+  position: relative;
+  isolation: isolate;
+}
+
+.has-section-watermark::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  width: clamp(130px, 19vw, 280px);
+  background-image: var(--section-watermark-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.075;
+  filter: grayscale(1) saturate(0.4);
+  pointer-events: none;
+  transform: scale(1.04);
+}
+
+.has-section-watermark[style*='--section-watermark-side: left']::after {
+  left: -2rem;
+}
+
+.has-section-watermark[style*='--section-watermark-side: right']::after {
+  right: -2rem;
+}
+
 /* Fix for dropdown visibility at top of page */
 nav {
   position: relative;

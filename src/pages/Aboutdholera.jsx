@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Seo from '../components/Seo';
 import { getBreadcrumbSchema } from '../utils/SchemaMarkup';
 import {
   Sparkles, MapPin, Phone, Mail, Search, ArrowRight, CheckCircle2,
   Train, Sun, Droplets, Wifi, Factory, Leaf, TrendingUp, Building2,
-  Handshake, Globe, Send, Loader2, XCircle, ShieldCheck
+  Handshake, Globe, Send, Loader2, XCircle, ShieldCheck, Video, Play
 } from 'lucide-react';
 import TabsComponent from '../components/TabsComponent';
 import ParallaxSection from '../components/ParallaxSection';
@@ -20,6 +20,8 @@ function Aboutdholera() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const videoRef = useRef(null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -67,7 +69,7 @@ function Aboutdholera() {
         title="About Dholera SIR | India's First Greenfield Smart Industrial City"
         description="Comprehensive guide to Dholera Special Investment Region (SIR), master plan, DSIRDA zoning, Tata Semiconductor plant, international airport, and high-ROI plotting."
         keywords="about Dholera SIR, Dholera Smart City master plan, DSIRDA Gujarat, Dholera industrial hub, Dholera greenfield city, Dholera TP1 TP2 zones, DMIC corridor"
-        canonicalUrl="/about-dholera"
+        canonicalUrl="/aboutDholera"
         schemaMarkup={getBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'About Dholera SIR', url: '/about-dholera' }])}
       />
       {/* Hero Section */}
@@ -167,6 +169,64 @@ function Aboutdholera() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Dholera Video Section */}
+      <section className="py-16 md:py-24 bg-slate-900 text-white relative overflow-hidden border-b border-slate-800">
+        <div className="absolute -top-24 left-1/4 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-20 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 bg-blue-500/15 border border-blue-400/30 text-blue-300 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+              <Video className="w-3.5 h-3.5 text-blue-400" />
+              Dholera Overview
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 leading-tight text-white">
+              Watch the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-300">Dholera Vision</span>
+            </h2>
+            <div className="h-1 w-20 bg-blue-500 mx-auto mb-4 rounded-full"></div>
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+              Experience the vision, infrastructure, and growth story behind Dholera SIR through this official project video.
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto rounded-[28px] overflow-hidden border border-slate-700/80 shadow-2xl shadow-blue-950/40 bg-slate-950">
+            <div className="relative aspect-video w-full bg-slate-950">
+              <video
+                ref={videoRef}
+                className="w-full h-full object-cover cursor-pointer"
+                playsInline
+                preload="auto"
+                poster={futuredholera}
+                onClick={() => {
+                  if (videoRef.current?.paused) {
+                    videoRef.current.play();
+                  } else {
+                    videoRef.current?.pause();
+                  }
+                }}
+                onPlay={() => setIsVideoPlaying(true)}
+                onPause={() => setIsVideoPlaying(false)}
+                onEnded={() => setIsVideoPlaying(false)}
+              >
+                <source src="https://nestoriagroup.com/India's-next-Dholera.mp4" type="video/mp4" />
+                Your browser does not support HTML5 video.
+              </video>
+              {!isVideoPlaying && (
+                <button
+                  type="button"
+                  onClick={() => videoRef.current?.play()}
+                  aria-label="Play Dholera vision video"
+                  className="absolute inset-0 m-auto w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-blue-600/95 hover:bg-blue-500 text-white shadow-2xl shadow-blue-900/50 flex items-center justify-center transition-transform duration-300 hover:scale-110 animate-pulse"
+                >
+                  <Play className="w-8 h-8 sm:w-10 sm:h-10 ml-1 fill-current" />
+                </button>
+              )}
+            </div>
+          </div>
+
         </div>
       </section>
 

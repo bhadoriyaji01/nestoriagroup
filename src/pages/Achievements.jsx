@@ -1,5 +1,7 @@
 import React from "react";
 import achievementBg from "../assets/img/icon/counter-bg-2.webp";
+import awardsRecognition from "../assets/img/awards-recognition.png";
+import certificates from "../assets/img/certificats.png";
 import { motion } from "framer-motion";
 import Seo from "../components/Seo";
 import { getBreadcrumbSchema } from "../utils/SchemaMarkup";
@@ -8,24 +10,11 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-const callouts = [
-  { name: "Desk and Office", description: "Work from home accessories", imageSrc: "/src/assets/img/about1.webp", imageAlt: "Desk accessories", href: "#" },
-  { name: "Self-Improvement", description: "Journals and note-taking", imageSrc: "/src/assets/img/growth.webp", imageAlt: "Growth tools", href: "#" },
-  { name: "Travel", description: "Daily commute essentials", imageSrc: "/src/assets/img/connectivity.webp", imageAlt: "Travel items", href: "#" },
-];
-
 function Achievements() {
   const pageVariants = {
     initial: { opacity: 0 },
     animate: { opacity: 1, transition: { duration: 0.8, staggerChildren: 0.2 } },
   };
-
-  const awards = [
-    { id: 1, title: "Atmanirbhar Face of Bharat Award", organization: "Gujarat Real Estate Awards", year: "2024", description: "Recognized for excellence in developing sustainable and innovative real estate projects in Dholera SIR.", image: "/src/assets/img/Residential-project.webp" },
-    { id: 2, title: "Credai Award as a Real Estate Developer", organization: "Exhibition held in Bhavnagar", year: "2022", description: "Awarded for the master planning and execution of Nestoria Green Valley residential township.", image: "/src/assets/img/COMMERCIAL-project.webp" },
-    { id: 3, title: "Gujarat Business Glory Award", organization: "Professional Excellence in Real Estate", year: "2022", description: "Recognized for incorporating sustainable practices and eco-friendly technologies.", image: "/src/assets/img/Industrial-project.webp" },
-    { id: 4, title: "4th Edition India Business Award (MSME)", organization: "Best Enterprise Of The Year (Real Estate)", year: "2021", description: "Nestoria Business Hub recognized for innovative design and contribution to Dholera SIR.", image: "/src/assets/img/growth.webp" },
-  ];
 
   const milestones = [
     { id: 1, year: "2010", title: "The Beginning of the Success Story", description: "Nestoria Buildcon Pvt. Ltd., one of the fastest-growing real estate companies, has been a symbol of trust and transparency since 2010. Starting in Gwalior, we expanded to Dholera SIR in 2018." },
@@ -34,8 +23,9 @@ function Achievements() {
     { id: 4, year: "2019", title: "Future Goals", description: "Nestoria is paving the way for the future by embracing opportunities in Dholera SIR, one of the most promising smart cities in the world." },
     { id: 5, year: "2020", title: "100+ Acres Under Development", description: "Reached the milestone of having more than 100 acres of land under active development across various projects." },
     { id: 6, year: "2021", title: "Launch of Industrial Projects", description: "Expanded portfolio with the launch of Nestoria Industrial Park, catering to manufacturing and logistics sectors." },
-    { id: 7, year: "2022", title: "7000+ Happy Customers", description: "Celebrated the milestone of serving over 5000 satisfied customers across our residential and commercial projects." },
-    { id: 8, year: "2023", title: "Strategic Partnerships", description: "Formed strategic alliances with international investors and technology providers to enhance our project offerings." },
+    { id: 7, year: "2022", title: "8,000+ Happy Customers", description: "Celebrated the milestone of serving over 8,000 satisfied customers across our residential and commercial projects." },
+    { id: 8, year: "2023", title: "1,00,000+ Visitors & Site Tour Leads", description: "Reached a major milestone in community engagement with more than 1 lakh visitors, investors, and site-tour leads interacting with our Dholera developments." },
+    { id: 9, year: "2024", title: "Strategic Partnerships", description: "Formed strategic alliances with international investors and technology providers to enhance our project offerings." },
   ];
 
   const pressCoverage = [
@@ -99,34 +89,33 @@ function Achievements() {
             <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto mb-6"></div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            {awards.map((award, index) => (
-              <motion.div key={award.id} initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: index * 0.2 }} className="group">
-                <div className="h-full bg-white rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-lg hover:border-blue-300 transition-all duration-300 overflow-hidden flex flex-col md:flex-row">
-                  <div className="md:w-1/3 relative overflow-hidden">
-                    <img src={award.image} className="w-full h-48 md:h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={award.title} />
-                  </div>
-                  <div className="md:w-2/3 p-6">
-                    <div className="flex flex-col sm:flex-row justify-between items-start mb-3">
-                      <h5 className="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{award.title}</h5>
-                      <span className="bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full flex-shrink-0 ml-2">{award.year}</span>
-                    </div>
-                    <p className="text-blue-600 font-semibold text-sm mb-2">{award.organization}</p>
-                    <p className="text-slate-600 leading-relaxed text-sm">{award.description}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <motion.div
+            className="max-w-6xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <img
+              src={awardsRecognition}
+              alt="Nestoria Group awards and recognition"
+              className="w-full h-auto object-contain"
+            />
+          </motion.div>
 
-          {/* Callout images */}
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {callouts.map((callout, index) => (
-              <motion.div key={callout.name} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: index * 0.2 }} className="group">
-                <motion.img alt={callout.imageAlt} src={callout.imageSrc} className="w-full rounded-2xl object-contain group-hover:scale-105 transition-all duration-500 p-2" whileHover={{ scale: 1.03 }} transition={{ type: "spring", stiffness: 300 }} />
-              </motion.div>
-            ))}
-          </div>
+          <motion.div
+            className="mt-16 max-w-6xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <img
+              src={certificates}
+              alt="Nestoria Group certificates"
+              className="w-full h-auto object-contain"
+            />
+          </motion.div>
         </div>
       </section>
 
